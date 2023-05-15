@@ -1,5 +1,6 @@
 import GameActions from '../actions/GameActions';
 import Loading from '../components/Loading';
+import Player from '../components/Player';
 
 class Game extends Phaser.Scene {
   constructor() {
@@ -7,7 +8,7 @@ class Game extends Phaser.Scene {
   }
 
   public actions: GameActions = new GameActions(this);
-  public player: Phaser.GameObjects.Sprite;
+  public player: Player;
   public platform: Phaser.GameObjects.TileSprite;
   public eggs: Phaser.Physics.Arcade.Group
   private _loading: boolean = false;
@@ -27,6 +28,7 @@ class Game extends Phaser.Scene {
 
   public create(): void {
     this.actions.build();
+    this.scene.launch('Menu');
   }
 }
 

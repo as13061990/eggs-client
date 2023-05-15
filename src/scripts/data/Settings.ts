@@ -11,6 +11,7 @@ class Settings {
   }
   private _screen: screen = screen.MAIN;
   private _mobile: boolean = false;
+  private _isPaused: boolean = false
   public sounds: Isounds;
   public interval: Interval;
 
@@ -29,6 +30,14 @@ class Settings {
 
   public setMobile(mobile: boolean): void {
     this._mobile = mobile;
+  }
+
+  public getIsPaused(): boolean {
+    return this._isPaused
+  }
+
+  public setIsPaused(pause: boolean): void {
+    this._isPaused = pause
   }
 }
 

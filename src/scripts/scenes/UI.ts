@@ -18,6 +18,7 @@ class UI extends Phaser.Scene {
   }
 
   public create(): void {
+    console.log('`111')
     if (Settings.getScreen() === screen.MAIN) {
       new Main(this)
     }

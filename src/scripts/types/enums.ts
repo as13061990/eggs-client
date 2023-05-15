@@ -2,6 +2,12 @@ enum screen {
   MAIN
 }
 
+enum side {
+  LEFT,
+  RIGHT 
+}
+
 export {
-  screen
+  screen,
+  side
 }

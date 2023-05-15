@@ -24,7 +24,7 @@ class Main {
     const scale = Math.max(scaleX, scaleY);
     background.setScale(scale).setScrollFactor(0);
 
-    const text = new Text(this._scene, 'Меню', { x: centerX, y: centerY - 200, fontSize: 44 })
+    new Text(this._scene, 'Меню', { x: centerX, y: centerY - 200, fontSize: 44 })
     const btn = new Button(this._scene, centerX, centerY - 100, 'button').setDepth(10)
     btn.text = this._scene.add.text(btn.x, btn.y, ('Старт').toUpperCase(), {
       color: '#000000',
@@ -32,7 +32,7 @@ class Main {
     }).setOrigin(.5, .5).setDepth(11);
     btn.callback = (): void => this._play();
   }
-number
+
   private _play(): void {
     this._scene.scene.start('Game');
   }
