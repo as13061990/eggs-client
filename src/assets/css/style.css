@@ -1,0 +1,50 @@
+@font-face {
+  font-family: Triomphe;
+  src: url('../fonts/Triomphe.ttf');
+}
+* {
+  font-family: Triomphe;
+  margin: 0;
+  padding: 0;
+}
+div, p, span, h1, h2, h3, h4, img {
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  outline: none;
+}
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+#root {
+  position: fixed;
+}
+#auth {
+  position: absolute;
+  box-sizing: border-box;
+  display: block;
+  outline: none;
+  font-family: Triomphe;
+  background: rgba(0, 0, 0, 0);
+  color: #FFFFFF;
+  border: 0px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
