@@ -1,4 +1,7 @@
 import bg from '../../assets/images/bg.jpg';
+import bgGame from '../../assets/images/bg-game.jpg';
+import button from '../../assets/images/button.png';
+
 
 // import sound from '../../assets/images/sound.mp3';
 
@@ -46,6 +49,8 @@ class Loading {
 
   private _loadImages(): void {
     this._scene.load.image('bg', bg);
+    this._scene.load.image('bg-game', bgGame);
+    this._scene.load.image('button', button);
   }
 
   private _loadSounds(): void {

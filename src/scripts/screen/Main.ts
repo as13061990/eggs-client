@@ -1,4 +1,5 @@
 import Button from '../components/Button';
+import Text from '../components/Text';
 import Settings from '../data/Settings';
 import User from '../data/User';
 import Utils from '../data/Utils';
@@ -18,11 +19,22 @@ class Main {
     const background = this._scene.add.sprite(width / 2, height / 2, 'bg');
     background.setOrigin(0.5);
 
-    // установим масштабирование фона
     const scaleX = width / background.width;
     const scaleY = height / background.height;
     const scale = Math.max(scaleX, scaleY);
     background.setScale(scale).setScrollFactor(0);
+
+    const text = new Text(this._scene, 'Меню', { x: centerX, y: centerY - 200, fontSize: 44 })
+    const btn = new Button(this._scene, centerX, centerY - 100, 'button').setDepth(10)
+    btn.text = this._scene.add.text(btn.x, btn.y, ('Старт').toUpperCase(), {
+      color: '#000000',
+      fontSize: 32,
+    }).setOrigin(.5, .5).setDepth(11);
+    btn.callback = (): void => this._play();
+  }
+number
+  private _play(): void {
+    this._scene.scene.start('Game');
   }
 }
 
