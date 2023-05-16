@@ -12,6 +12,7 @@ import { eggPosition, handPosition } from '../types/enums';
 
 const PIXEL_FROM_WOOD_EDGES = 100
 const WOOD_ROTATE = 0.46
+const DELAY_EGG_SPAWN = 800
 
 class GameActions {
   constructor(scene: Game) {
@@ -30,20 +31,18 @@ class GameActions {
   public build(): void {
     this._createUI()
     
-    this._scene.player = new Player(this._scene)
-    this._createWoodElements()
-    const egg = new Egg(this._scene, eggPosition.LEFT_UP)
-    const egg1 = new Egg(this._scene, eggPosition.RIGHT_UP)
-    const egg2 = new Egg(this._scene, eggPosition.LEFT_DOWN)
-    const egg3 = new Egg(this._scene, eggPosition.RIGHT_DOWN)
     this._controls()
+
+    this._createWoodElements()
+    this._scene.player = new Player(this._scene)
+    this._createEggsGroup()
   }
 
   private _createUI(): void {
     const sceneMenu = this._scene.game.scene.getScene('Menu') as Menu;
 
     sceneMenu.createMobilePauseButton()
-    
+
     this._createScore()
     const { width, height } = this._scene.cameras.main;
     const background = this._scene.add.sprite(width / 2, height / 2, 'bg-game');
@@ -75,6 +74,17 @@ class GameActions {
       this._controlsMobile()
     } else {
       this._controlsPC()
+    }
+  }
+
+  private _createEggsGroup(): void {
+    for (let i = 0; i < 5; i++) {
+      const randomNumber = Phaser.Math.Between(0, 3);
+      this._scene.time.addEvent({
+        delay: DELAY_EGG_SPAWN * i, callback: (): void => {
+          new Egg(this._scene, randomNumber)
+        }
+      });
     }
   }
 
