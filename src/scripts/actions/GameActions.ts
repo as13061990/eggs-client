@@ -1,4 +1,5 @@
 import Button from '../components/Button';
+import Egg from '../components/Egg';
 import Player from '../components/Player';
 import Text from '../components/Text';
 import Wood from '../components/Wood';
@@ -7,7 +8,7 @@ import Session from '../data/Session';
 import Settings from '../data/Settings';
 import Game from '../scenes/Game';
 import Menu from '../scenes/Menu';
-import { position } from '../types/enums';
+import { eggPosition, handPosition } from '../types/enums';
 
 const PIXEL_FROM_WOOD_EDGES = 100
 const WOOD_ROTATE = 0.46
@@ -31,7 +32,8 @@ class GameActions {
     
     this._scene.player = new Player(this._scene)
     this._createWoodElements()
-    
+    const egg = new Egg(this._scene, eggPosition.LEFT_UP)
+    const egg1 = new Egg(this._scene, eggPosition.RIGHT_UP)
     this._controls()
   }
 
@@ -84,11 +86,11 @@ class GameActions {
       this._scene.player.right()
     }, this)
     this._scene.input.keyboard.on('keydown-W', () => {
-      this._scene.player.setHandPosition(position.UP)
+      this._scene.player.setHandPosition(handPosition.UP)
       this._scene.player.up()
     }, this)
     this._scene.input.keyboard.on('keydown-S', () => {
-      this._scene.player.setHandPosition(position.DOWN)
+      this._scene.player.setHandPosition(handPosition.DOWN)
       this._scene.player.down()
     }, this)
 
@@ -100,11 +102,11 @@ class GameActions {
       this._scene.player.right()
     });
     cursors.down.on('down', (): void => {
-      this._scene.player.setHandPosition(position.DOWN)
+      this._scene.player.setHandPosition(handPosition.DOWN)
       this._scene.player.down()
     });
     cursors.up.on('down', (): void => {
-      this._scene.player.setHandPosition(position.UP)
+      this._scene.player.setHandPosition(handPosition.UP)
       this._scene.player.up()
     });
   }
@@ -114,13 +116,13 @@ class GameActions {
 
     const leftUpZone = new Zone(this._scene, centerX / 2, height / 4, width / 2, height / 2).setDepth(5)
     leftUpZone.clickCallback = (): void => {
-      this._scene.player.setHandPosition(position.UP)
+      this._scene.player.setHandPosition(handPosition.UP)
       this._scene.player.left()
     }
 
     const leftDownZone = new Zone(this._scene, centerX / 2, leftUpZone.getBounds().bottom * 1.5, width / 2, height / 2).setDepth(5)
     leftDownZone.clickCallback = (): void => {
-      this._scene.player.setHandPosition(position.DOWN)
+      this._scene.player.setHandPosition(handPosition.DOWN)
       this._scene.player.left()
     }
 
@@ -132,13 +134,13 @@ class GameActions {
 
     const rightUpZone = new Zone(this._scene, centerX * 1.5, height / 4, width / 2, height / 2).setDepth(5)
     rightUpZone.clickCallback = (): void => {
-      this._scene.player.setHandPosition(position.UP)
+      this._scene.player.setHandPosition(handPosition.UP)
       this._scene.player.right()
     }
 
     const rightDownZone = new Zone(this._scene, centerX * 1.5, rightUpZone.getBounds().bottom * 1.5, width / 2, height / 2).setDepth(5);;
     rightDownZone.clickCallback = (): void => {
-      this._scene.player.setHandPosition(position.DOWN)
+      this._scene.player.setHandPosition(handPosition.DOWN)
       this._scene.player.right()
     }
   }

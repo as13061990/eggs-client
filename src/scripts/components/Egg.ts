@@ -1,0 +1,101 @@
+import Game from "../scenes/Game";
+import { eggPosition } from "../types/enums";
+
+
+const PLATFORM_MARGIN_X = 40
+const PLATFORM_MARGIN_Y = 60
+
+const DURATION_FIRST_ANIMATION = 4000
+const DURATION_SECOND_ANIMATION = 2000
+
+class Egg extends Phaser.Physics.Arcade.Sprite {
+  constructor(scene: Game, type: eggPosition) {
+    const { x, y } = Egg._checkForStartPosition(type, scene)
+    super(scene, x, y, 'egg');
+    this._scene = scene;
+    this._type = type
+    this._build();
+  }
+
+  private _scene: Game;
+  private _type: eggPosition
+  private _reverse: 1 | -1
+
+  private _build(): void {
+    this._scene.add.existing(this);
+    this._scene.eggs.add(this);
+    this._startFirstAnimation()
+  }
+
+  private _startFirstAnimation(): void {
+    let x: number, y: number
+    switch (this._type) {
+      case eggPosition.LEFT_UP:
+        x = this._scene.actions.woodElements.leftUp.getBounds().right + PLATFORM_MARGIN_X
+        y = this._scene.actions.woodElements.leftUp.getBounds().bottom - PLATFORM_MARGIN_Y
+        this._reverse = 1
+        break;
+      case eggPosition.LEFT_DOWN:
+        x = this._scene.actions.woodElements.leftDown.getBounds().right + PLATFORM_MARGIN_X
+        y = this._scene.actions.woodElements.leftDown.getBounds().bottom - PLATFORM_MARGIN_Y
+        this._reverse = 1
+        break;
+      case eggPosition.RIGHT_UP:
+        x = this._scene.actions.woodElements.rightUp.getBounds().left - PLATFORM_MARGIN_X
+        y = this._scene.actions.woodElements.rightUp.getBounds().bottom - PLATFORM_MARGIN_Y
+        this._reverse = -1
+        break;
+      case eggPosition.RIGHT_DOWN:
+        x = this._scene.actions.woodElements.rightDown.getBounds().left - PLATFORM_MARGIN_X
+        y = this._scene.actions.woodElements.rightDown.getBounds().bottom - PLATFORM_MARGIN_Y
+        this._reverse = -1
+        break;
+    }
+    this._scene.tweens.add({
+      targets: this,
+      rotation: 4 * Math.PI * this._reverse,
+      x: { value: x },
+      y: { value: y },
+      duration: DURATION_FIRST_ANIMATION,
+      onComplete: this._startSecondAnimation.bind(this)
+    });
+  }
+
+  private _startSecondAnimation(): void {
+    this._scene.tweens.add({
+      targets: this,
+      rotation: 4 * Math.PI * this._reverse,
+      x: { value: this.x },
+      y: { value: this._scene.scale.height - 200 },
+      duration: DURATION_SECOND_ANIMATION,
+    });
+  }
+
+  private static _checkForStartPosition(type: eggPosition, scene: Game): { x: number, y: number } {
+    switch (type) {
+      case eggPosition.LEFT_UP:
+        return {
+          x: scene.actions.woodElements.leftUp.getBounds().left,
+          y: scene.actions.woodElements.leftUp.getBounds().top
+        };
+      case eggPosition.LEFT_DOWN:
+        return {
+          x: scene.actions.woodElements.leftDown.getBounds().left,
+          y: scene.actions.woodElements.leftDown.getBounds().top
+        };
+      case eggPosition.RIGHT_UP:
+        return {
+          x: scene.actions.woodElements.rightUp.getBounds().right,
+          y: scene.actions.woodElements.leftUp.getBounds().top
+        };
+      case eggPosition.RIGHT_DOWN:
+        return {
+          x: scene.actions.woodElements.leftUp.getBounds().right,
+          y: scene.actions.woodElements.leftUp.getBounds().top
+        };
+    }
+  }
+
+}
+
+export default Egg;
