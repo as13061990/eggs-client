@@ -34,6 +34,8 @@ class GameActions {
     this._createWoodElements()
     const egg = new Egg(this._scene, eggPosition.LEFT_UP)
     const egg1 = new Egg(this._scene, eggPosition.RIGHT_UP)
+    const egg2 = new Egg(this._scene, eggPosition.LEFT_DOWN)
+    const egg3 = new Egg(this._scene, eggPosition.RIGHT_DOWN)
     this._controls()
   }
 

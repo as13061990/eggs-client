@@ -5,8 +5,8 @@ import { eggPosition } from "../types/enums";
 const PLATFORM_MARGIN_X = 40
 const PLATFORM_MARGIN_Y = 60
 
-const DURATION_FIRST_ANIMATION = 4000
-const DURATION_SECOND_ANIMATION = 2000
+const DURATION_FIRST_ANIMATION = 3000
+const DURATION_SECOND_ANIMATION = 1500
 
 class Egg extends Phaser.Physics.Arcade.Sprite {
   constructor(scene: Game, type: eggPosition) {
@@ -62,12 +62,16 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   }
 
   private _startSecondAnimation(): void {
+    const duration =
+      this._type === eggPosition.LEFT_DOWN || this._type === eggPosition.RIGHT_DOWN
+        ? DURATION_SECOND_ANIMATION / 2 : DURATION_SECOND_ANIMATION
+
     this._scene.tweens.add({
       targets: this,
-      rotation: 4 * Math.PI * this._reverse,
+      rotation: 2 * Math.PI * this._reverse,
       x: { value: this.x },
       y: { value: this._scene.scale.height - 200 },
-      duration: DURATION_SECOND_ANIMATION,
+      duration: duration,
     });
   }
 
@@ -86,12 +90,12 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
       case eggPosition.RIGHT_UP:
         return {
           x: scene.actions.woodElements.rightUp.getBounds().right,
-          y: scene.actions.woodElements.leftUp.getBounds().top
+          y: scene.actions.woodElements.rightUp.getBounds().top
         };
       case eggPosition.RIGHT_DOWN:
         return {
-          x: scene.actions.woodElements.leftUp.getBounds().right,
-          y: scene.actions.woodElements.leftUp.getBounds().top
+          x: scene.actions.woodElements.rightDown.getBounds().right,
+          y: scene.actions.woodElements.rightDown.getBounds().top
         };
     }
   }
