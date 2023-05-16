@@ -1,22 +1,47 @@
 import Button from '../components/Button';
 import Player from '../components/Player';
 import Text from '../components/Text';
+import Wood from '../components/Wood';
 import Zone from '../components/Zone';
 import Session from '../data/Session';
 import Settings from '../data/Settings';
 import Game from '../scenes/Game';
 import Menu from '../scenes/Menu';
-import { position, side } from '../types/enums';
+import { position } from '../types/enums';
+
+const PIXEL_FROM_WOOD_EDGES = 100
+const WOOD_ROTATE = 0.46
 
 class GameActions {
   constructor(scene: Game) {
     this._scene = scene;
   }
 
+  public woodElements: IwoodElements = {
+    leftUp: null,
+    leftDown: null,
+    rightUp: null,
+    rightDown: null,
+  }
+
   private _scene: Game;
 
   public build(): void {
-    const { centerX, centerY, width, height } = this._scene.cameras.main;
+    this._createUI()
+    
+    this._scene.player = new Player(this._scene)
+    this._createWoodElements()
+    
+    this._controls()
+  }
+
+  private _createUI(): void {
+    const sceneMenu = this._scene.game.scene.getScene('Menu') as Menu;
+
+    sceneMenu.createMobilePauseButton()
+    
+    this._createScore()
+    const { width, height } = this._scene.cameras.main;
     const background = this._scene.add.sprite(width / 2, height / 2, 'bg-game');
     background.setOrigin(0.5);
 
@@ -24,19 +49,14 @@ class GameActions {
     const scaleY = height / background.height;
     const scale = Math.max(scaleX, scaleY);
     background.setScale(scale).setScrollFactor(0);
-
-    this._scene.player = new Player(this._scene)
-
-    this._createUI()
-    this._controls()
   }
 
-  private _createUI(): void {
-    const sceneMenu = this._scene.game.scene.getScene('Menu') as Menu;
-
-    this._createScore()
-
-    sceneMenu.createMobilePauseButton()
+  private _createWoodElements(): void {
+    const { centerX, centerY, width } = this._scene.cameras.main;
+    this.woodElements.leftDown = new Wood(this._scene, PIXEL_FROM_WOOD_EDGES, centerY + centerY / 3).setRotation(WOOD_ROTATE)
+    this.woodElements.leftUp = new Wood(this._scene, PIXEL_FROM_WOOD_EDGES, centerY - centerY / 3).setRotation(WOOD_ROTATE)
+    this.woodElements.rightDown = new Wood(this._scene, width - PIXEL_FROM_WOOD_EDGES, centerY + centerY / 3).setRotation(-WOOD_ROTATE)
+    this.woodElements.rightUp = new Wood(this._scene, width - PIXEL_FROM_WOOD_EDGES, centerY - centerY / 3).setRotation(-WOOD_ROTATE)
   }
 
   private _createScore(): void {
@@ -47,7 +67,7 @@ class GameActions {
     const sceneMenu = this._scene.game.scene.getScene('Menu') as Menu;
     sceneMenu.input.keyboard.on('keydown-ESC', () => { sceneMenu.gamePause(); console.log('s') }, sceneMenu)
 
-    if(Settings.isMobile()) {
+    if (Settings.isMobile()) {
       this._controlsMobile()
     } else {
       this._controlsPC()
@@ -56,7 +76,7 @@ class GameActions {
 
   private _controlsPC(): void {
     const cursors = this._scene.input.keyboard.createCursorKeys();
-    
+
     this._scene.input.keyboard.on('keydown-A', () => {
       this._scene.player.left()
     }, this)

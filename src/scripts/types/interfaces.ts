@@ -12,3 +12,10 @@ interface Isounds {
   unmute: () => void;
   getVolume: () => number;
 }
+
+interface IwoodElements {
+  leftUp: Phaser.Physics.Arcade.Sprite
+  leftDown: Phaser.Physics.Arcade.Sprite
+  rightUp: Phaser.Physics.Arcade.Sprite
+  rightDown: Phaser.Physics.Arcade.Sprite
+}

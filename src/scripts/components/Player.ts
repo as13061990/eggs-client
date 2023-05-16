@@ -1,5 +1,5 @@
 import Game from '../scenes/Game';
-import { position, side } from '../types/enums';
+import { position } from '../types/enums';
 
 const MARGIN_X = 700
 const MARGIN_Y = 300

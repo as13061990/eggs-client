@@ -1,4 +1,6 @@
 import bg from '../../assets/images/bg.jpg';
+import egg from '../../assets/images/egg.png';
+import wood from '../../assets/images/wood.png';
 import bgGame from '../../assets/images/bg-game.jpg';
 import button from '../../assets/images/button.png';
 import redPixel from '../../assets/images/red-pixel.png';
@@ -53,6 +55,8 @@ class Loading {
     this._scene.load.image('bg-game', bgGame);
     this._scene.load.image('button', button);
     this._scene.load.image('red-pixel', redPixel);
+    this._scene.load.image('egg', egg);
+    this._scene.load.image('wood', wood);
   }
 
   private _loadSounds(): void {

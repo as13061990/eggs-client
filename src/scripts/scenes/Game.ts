@@ -11,6 +11,7 @@ class Game extends Phaser.Scene {
   public player: Player;
   public platform: Phaser.GameObjects.TileSprite;
   public eggs: Phaser.Physics.Arcade.Group
+  public wood: Phaser.Physics.Arcade.Group
   private _loading: boolean = false;
 
   public init(): void {
@@ -27,6 +28,8 @@ class Game extends Phaser.Scene {
   }
 
   public create(): void {
+    this.wood = this.physics.add.group();
+    this.eggs = this.physics.add.group();
     this.actions.build();
     this.scene.launch('Menu');
   }
