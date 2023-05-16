@@ -35,6 +35,7 @@ class GameActions {
 
     this._createWoodElements()
     this._scene.player = new Player(this._scene)
+    this._collisions()
     this._createEggsGroup()
   }
 
@@ -66,6 +67,29 @@ class GameActions {
     new Text(this._scene, Session.getPoints().toString(), { x: 100, y: 100, fontSize: 44 }).setDepth(6)
   }
 
+  private _collisions(): void {
+    this._scene.physics.add.collider(
+      this._scene.eggs,
+      this._scene.player,
+      this._eggsPlatform.bind(this)
+    );
+  }
+
+  private _eggsPlatform(player: Player, egg: Egg):void {
+    egg.destroy()
+  }
+  
+  private _createEggsGroup(): void {
+    for (let i = 0; i < 100; i++) {
+      const randomNumber = Phaser.Math.Between(0, 3);
+      this._scene.time.addEvent({
+        delay: DELAY_EGG_SPAWN * i, callback: (): void => {
+          new Egg(this._scene, randomNumber)
+        }
+      });
+    }
+  }
+
   private _controls(): void {
     const sceneMenu = this._scene.game.scene.getScene('Menu') as Menu;
     sceneMenu.input.keyboard.on('keydown-ESC', () => { sceneMenu.gamePause(); console.log('s') }, sceneMenu)
@@ -77,16 +101,6 @@ class GameActions {
     }
   }
 
-  private _createEggsGroup(): void {
-    for (let i = 0; i < 5; i++) {
-      const randomNumber = Phaser.Math.Between(0, 3);
-      this._scene.time.addEvent({
-        delay: DELAY_EGG_SPAWN * i, callback: (): void => {
-          new Egg(this._scene, randomNumber)
-        }
-      });
-    }
-  }
 
   private _controlsPC(): void {
     const cursors = this._scene.input.keyboard.createCursorKeys();
