@@ -1,15 +1,18 @@
 import Game from '../scenes/Game';
-import { side } from '../types/enums';
+import { position, side } from '../types/enums';
+
+const MARGIN_X = 700
+const MARGIN_Y = 300
 
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene: Game) {
-    super(scene, 400, 300, 'button')
+    super(scene, MARGIN_X, scene.scale.height - MARGIN_Y, 'button')
     this._scene = scene
     this._build()
   }
 
   private _scene: Game;
-  private _side: side = side.LEFT;
+  private _handPosition: position = position.DOWN
 
   private _build(): void {
     this._scene.add.existing(this);
@@ -19,25 +22,33 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   public right(): void {
-    this.setPosition(1200, 300)
+    this.setPosition(this._scene.scale.width - MARGIN_X, this._scene.scale.height - MARGIN_Y)
+    this._handPositionCheck()
   }
 
   public left(): void {
-    this.setPosition(400, 300)
+    this.setPosition(MARGIN_X, this._scene.scale.height - MARGIN_Y)
+    this._handPositionCheck()
   }
 
-  protected preUpdate(time: number, delta: number): void {
-    super.preUpdate(time, delta);
-
-    if (this._side === side.LEFT) {
-      this.left();
-    } else if (this._side === side.RIGHT) {
-      this.right();
-    } 
+  public down(): void {
+    this.setPosition(this.x, this._scene.scale.height - MARGIN_Y)
   }
 
-  public setSide(side: side): void {
-    this._side = side
+  public up(): void {
+    this.setPosition(this.x, this._scene.scale.height - MARGIN_Y - 500)
+  }
+
+  private _handPositionCheck():void {
+    if (this._handPosition === position.UP) {
+      this.up()
+    } else if (this._handPosition === position.DOWN) {
+      this.down()
+    }
+  }
+
+  public setHandPosition(position: position): void {
+    this._handPosition = position
   }
 
 }

@@ -7,7 +7,13 @@ enum side {
   RIGHT 
 }
 
+enum position {
+  UP,
+  DOWN 
+}
+
 export {
   screen,
+  position,
   side
 }

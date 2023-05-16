@@ -7,6 +7,7 @@ import Settings from './data/Settings';
 import Utils from './data/Utils';
 import Game from './scenes/Game';
 import Menu from './scenes/Menu';
+import * as platform from 'platform'
 
 window.onload = (): void => {
   setTimeout((): void => {
@@ -57,6 +58,10 @@ window.onload = (): void => {
       }
     }
 
+    if (platform.os.family === 'iOS' || platform.os.family === 'Android') {
+      Settings.setMobile(true);
+    }
+
     root.style.height = height + 'px';
     root.style.width = width + 'px';
 
@@ -68,7 +73,7 @@ window.onload = (): void => {
       physics: {
         default: 'arcade',
         arcade: {
-          // debug: true
+          debug: true
         }
       },
       render: { transparent: true },
