@@ -105,6 +105,7 @@ class UI extends Phaser.Scene {
 
     restartBtn.callback = (): void => {
       Session.clear()
+      this.scene.stop()
       sceneGame.scene.restart()
     }
 
