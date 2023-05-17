@@ -1,14 +1,12 @@
-import Button from '../components/Button';
 import Egg from '../components/Egg';
 import Player from '../components/Player';
-import Text from '../components/Text';
 import Wood from '../components/Wood';
 import Zone from '../components/Zone';
 import Session from '../data/Session';
 import Settings from '../data/Settings';
 import Game from '../scenes/Game';
-import Menu from '../scenes/Menu';
-import { eggPosition, handPosition } from '../types/enums';
+import UI from '../scenes/UI';
+import { handPosition } from '../types/enums';
 
 const PIXEL_FROM_WOOD_EDGES = 100
 const WOOD_ROTATE = 0.46
@@ -42,9 +40,9 @@ class GameActions {
   }
 
   private _createUI(): void {
-    const sceneMenu = this._scene.game.scene.getScene('Menu') as Menu;
+    const sceneUI = this._scene.game.scene.getScene('UI') as UI;
 
-    sceneMenu.createMobilePauseButton()
+    sceneUI.createMobilePauseButton()
 
     this._createScore()
     const { width, height } = this._scene.cameras.main;
@@ -99,8 +97,8 @@ class GameActions {
   }
 
   private _controls(): void {
-    const sceneMenu = this._scene.game.scene.getScene('Menu') as Menu;
-    sceneMenu.input.keyboard.on('keydown-ESC', () => { sceneMenu.gamePause(); console.log('s') }, sceneMenu)
+    const sceneUI = this._scene.game.scene.getScene('UI') as UI;
+    sceneUI.input.keyboard.on('keydown-ESC', () => { sceneUI.gamePause(); console.log('s') }, sceneUI)
 
     if (Settings.isMobile()) {
       this._controlsMobile()

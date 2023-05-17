@@ -3,7 +3,7 @@ import Text from '../components/Text';
 import Settings from '../data/Settings';
 import User from '../data/User';
 import Utils from '../data/Utils';
-import UI from '../scenes/UI';
+import UI from '../scenes/Menu';
 import { screen } from '../types/enums';
 
 class Main {

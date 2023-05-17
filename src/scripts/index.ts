@@ -2,11 +2,11 @@ import './types/interfaces';
 import '../assets/css/style.css';
 import * as Phaser from 'phaser';
 import Boot from './scenes/Boot';
-import UI from './scenes/UI';
+import UI from './scenes/Menu';
 import Settings from './data/Settings';
 import Utils from './data/Utils';
 import Game from './scenes/Game';
-import Menu from './scenes/Menu';
+import Menu from './scenes/UI';
 import * as platform from 'platform'
 
 window.onload = (): void => {
@@ -77,7 +77,7 @@ window.onload = (): void => {
         }
       },
       render: { transparent: true },
-      scene: [Boot, Game, UI, Menu,]
+      scene: [Boot, Game, Menu, UI,]
     }
     new Phaser.Game(config);
   }, 100);

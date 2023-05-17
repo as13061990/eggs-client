@@ -1,77 +1,95 @@
-import Loading from '../components/Loading';
-import Settings from '../data/Settings';
-import Main from '../screen/Main';
-import { screen } from '../types/enums';
+import Button from "../components/Button";
+import Text from "../components/Text";
+import Session from "../data/Session";
+import Settings from "../data/Settings";
+import { screen } from "../types/enums";
+import Game from "./Game";
+
+interface IPauseElements {
+  bg: Phaser.GameObjects.TileSprite
+  text: Text
+  btnResume: Button
+  btnExit: Button
+}
+
 
 class UI extends Phaser.Scene {
   constructor() {
     super('UI');
   }
 
-  private _loading: boolean = false;
+  private _pauseElements: IPauseElements = { bg: null, text: null, btnResume: null, btnExit: null }
 
-  public preload(): void {
-    if (this._loading === false) {
-      this._loading = true;
-      new Loading(this);
+
+  public gamePause(): void {
+
+    const { width, height, centerX, centerY } = this.cameras.main;
+
+    if (!Settings.getIsPaused()) {
+      Settings.setIsPaused(true)
+
+      this._pauseElements.bg = this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0)
+      this._pauseElements.text = new Text(this, 'ПАУЗА', { x: centerX, y: centerY - 200, fontSize: 44 })
+      this._pauseElements.btnResume = new Button(this, centerX, centerY - 100, 'button').setDepth(10)
+      this._pauseElements.btnResume.text = this.add.text(this._pauseElements.btnResume.x, this._pauseElements.btnResume.y, ('Продолжить').toUpperCase(), {
+        color: '#000000',
+        fontSize: 32,
+      }).setOrigin(.5, .5).setDepth(11);
+
+      this._pauseElements.btnExit = new Button(this, centerX, centerY, 'button').setDepth(10)
+      this._pauseElements.btnExit.text = this.add.text(this._pauseElements.btnExit.x, this._pauseElements.btnExit.y, ('Выход').toUpperCase(), {
+        color: '#000000',
+        fontSize: 32,
+      }).setOrigin(.5, .5).setDepth(11);
+
+      const sceneGame = this.game.scene.getScene('Game') as Game;
+      sceneGame.scene.pause()
+
+      this._pauseElements.btnResume.callback = (): void => {
+        this._pauseClose()
+      };
+
+      this._pauseElements.btnExit.callback = (): void => {
+        this._exit()
+      };
+
+    } else {
+      this._pauseClose()
     }
   }
 
-  public create(): void {
-    console.log('`111')
-    if (Settings.getScreen() === screen.MAIN) {
-      new Main(this)
-    }
+  private _pauseClose(): void {
+    Settings.setIsPaused(false)
+
+    const sceneGame = this.game.scene.getScene('Game') as Game;
+
+    sceneGame.scene.resume()
+
+    this._pauseElements.bg.destroy()
+    this._pauseElements.btnResume.destroy()
+    this._pauseElements.btnExit.destroy()
+    this._pauseElements.text.destroy()
   }
 
-  public setGradient(text: Phaser.GameObjects.Text): void {
-    const gradient = text.context.createLinearGradient(0, 0, text.width, text.height);
-    gradient.addColorStop(0, '#9A6AEA');
-    gradient.addColorStop(.2, '#75EEFE');
-    gradient.addColorStop(.5, '#F7BA80');
-    gradient.addColorStop(1, '#AF1572');
-    text.setFill(gradient);
+  private _exit(): void {
+    Session.clear()
+    this.scene.start('Menu');
+    Settings.setScreen(screen.MAIN);
+    Settings.setIsPaused(false)
   }
 
-  public move(object: Phaser.GameObjects.Sprite | Phaser.GameObjects.Text, target: Iposition = null): void {
-    const { centerX, centerY } = this.cameras.main;
-    const x = target ? target.x : centerX;
-    const y = target ? target.y : centerY;
-    const log = (object: Phaser.GameObjects.Sprite | Phaser.GameObjects.Text): void => {
-      console.clear();
-      console.log({
-        x: x - object.x,
-        y: y - object.y
-      });
+
+  public createMobilePauseButton(): void {
+    const pauseBtn = new Button(this, 100, 150, 'button').setDepth(10)
+    pauseBtn.setDisplaySize(60, 40)
+    pauseBtn.text = this.add.text(pauseBtn.x, pauseBtn.y, ('Пауза').toUpperCase(), {
+      color: '#000000',
+      fontSize: 14,
+    }).setOrigin(.5, .5).setDepth(11)
+
+    pauseBtn.callback = (): void => {
+      this.gamePause()
     }
-
-    const cursors = this.input.keyboard.createCursorKeys();
-    cursors.left.on('down', (): void => {
-      object.x -= 1;
-      log(object);
-    });
-    cursors.right.on('down', (): void => {
-      object.x += 1;
-      log(object);
-    });
-    cursors.up.on('down', (): void => {
-      object.y -= 1;
-      log(object);
-    });
-    cursors.down.on('down', (): void => {
-      object.y += 1;
-      log(object);
-    });
-
-    object.setInteractive();
-    this.input.setDraggable(object);
-    this.input.on('drag', (pointer: Phaser.Input.Pointer, object: Phaser.GameObjects.Sprite | Phaser.GameObjects.Text, dragX: number, dragY: number): void => {
-      object.x = Math.round(dragX);
-      object.y =  Math.round(dragY);
-    });
-    this.input.on('dragend', (pointer: Phaser.Input.Pointer, object: Phaser.GameObjects.Sprite | Phaser.GameObjects.Text): void => {
-      log(object);
-    });
   }
 }
 

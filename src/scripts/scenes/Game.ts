@@ -30,7 +30,7 @@ class Game extends Phaser.Scene {
   public create(): void {
     this.eggs = this.physics.add.group();
     this.actions.build();
-    this.scene.launch('Menu');
+    this.scene.launch('UI');
   }
 }
 

@@ -38,7 +38,7 @@ class Boot extends Phaser.Scene {
     if (!this._user) return;
     this._fonts = false;
     this._user = false;
-    this.scene.launch('UI');
+    this.scene.launch('Menu');
   }
 
   private async _checkUser(): Promise<void> {
