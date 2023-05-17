@@ -2,11 +2,6 @@ enum screen {
   MAIN
 }
 
-enum handPosition {
-  UP,
-  DOWN 
-}
-
 enum eggPosition {
   LEFT_UP,
   LEFT_DOWN,
@@ -16,6 +11,5 @@ enum eggPosition {
 
 export {
   screen,
-  handPosition,
   eggPosition
 }

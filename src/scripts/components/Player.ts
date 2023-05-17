@@ -1,5 +1,4 @@
 import Game from '../scenes/Game';
-import { handPosition } from '../types/enums';
 
 const MARGIN_X = 100
 
@@ -16,7 +15,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   private _scene: Game;
-  private _handPosition: handPosition = handPosition.DOWN
 
   private _build(): void {
     this._scene.add.existing(this);
@@ -26,12 +24,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
   public right(): void {
     this.setPosition(this._scene.actions.woodElements.rightDown.getBounds().left - MARGIN_X, this.y)
-    this._handPositionCheck()
   }
 
   public left(): void {
     this.setPosition(this._scene.actions.woodElements.leftDown.getBounds().right + MARGIN_X, this.y)
-    this._handPositionCheck()
   }
 
   public down(): void {
@@ -41,19 +37,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   public up(): void {
     this.setPosition(this.x, this._scene.actions.woodElements.leftUp.getBounds().bottom)
   }
-
-  private _handPositionCheck(): void {
-    if (this._handPosition === handPosition.UP) {
-      this.up()
-    } else if (this._handPosition === handPosition.DOWN) {
-      this.down()
-    }
-  }
-
-  public setHandPosition(position: handPosition): void {
-    this._handPosition = position
-  }
-
 }
 
 export default Player;
