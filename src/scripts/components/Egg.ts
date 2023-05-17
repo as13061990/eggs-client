@@ -64,15 +64,23 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   private _startSecondAnimation(): void {
     const duration =
       this._type === eggPosition.LEFT_DOWN || this._type === eggPosition.RIGHT_DOWN
-        ? DURATION_SECOND_ANIMATION / 2 : DURATION_SECOND_ANIMATION
+        ? DURATION_SECOND_ANIMATION / 3.5 : DURATION_SECOND_ANIMATION
+    const turnovers =
+      this._type === eggPosition.LEFT_DOWN || this._type === eggPosition.RIGHT_DOWN
+        ? 1 : 2
 
     this._scene.tweens.add({
       targets: this,
-      rotation: 2 * Math.PI * this._reverse,
+      rotation: turnovers * Math.PI * this._reverse,
       x: { value: this.x },
       y: { value: this._scene.scale.height - 200 },
       duration: duration,
+      onComplete: this._destroyUncaughtEgg.bind(this)
     });
+  }
+
+  private _destroyUncaughtEgg(): void {
+    this.destroy()
   }
 
   private static _checkForStartPosition(type: eggPosition, scene: Game): { x: number, y: number } {

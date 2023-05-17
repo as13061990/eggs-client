@@ -11,6 +11,7 @@ class Game extends Phaser.Scene {
   public player: Player;
   public platform: Phaser.GameObjects.TileSprite;
   public eggs: Phaser.Physics.Arcade.Group
+  public score: Phaser.GameObjects.Text
   private _loading: boolean = false;
 
   public init(): void {

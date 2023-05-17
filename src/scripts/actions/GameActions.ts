@@ -34,8 +34,10 @@ class GameActions {
     this._controls()
 
     this._createWoodElements()
-    this._scene.player = new Player(this._scene)
+    this._createPlayer()
+
     this._collisions()
+
     this._createEggsGroup()
   }
 
@@ -64,7 +66,11 @@ class GameActions {
   }
 
   private _createScore(): void {
-    new Text(this._scene, Session.getPoints().toString(), { x: 100, y: 100, fontSize: 44 }).setDepth(6)
+    this._scene.score = this._scene.add.text(68, 80, Session.getPoints().toString(), {fontSize: 44, color: 'black' }).setDepth(6)
+  }
+
+  private _createPlayer(): void {
+    this._scene.player = new Player(this._scene)
   }
 
   private _collisions(): void {
@@ -77,6 +83,8 @@ class GameActions {
 
   private _eggsPlatform(player: Player, egg: Egg):void {
     egg.destroy()
+    Session.plusPoints(1)
+    this._scene.score.setText(Session.getPoints().toString())
   }
   
   private _createEggsGroup(): void {
