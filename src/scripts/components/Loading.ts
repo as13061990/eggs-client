@@ -6,7 +6,7 @@ import button from '../../assets/images/button.png';
 import redPixel from '../../assets/images/red-pixel.png';
 
 
-// import sound from '../../assets/images/sound.mp3';
+import eggSmash from '../../assets/audio/egg-smash.mp3';
 
 class Loading {
   constructor(scene: Phaser.Scene) {
@@ -60,7 +60,7 @@ class Loading {
   }
 
   private _loadSounds(): void {
-    // this._scene.load.audio('sound', sound);
+    this._scene.load.audio('eggSmash', eggSmash);
   }
 }
 

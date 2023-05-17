@@ -1,4 +1,5 @@
 import Session from "../data/Session";
+import Settings from "../data/Settings";
 import Game from "../scenes/Game";
 import UI from "../scenes/UI";
 import { eggPosition } from "../types/enums";
@@ -84,7 +85,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
 
   private _destroyUncaughtEgg(): void {
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
-
+    Settings.sounds.play('eggSmash')
     this.destroy()
     Session.minusHealth()
 

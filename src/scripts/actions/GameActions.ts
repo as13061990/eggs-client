@@ -170,7 +170,7 @@ class GameActions {
       this._scene.player.down()
     }
   }
-
+  
 }
 
 export default GameActions;
