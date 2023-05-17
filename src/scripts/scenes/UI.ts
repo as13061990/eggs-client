@@ -104,9 +104,8 @@ class UI extends Phaser.Scene {
     sceneGame.scene.pause()
 
     restartBtn.callback = (): void => {
-      sceneGame.scene.stop()
       Session.clear()
-      this.scene.start('Game');
+      sceneGame.scene.restart()
     }
 
     exitBtn.callback = (): void => {
