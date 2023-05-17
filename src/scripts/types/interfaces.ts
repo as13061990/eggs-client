@@ -14,8 +14,8 @@ interface Isounds {
 }
 
 interface IwoodElements {
-  leftUp: Phaser.Physics.Arcade.Sprite
-  leftDown: Phaser.Physics.Arcade.Sprite
-  rightUp: Phaser.Physics.Arcade.Sprite
-  rightDown: Phaser.Physics.Arcade.Sprite
+  leftUp: Phaser.GameObjects.Sprite
+  leftDown: Phaser.GameObjects.Sprite
+  rightUp: Phaser.GameObjects.Sprite
+  rightDown: Phaser.GameObjects.Sprite
 }

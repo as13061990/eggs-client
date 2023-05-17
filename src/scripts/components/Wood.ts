@@ -1,6 +1,6 @@
 import Game from "../scenes/Game";
 
-class Wood extends Phaser.Physics.Arcade.Sprite {
+class Wood extends Phaser.GameObjects.Sprite {
   constructor(scene: Game, x: number, y: number) {
     super(scene, x, y, 'wood');
     this._scene = scene;
@@ -11,7 +11,6 @@ class Wood extends Phaser.Physics.Arcade.Sprite {
 
   private _build(): void {
     this._scene.add.existing(this);
-    this._scene.wood.add(this);
   }
 
 }
