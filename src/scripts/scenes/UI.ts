@@ -19,9 +19,11 @@ class UI extends Phaser.Scene {
   }
 
   private _pauseElements: IPauseElements = { bg: null, text: null, btnResume: null, btnExit: null }
-
+  public score: Phaser.GameObjects.Text
+  public health: Phaser.GameObjects.Text
 
   public gamePause(): void {
+    if (Session.getOver()) return;
 
     const { width, height, centerX, centerY } = this.cameras.main;
 
@@ -76,6 +78,48 @@ class UI extends Phaser.Scene {
     this.scene.start('Menu');
     Settings.setScreen(screen.MAIN);
     Settings.setIsPaused(false)
+  }
+
+  public gameOver(): void {
+    if (Session.getOver()) return;
+    Session.setOver(true);
+
+    const { width, height, centerX, centerY } = this.cameras.main;
+
+    this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0);
+    new Text(this, 'Конец игры', { x: centerX, y: centerY - 200, fontSize: 44 })
+    const restartBtn = new Button(this, centerX, centerY - 100, 'button').setDepth(10)
+    restartBtn.text = this.add.text(restartBtn.x, restartBtn.y, ('Рестарт').toUpperCase(), {
+      color: '#000000',
+      fontSize: 32,
+    }).setOrigin(.5, .5).setDepth(11);
+
+    const exitBtn = new Button(this, centerX, centerY, 'button').setDepth(10)
+    exitBtn.text = this.add.text(exitBtn.x, exitBtn.y, ('Выход').toUpperCase(), {
+      color: '#000000',
+      fontSize: 32,
+    }).setOrigin(.5, .5).setDepth(11);
+
+    const sceneGame = this.game.scene.getScene('Game') as Game;
+    sceneGame.scene.pause()
+
+    restartBtn.callback = (): void => {
+      sceneGame.scene.stop()
+      Session.clear()
+      this.scene.start('Game');
+    }
+
+    exitBtn.callback = (): void => {
+      this._exit()
+    }
+  }
+
+  public createScore(): void {
+    this.score = this.add.text(68, 80, Session.getPoints().toString(), { fontSize: 44, color: 'black' }).setDepth(6)
+  }
+
+  public createHealth(): void {
+    this.health = this.add.text(this.scale.width - 70, 80, Session.getHealth().toString(), { fontSize: 44, color: 'black' }).setDepth(6)
   }
 
 

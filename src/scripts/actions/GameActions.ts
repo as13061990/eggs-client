@@ -43,8 +43,9 @@ class GameActions {
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
 
     sceneUI.createMobilePauseButton()
+    sceneUI.createScore()
+    sceneUI.createHealth()
 
-    this._createScore()
     const { width, height } = this._scene.cameras.main;
     const background = this._scene.add.sprite(width / 2, height / 2, 'bg-game');
     background.setOrigin(0.5);
@@ -63,10 +64,6 @@ class GameActions {
     this.woodElements.rightUp = new Wood(this._scene, width - PIXEL_FROM_WOOD_EDGES, centerY - centerY / 3).setRotation(-WOOD_ROTATE)
   }
 
-  private _createScore(): void {
-    this._scene.score = this._scene.add.text(68, 80, Session.getPoints().toString(), {fontSize: 44, color: 'black' }).setDepth(6)
-  }
-
   private _createPlayer(): void {
     this._scene.player = new Player(this._scene)
   }
@@ -81,8 +78,10 @@ class GameActions {
 
   private _eggsPlatform(player: Player, egg: Egg):void {
     egg.destroy()
+    egg.stopTween()
     Session.plusPoints(1)
-    this._scene.score.setText(Session.getPoints().toString())
+    const sceneUI = this._scene.game.scene.getScene('UI') as UI;
+    sceneUI.score.setText(Session.getPoints().toString())
   }
   
   private _createEggsGroup(): void {

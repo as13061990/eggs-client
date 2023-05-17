@@ -1,4 +1,6 @@
+import Session from "../data/Session";
 import Game from "../scenes/Game";
+import UI from "../scenes/UI";
 import { eggPosition } from "../types/enums";
 
 
@@ -20,6 +22,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   private _scene: Game;
   private _type: eggPosition
   private _reverse: 1 | -1
+  private _tween: Phaser.Tweens.Tween = null
 
   private _build(): void {
     this._scene.add.existing(this);
@@ -51,7 +54,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
         this._reverse = -1
         break;
     }
-    this._scene.tweens.add({
+    this._tween = this._scene.tweens.add({
       targets: this,
       rotation: 4 * Math.PI * this._reverse,
       x: { value: x },
@@ -69,7 +72,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
       this._type === eggPosition.LEFT_DOWN || this._type === eggPosition.RIGHT_DOWN
         ? 1 : 2
 
-    this._scene.tweens.add({
+    this._tween = this._scene.tweens.add({
       targets: this,
       rotation: turnovers * Math.PI * this._reverse,
       x: { value: this.x },
@@ -80,7 +83,16 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   }
 
   private _destroyUncaughtEgg(): void {
+    const sceneUI = this._scene.game.scene.getScene('UI') as UI;
+
     this.destroy()
+    Session.minusHealth()
+
+    if (Session.getHealth() === 0) {
+      sceneUI.gameOver()
+    }
+
+    sceneUI.health.setText(Session.getHealth().toString())
   }
 
   private static _checkForStartPosition(type: eggPosition, scene: Game): { x: number, y: number } {
@@ -108,6 +120,9 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
+  public stopTween(): void {
+    this._tween.stop()
+  }
 }
 
 export default Egg;
