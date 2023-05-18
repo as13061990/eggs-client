@@ -1,7 +1,7 @@
 import Game from '../scenes/Game';
 
 const MARGIN_X = 150
-const MARGIN_X_PLAYER = 100
+const MARGIN_X_PLAYER = 330
 
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene: Game) {
@@ -9,7 +9,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       scene,
       scene.actions.woodElements.leftDown.getBounds().right + MARGIN_X,
       scene.actions.woodElements.leftDown.getBounds().bottom,
-      'button'
+      null
     )
     this._scene = scene
     this._build()
@@ -22,30 +22,33 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     this._scene.add.existing(this);
     this._scene.physics.add.existing(this);
-    this._sprite = this._scene.add.sprite(this.x + MARGIN_X_PLAYER, this._scene.actions.woodElements.leftDown.getBounds().bottom, 'player-up')
+    this._sprite = this._scene.add.sprite(this.x + MARGIN_X_PLAYER, this._scene.actions.woodElements.leftUp.getBounds().bottom + 200, 'player-down')
     this._sprite.flipX = true
-    this.setBodySize(300, 300)
+    this.setBodySize(280, 250)
+    this.setAlpha(0)
     this.setDepth(12)
   }
 
   public right(): void {
     this.setPosition(this._scene.actions.woodElements.rightDown.getBounds().left - MARGIN_X, this.y)
-    this._sprite.setPosition(this.x - MARGIN_X_PLAYER, this._scene.actions.woodElements.leftDown.getBounds().bottom)
+    this._sprite.setPosition(this.x - MARGIN_X_PLAYER, this._scene.actions.woodElements.leftUp.getBounds().bottom + 200)
     this._sprite.flipX = false
   }
 
   public left(): void {
     this.setPosition(this._scene.actions.woodElements.leftDown.getBounds().right + MARGIN_X, this.y)
-    this._sprite.setPosition(this.x + MARGIN_X_PLAYER, this._scene.actions.woodElements.leftDown.getBounds().bottom)
+    this._sprite.setPosition(this.x + MARGIN_X_PLAYER, this._scene.actions.woodElements.leftUp.getBounds().bottom + 200)
     this._sprite.flipX = true
   }
 
   public down(): void {
     this.setPosition(this.x, this._scene.actions.woodElements.leftDown.getBounds().bottom)
+    this._sprite.setTexture('player-down')
   }
 
   public up(): void {
     this.setPosition(this.x, this._scene.actions.woodElements.leftUp.getBounds().bottom)
+    this._sprite.setTexture('player-up')
   }
 }
 

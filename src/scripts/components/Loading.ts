@@ -9,6 +9,7 @@ import bg5 from '../../assets/images/bg-5.jpg';
 import button from '../../assets/images/button.png';
 import redPixel from '../../assets/images/red-pixel.png';
 import playerUP from '../../assets/images/player-up.png';
+import playerDown from '../../assets/images/player-down.png';
 
 
 import eggSmash from '../../assets/audio/egg-smash.mp3';
@@ -64,6 +65,7 @@ class Loading {
     Session.setBg(randomNumber)
     this._scene.load.image(`bg-${randomNumber}`, arr[randomNumber-1]);
     this._scene.load.image('player-up', playerUP);
+    this._scene.load.image('player-down', playerDown);
     this._scene.load.image('button', button);
     this._scene.load.image('red-pixel', redPixel);
     this._scene.load.image('egg', egg);
