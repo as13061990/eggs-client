@@ -2,6 +2,7 @@ class Session {
   private _points: number = 0
   private _health: number = 3
   private _over: boolean = false;
+  private _difficulty: number = 1
 
   public clear(): void {
     this._points = 0
@@ -33,6 +34,17 @@ class Session {
   public setOver(over: boolean): void {
     this._over = over
   }
+
+  public getDifficulty(): number {
+    return this._difficulty
+  }
+
+  public setDifficulty(value: number): void {
+    if (value >= 0.2 && value <= 2) {
+      this._difficulty = value
+    }
+  }
+
 
 
 }

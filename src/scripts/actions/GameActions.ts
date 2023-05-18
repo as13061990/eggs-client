@@ -27,7 +27,7 @@ class GameActions {
 
   public build(): void {
     this._createUI()
-    
+
     this._controls()
 
     this._createWoodElements()
@@ -75,22 +75,47 @@ class GameActions {
     );
   }
 
-  private _eggsPlatform(player: Player, egg: Egg):void {
+  private _eggsPlatform(player: Player, egg: Egg): void {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
     sceneUI.score.setText(Session.getPoints().toString())
   }
-  
+
+
   private _createEggsGroup(): void {
-    for (let i = 0; i < 100; i++) {
+    const delay = Session.getDifficulty() * 1000
+    this._scene.time.addEvent({
+      delay: delay, callback: (): void => {
+        this._spawnEgg()
+        this._createEggsGroup()
+      }
+    , loop: false});
+  }
+
+  private _spawnEgg(): void {
+    const diff = Session.getDifficulty()
+    if (diff > 1.2) {
       const randomNumber = Phaser.Math.Between(0, 3);
+      new Egg(this._scene, randomNumber)
+    } else if (diff <= 1.2 && diff >= 0.8 ) {
+      const randomNumber = Phaser.Math.Between(0, 3);
+      new Egg(this._scene, randomNumber)
       this._scene.time.addEvent({
-        delay: DELAY_EGG_SPAWN * i, callback: (): void => {
-          new Egg(this._scene, randomNumber)
+        delay: 300, callback: (): void => {
+          new Egg(this._scene, Math.abs(randomNumber - 2))
         }
-      });
+      , loop: false});
+    } else if (diff < 0.8 ) {
+      const randomNumber = Phaser.Math.Between(0, 3);
+      new Egg(this._scene, randomNumber)
+      this._scene.time.addEvent({
+        delay: 200, callback: (): void => {
+          new Egg(this._scene, Math.abs(randomNumber - 1))
+          new Egg(this._scene, Math.abs(randomNumber - 3))
+        }
+      , loop: false});
     }
   }
 
@@ -170,7 +195,7 @@ class GameActions {
       this._scene.player.down()
     }
   }
-  
+
 }
 
 export default GameActions;
