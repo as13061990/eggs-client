@@ -1,13 +1,18 @@
 import bg from '../../assets/images/bg.jpg';
 import egg from '../../assets/images/egg.png';
 import wood from '../../assets/images/wood.png';
-import bgGame from '../../assets/images/bg-game.jpg';
+import bg1 from '../../assets/images/bg-1.jpg';
+import bg2 from '../../assets/images/bg-2.jpg';
+import bg3 from '../../assets/images/bg-3.jpg';
+import bg4 from '../../assets/images/bg-4.jpg';
+import bg5 from '../../assets/images/bg-5.jpg';
 import button from '../../assets/images/button.png';
 import redPixel from '../../assets/images/red-pixel.png';
 import playerUP from '../../assets/images/player-up.png';
 
 
 import eggSmash from '../../assets/audio/egg-smash.mp3';
+import Session from '../data/Session';
 
 class Loading {
   constructor(scene: Phaser.Scene) {
@@ -53,7 +58,11 @@ class Loading {
 
   private _loadImages(): void {
     this._scene.load.image('bg', bg);
-    this._scene.load.image('bg-game', bgGame);
+
+    const arr = [bg1, bg2, bg3, bg4, bg5]
+    const randomNumber = Phaser.Math.Between(1,5)
+    Session.setBg(randomNumber)
+    this._scene.load.image(`bg-${randomNumber}`, arr[randomNumber-1]);
     this._scene.load.image('player-up', playerUP);
     this._scene.load.image('button', button);
     this._scene.load.image('red-pixel', redPixel);

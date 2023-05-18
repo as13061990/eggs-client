@@ -46,7 +46,7 @@ class GameActions {
     sceneUI.createHealth()
 
     const { width, height } = this._scene.cameras.main;
-    const background = this._scene.add.sprite(width / 2, height / 2, 'bg-game');
+    const background = this._scene.add.sprite(width / 2, height / 2, `bg-${Session.getBg()}`);
     background.setOrigin(0.5);
 
     const scaleX = width / background.width;

@@ -19,11 +19,7 @@ class Game extends Phaser.Scene {
   }
 
   public preload(): void {
-    console.log('preload');
-    if (this._loading === false) {
-      this._loading = true;
-      new Loading(this);
-    }
+    new Loading(this);
   }
 
   public create(): void {

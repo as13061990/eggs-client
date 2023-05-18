@@ -3,6 +3,7 @@ class Session {
   private _health: number = 3
   private _over: boolean = false;
   private _difficulty: number = 1
+  private _bg: number = 1
 
   public clear(): void {
     this._points = 0
@@ -45,7 +46,13 @@ class Session {
     }
   }
 
+  public getBg(): number {
+    return this._bg
+  }
 
+  public setBg(value: number): void {
+    this._bg = value
+  }
 
 }
 
