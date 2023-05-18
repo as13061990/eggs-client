@@ -9,7 +9,13 @@ enum eggPosition {
   RIGHT_DOWN
 }
 
+enum platforms {
+  WEB,
+  VK
+}
+
 export {
   screen,
+  platforms,
   eggPosition
 }

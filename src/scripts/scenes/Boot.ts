@@ -6,6 +6,7 @@ import Interval from '../actions/Interval';
 import Sounds from '../actions/Sounds';
 import Settings from '../data/Settings';
 import User from '../data/User';
+import { platforms } from '../types/enums';
 
 class Boot extends Phaser.Scene {
   constructor() {
@@ -26,6 +27,21 @@ class Boot extends Phaser.Scene {
     });
     Settings.sounds = new Sounds(this);
     Settings.interval = new Interval(this);
+
+    const search: string = window.location.search;
+    const params = new URLSearchParams(search);
+    const vk: string = params.get('api_url');
+
+    if (vk === 'https://api.vk.com/api.php') Settings.setPlatform(platforms.VK)
+
+    const platform = Settings.getPlatform()
+
+    if (platform === platforms.VK) {
+      this._initUserVK();
+    } else {
+      this._initUserWeb();
+    }
+
     this._checkUser();
   }
 
@@ -66,6 +82,14 @@ class Boot extends Phaser.Scene {
     //   }
     // }).catch(e => console.log(e));
     this._user = true;
+  }
+
+  private _initUserVK(): void {
+
+  }
+
+  private _initUserWeb(): void {
+
   }
 }
 

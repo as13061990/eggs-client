@@ -1,5 +1,5 @@
 import Interval from '../actions/Interval';
-import { screen } from '../types/enums';
+import { platforms, screen } from '../types/enums';
 
 class Settings {
 
@@ -12,6 +12,7 @@ class Settings {
   private _screen: screen = screen.MAIN;
   private _mobile: boolean = false;
   private _isPaused: boolean = false
+  private _platform: platforms = platforms.WEB
   public sounds: Isounds;
   public interval: Interval;
 
@@ -38,6 +39,14 @@ class Settings {
 
   public setIsPaused(pause: boolean): void {
     this._isPaused = pause
+  }
+
+  public getPlatform(): platforms {
+    return this._platform
+  }
+
+  public setPlatform(platform: platforms): void {
+    this._platform = platform
   }
 }
 

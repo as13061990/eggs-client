@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "eggs-client",
   "main": "index.js",
+  "homepage": "https://as13061990.github.io/eggs-client/",
   "scripts": {
     "build": "webpack --config webpack/build.js",
-    "start": "webpack-dev-server --config webpack/config.js --open"
+    "start": "webpack-dev-server --config webpack/config.js --open",
+    "deploy": "gh-pages -d build"
   },
   "author": "Aleksandr Skorobogatyi",
   "license": "ISC",
@@ -18,6 +20,7 @@
     "css-loader": "^3.4.2",
     "dotenv": "^16.0.1",
     "file-loader": "^6.2.0",
+    "gh-pages": "^5.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.1",
     "raw-loader": "^4.0.2",
