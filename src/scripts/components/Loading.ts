@@ -4,6 +4,7 @@ import wood from '../../assets/images/wood.png';
 import bgGame from '../../assets/images/bg-game.jpg';
 import button from '../../assets/images/button.png';
 import redPixel from '../../assets/images/red-pixel.png';
+import playerUP from '../../assets/images/player-up.png';
 
 
 import eggSmash from '../../assets/audio/egg-smash.mp3';
@@ -53,6 +54,7 @@ class Loading {
   private _loadImages(): void {
     this._scene.load.image('bg', bg);
     this._scene.load.image('bg-game', bgGame);
+    this._scene.load.image('player-up', playerUP);
     this._scene.load.image('button', button);
     this._scene.load.image('red-pixel', redPixel);
     this._scene.load.image('egg', egg);
