@@ -32,13 +32,13 @@ class UI extends Phaser.Scene {
 
       this._pauseElements.bg = this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0)
       this._pauseElements.text = new Text(this, 'ПАУЗА', { x: centerX, y: centerY - 200, fontSize: 44 })
-      this._pauseElements.btnResume = new Button(this, centerX, centerY - 100, 'button').setDepth(10)
+      this._pauseElements.btnResume = new Button(this, centerX, centerY - 100, 'button-red-def').setDepth(10)
       this._pauseElements.btnResume.text = this.add.text(this._pauseElements.btnResume.x, this._pauseElements.btnResume.y, ('Продолжить').toUpperCase(), {
         color: '#000000',
         fontSize: 32,
       }).setOrigin(.5, .5).setDepth(11);
 
-      this._pauseElements.btnExit = new Button(this, centerX, centerY, 'button').setDepth(10)
+      this._pauseElements.btnExit = new Button(this, centerX, centerY, 'button-red-def').setDepth(10)
       this._pauseElements.btnExit.text = this.add.text(this._pauseElements.btnExit.x, this._pauseElements.btnExit.y, ('Выход').toUpperCase(), {
         color: '#000000',
         fontSize: 32,
@@ -88,13 +88,13 @@ class UI extends Phaser.Scene {
 
     this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0);
     new Text(this, 'Конец игры', { x: centerX, y: centerY - 200, fontSize: 44 })
-    const restartBtn = new Button(this, centerX, centerY - 100, 'button').setDepth(10)
+    const restartBtn = new Button(this, centerX, centerY - 100, 'button-red-def').setDepth(10)
     restartBtn.text = this.add.text(restartBtn.x, restartBtn.y, ('Рестарт').toUpperCase(), {
       color: '#000000',
       fontSize: 32,
     }).setOrigin(.5, .5).setDepth(11);
 
-    const exitBtn = new Button(this, centerX, centerY, 'button').setDepth(10)
+    const exitBtn = new Button(this, centerX, centerY, 'button-red-def').setDepth(10)
     exitBtn.text = this.add.text(exitBtn.x, exitBtn.y, ('Выход').toUpperCase(), {
       color: '#000000',
       fontSize: 32,
@@ -124,7 +124,7 @@ class UI extends Phaser.Scene {
 
 
   public createMobilePauseButton(): void {
-    const pauseBtn = new Button(this, 100, 150, 'button').setDepth(10)
+    const pauseBtn = new Button(this, 100, 150, 'button-red-def').setDepth(10)
     pauseBtn.setDisplaySize(60, 40)
     pauseBtn.text = this.add.text(pauseBtn.x, pauseBtn.y, ('Пауза').toUpperCase(), {
       color: '#000000',

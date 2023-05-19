@@ -9,6 +9,7 @@ class Button extends Phaser.GameObjects.Sprite {
     this.scene = scene;
     this.x = x;
     this.y = y;
+    this._texture = texture
     this._init();
   }
 
@@ -19,6 +20,7 @@ class Button extends Phaser.GameObjects.Sprite {
   public icon: Phaser.GameObjects.Sprite;
   public callback: Function = (): void => {};
   private _simple: boolean = false;
+  private _texture: string
 
   private _init(): void {
     this.scene.add.existing(this);

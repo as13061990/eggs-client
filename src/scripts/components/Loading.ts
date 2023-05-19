@@ -1,15 +1,24 @@
-import bg from '../../assets/images/bg.jpg';
 import egg from '../../assets/images/egg.png';
 import wood from '../../assets/images/wood.png';
-import bg1 from '../../assets/images/bg-1.jpg';
-import bg2 from '../../assets/images/bg-2.jpg';
-import bg3 from '../../assets/images/bg-3.jpg';
-import bg4 from '../../assets/images/bg-4.jpg';
-import bg5 from '../../assets/images/bg-5.jpg';
-import button from '../../assets/images/button.png';
 import redPixel from '../../assets/images/red-pixel.png';
 import playerUP from '../../assets/images/player-up.png';
 import playerDown from '../../assets/images/player-down.png';
+
+import bg from '../../assets/images/bg/bg.jpg';
+import bg1 from '../../assets/images/bg/bg-1.jpg';
+import bg2 from '../../assets/images/bg/bg-2.jpg';
+import bg3 from '../../assets/images/bg/bg-3.jpg';
+import bg4 from '../../assets/images/bg/bg-4.jpg';
+import bg5 from '../../assets/images/bg/bg-5.jpg';
+
+import buttonRedDef from '../../assets/images/buttons/button-red-def.png'
+import buttonRedPress from '../../assets/images/buttons/button-red-press.png'
+import buttonGreenPress from '../../assets/images/buttons/button-green-press.png'
+import buttonGreenDef from '../../assets/images/buttons/button-green-def.png'
+import buttonBlueDef from '../../assets/images/buttons/button-blue-def.png'
+import buttonBluePress from '../../assets/images/buttons/button-blue-press.png'
+import modal from '../../assets/images/buttons/modal.png'
+
 
 
 import eggSmash from '../../assets/audio/egg-smash.mp3';
@@ -68,10 +77,20 @@ class Loading {
     this._scene.load.image(`bg-${randomNumber}`, arr[randomNumber-1]);
     this._scene.load.image('player-up', playerUP);
     this._scene.load.image('player-down', playerDown);
-    this._scene.load.image('button', button);
     this._scene.load.image('red-pixel', redPixel);
     this._scene.load.image('egg', egg);
     this._scene.load.image('wood', wood);
+
+
+    this._scene.load.image('button-red-def', buttonRedDef);
+    this._scene.load.image('button-red-press', buttonRedPress);
+    this._scene.load.image('button-green-def', buttonGreenDef);
+    this._scene.load.image('button-green-press', buttonGreenPress);
+    this._scene.load.image('button-blue-def', buttonBlueDef);
+    this._scene.load.image('button-blue-press', buttonBluePress);
+    this._scene.load.image('modal', modal);
+
+
   }
 
   private _loadSounds(): void {

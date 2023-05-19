@@ -24,11 +24,13 @@ class Main {
     const scale = Math.max(scaleX, scaleY);
     background.setScale(scale).setScrollFactor(0);
 
-    new Text(this._scene, 'Меню', { x: centerX, y: centerY - 200, fontSize: 44 })
-    const btn = new Button(this._scene, centerX, centerY - 100, 'button').setDepth(10)
-    btn.text = this._scene.add.text(btn.x, btn.y, ('Старт').toUpperCase(), {
-      color: '#000000',
+    const modal = this._scene.add.sprite(centerX, centerY, 'modal')
+
+    const btn = new Button(this._scene, centerX, modal.getBounds().top + 60, 'button-green-def').setDepth(10)
+    btn.text = this._scene.add.text(btn.x, btn.y, ('Играть').toUpperCase(), {
+      color: 'white',
       fontSize: 32,
+      fontStyle: 'bold'
     }).setOrigin(.5, .5).setDepth(11);
     btn.callback = (): void => this._play();
 
