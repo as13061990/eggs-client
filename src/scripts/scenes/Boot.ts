@@ -7,6 +7,7 @@ import Sounds from '../actions/Sounds';
 import Settings from '../data/Settings';
 import User from '../data/User';
 import { platforms } from '../types/enums';
+import bridge, { UserInfo } from '@vkontakte/vk-bridge';
 
 class Boot extends Phaser.Scene {
   constructor() {
@@ -17,32 +18,11 @@ class Boot extends Phaser.Scene {
   private _user: boolean = false;
 
   public init(): void {
-    Webfont.load({
-      custom: {
-        families: ['Triomphe']
-      },
-      active: (): void => {
-        this._fonts = true;
-      }
-    });
-    Settings.sounds = new Sounds(this);
-    Settings.interval = new Interval(this);
+    this._setFonts()
+    this._setSounds()
+    this._setInteval()
 
-    const search: string = window.location.search;
-    const params = new URLSearchParams(search);
-    const vk: string = params.get('api_url');
-
-    if (vk === 'https://api.vk.com/api.php') Settings.setPlatform(platforms.VK)
-
-    const platform = Settings.getPlatform()
-
-    if (platform === platforms.VK) {
-      this._initUserVK();
-    } else {
-      this._initUserWeb();
-    }
-
-    this._checkUser();
+    this._setPlatform()
   }
 
   public preload(): void {
@@ -57,40 +37,72 @@ class Boot extends Phaser.Scene {
     this.scene.launch('Menu');
   }
 
-  private async _checkUser(): Promise<void> {
-
-    try { User.setID('0'); }
-    catch (e) { User.setID('0'); }
-    
-    try { User.setUsername('username'); }
-    catch (e) { User.setUsername('username'); }
-
-    try { User.setFirstName('noname'); }
-    catch (e) { User.setFirstName('noname'); }
-    
-    try { User.setLastName(''); }
-    catch (e) { User.setLastName(''); }
-
-    // await axios.post(process.env.API + '/getData', {
-    //   id: User.getID(),
-    //   username: User.getUsername(),
-    //   first_name: User.getFirstName(),
-    //   last_name: User.getLastName()
-    // }).then(res => {
-    //   if (!res.data.error) {
-
-    //   }
-    // }).catch(e => console.log(e));
-    this._user = true;
+  private _setFonts(): void {
+    Webfont.load({
+      custom: {
+        families: ['Triomphe']
+      },
+      active: (): void => {
+        this._fonts = true;
+      }
+    });
   }
 
-  private _initUserVK(): void {
+  private _setSounds(): void {
+    Settings.sounds = new Sounds(this);
+  }
 
+  private _setInteval(): void {
+    Settings.interval = new Interval(this);
+  }
+
+  private _setPlatform(): void {
+    const search: string = window.location.search;
+    const params = new URLSearchParams(search);
+    const vk: string = params.get('api_url');
+    if (vk === 'https://api.vk.com/api.php') Settings.setPlatform(platforms.VK)
+    this._initUser()
+  }
+
+  private _initUser(): void {
+    const platform = Settings.getPlatform()
+    if (platform === platforms.VK) {
+      this._initUserVK();
+    } else {
+      this._initUserWeb();
+    }
+  }
+
+  private async _initUserVK(): Promise<void> {
+    bridge.send('VKWebAppInit', {});
+    let bridgeData: UserInfo = await bridge.send('VKWebAppGetUserInfo', {});
+    // this.postCheckUser(bridgeData.id);
+    // this.state.vkId = bridgeData.id;
+    console.log(bridgeData)
   }
 
   private _initUserWeb(): void {
-
+    const id = localStorage.getItem('id');
+    if (id) {
+      User.setID(id);
+    } else {
+      User.setID(this._randomString(10));
+      localStorage.setItem('id', String(User.getID()));
+    }
+    this._user = true;
   }
+
+  private _randomString(length: number = 5): string {
+    let characters: string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let rs: string = '';
+
+    while (rs.length < length) {
+      rs += characters[Math.floor(Math.random() * characters.length)];
+    }
+
+    return rs;
+  }
+
 }
 
 export default Boot;
