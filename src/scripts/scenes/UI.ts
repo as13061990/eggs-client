@@ -1,4 +1,5 @@
 import Button from "../components/Button";
+import Modal from "../components/Modal";
 import Text from "../components/Text";
 import Session from "../data/Session";
 import Settings from "../data/Settings";
@@ -7,10 +8,7 @@ import Game from "./Game";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
-  btnResume: Button
-  btnExit: Button
-  btnMusic: Button
-  modal: Phaser.GameObjects.Sprite
+  modal: Modal
 }
 
 
@@ -19,7 +17,7 @@ class UI extends Phaser.Scene {
     super('UI');
   }
 
-  private _pauseElements: IPauseElements = { bg: null, btnResume: null, btnExit: null, modal: null, btnMusic: null }
+  private _pauseElements: IPauseElements = { bg: null, modal: null }
   public score: Phaser.GameObjects.Text
   public health: Phaser.GameObjects.Text
 
@@ -30,48 +28,18 @@ class UI extends Phaser.Scene {
 
     if (!Settings.getIsPaused()) {
       Settings.setIsPaused(true)
-
-      this._pauseElements.modal = this.add.sprite(centerX, centerY, 'modal').setDepth(10);
-
+      
       this._pauseElements.bg = this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0)
-      this._pauseElements.btnResume = new Button(this, centerX, this._pauseElements.modal.getBounds().top + 60, 'button-green-def').setDepth(10)
-      this._pauseElements.btnResume.text = this.add.text(this._pauseElements.btnResume.x, this._pauseElements.btnResume.y, ('Продолжить').toUpperCase(), {
-        color: 'white',
-        fontSize: 32,
-        fontStyle: 'bold'
-      }).setOrigin(.5, .5).setDepth(11);
+      this._pauseElements.modal = new Modal(this, 'button-green-def', 'button-blue-def')
 
-
-      const btnMusicTexture = Settings.sounds.getVolume() === 1 ? 'button-music-unmute' : 'button-music-mute'
-      this._pauseElements.btnMusic = new Button(this, this._pauseElements.modal.getBounds().left + 60, this._pauseElements.modal.getBounds().bottom - 60, btnMusicTexture).setDepth(10)
-      this._pauseElements.btnMusic.callback = (): void => {
-        if (Settings.sounds.getVolume() === 1) {
-          Settings.sounds.mute()
-          this._pauseElements.btnMusic.setTexture('button-music-mute')
-        } else {
-          Settings.sounds.unmute()
-          this._pauseElements.btnMusic.setTexture('button-music-unmute')
-        }
-      }
-
-      this._pauseElements.btnExit = new Button(this, centerX, this._pauseElements.btnResume.getBounds().bottom + 60, 'button-red-def').setDepth(10)
-      this._pauseElements.btnExit.text = this.add.text(this._pauseElements.btnExit.x, this._pauseElements.btnExit.y, ('Выход').toUpperCase(), {
-        color: 'white',
-        fontSize: 32,
-        fontStyle: 'bold'
-      }).setOrigin(.5, .5).setDepth(11);
+      this._pauseElements.modal.setTextBtn('first', 'Продолжить')
+      this._pauseElements.modal.setTextBtn('second', 'Выход')
+  
+      this._pauseElements.modal.btnFirst.callback = (): void => this._pauseClose()
+      this._pauseElements.modal.btnSecond.callback = (): void => this._exit()
 
       const sceneGame = this.game.scene.getScene('Game') as Game;
       sceneGame.scene.pause()
-
-      this._pauseElements.btnResume.callback = (): void => {
-        this._pauseClose()
-      };
-
-      this._pauseElements.btnExit.callback = (): void => {
-        this._exit()
-      };
-
     } else {
       this._pauseClose()
     }
@@ -81,11 +49,10 @@ class UI extends Phaser.Scene {
     Settings.setIsPaused(false)
 
     const sceneGame = this.game.scene.getScene('Game') as Game;
-
     sceneGame.scene.resume()
-    Object.values(this._pauseElements).forEach(el => {
-      el.destroy()
-    })
+
+    this._pauseElements.modal.destroyAll()
+    this._pauseElements.bg.destroy()
   }
 
   private _exit(): void {
@@ -95,54 +62,31 @@ class UI extends Phaser.Scene {
     Settings.setIsPaused(false)
   }
 
+  private _restart(): void {
+    const sceneGame = this.game.scene.getScene('Game') as Game;
+    Session.clear()
+    this.scene.stop()
+    sceneGame.scene.restart()
+  }
+
   public gameOver(): void {
     if (Session.getOver()) return;
     Session.setOver(true);
 
-    const { width, height, centerX, centerY } = this.cameras.main;
+    const { width, height } = this.cameras.main;
 
     this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0);
 
-    const modal = this.add.sprite(centerX, centerY, 'modal').setDepth(10);
+    const modal = new Modal(this, 'button-green-def', 'button-blue-def')
 
-    const restartBtn = new Button(this, centerX, modal.getBounds().top + 60, 'button-green-def').setDepth(10)
-    restartBtn.text = this.add.text(restartBtn.x, restartBtn.y, ('Рестарт').toUpperCase(), {
-      color: 'white',
-      fontSize: 32,
-      fontStyle: 'bold'
-    }).setOrigin(.5, .5).setDepth(11);
-
-    const exitBtn = new Button(this, centerX, restartBtn.getBounds().bottom + 60, 'button-red-def').setDepth(10)
-    exitBtn.text = this.add.text(exitBtn.x, exitBtn.y, ('Выход').toUpperCase(), {
-      color: 'white',
-      fontSize: 32,
-      fontStyle: 'bold'
-    }).setOrigin(.5, .5).setDepth(11);
-
-    const btnMusicTexture = Settings.sounds.getVolume() === 1 ? 'button-music-unmute' : 'button-music-mute'
-    this._pauseElements.btnMusic = new Button(this, this._pauseElements.modal.getBounds().left + 60, this._pauseElements.modal.getBounds().bottom - 60, btnMusicTexture).setDepth(10)
-    this._pauseElements.btnMusic.callback = (): void => {
-      if (Settings.sounds.getVolume() === 1) {
-        Settings.sounds.mute()
-        this._pauseElements.btnMusic.setTexture('button-music-mute')
-      } else {
-        Settings.sounds.unmute()
-        this._pauseElements.btnMusic.setTexture('button-music-unmute')
-      }
-    }
+    modal.setTextBtn('first', 'Рестарт')
+    modal.setTextBtn('second', 'Выход')
 
     const sceneGame = this.game.scene.getScene('Game') as Game;
     sceneGame.scene.pause()
-
-    restartBtn.callback = (): void => {
-      Session.clear()
-      this.scene.stop()
-      sceneGame.scene.restart()
-    }
-
-    exitBtn.callback = (): void => {
-      this._exit()
-    }
+    
+    modal.btnFirst.callback = (): void => this._restart()
+    modal.btnSecond.callback = (): void => this._exit()
   }
 
   public createScore(): void {
