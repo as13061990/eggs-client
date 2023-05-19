@@ -17,6 +17,8 @@ import buttonGreenPress from '../../assets/images/buttons/button-green-press.png
 import buttonGreenDef from '../../assets/images/buttons/button-green-def.png'
 import buttonBlueDef from '../../assets/images/buttons/button-blue-def.png'
 import buttonBluePress from '../../assets/images/buttons/button-blue-press.png'
+import buttonMusicUnmute from '../../assets/images/buttons/button-music-unmute.png.png'
+import buttonMusicMute from '../../assets/images/buttons/button-music-mute.png'
 import modal from '../../assets/images/buttons/modal.png'
 
 
@@ -88,6 +90,8 @@ class Loading {
     this._scene.load.image('button-green-press', buttonGreenPress);
     this._scene.load.image('button-blue-def', buttonBlueDef);
     this._scene.load.image('button-blue-press', buttonBluePress);
+    this._scene.load.image('button-music-mute', buttonMusicMute);
+    this._scene.load.image('button-music-unmute', buttonMusicUnmute);
     this._scene.load.image('modal', modal);
 
 

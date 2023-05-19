@@ -7,9 +7,10 @@ import Game from "./Game";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
-  text: Text
   btnResume: Button
   btnExit: Button
+  btnMusic: Button
+  modal: Phaser.GameObjects.Sprite
 }
 
 
@@ -18,7 +19,7 @@ class UI extends Phaser.Scene {
     super('UI');
   }
 
-  private _pauseElements: IPauseElements = { bg: null, text: null, btnResume: null, btnExit: null }
+  private _pauseElements: IPauseElements = { bg: null, btnResume: null, btnExit: null, modal: null, btnMusic: null }
   public score: Phaser.GameObjects.Text
   public health: Phaser.GameObjects.Text
 
@@ -30,18 +31,34 @@ class UI extends Phaser.Scene {
     if (!Settings.getIsPaused()) {
       Settings.setIsPaused(true)
 
+      this._pauseElements.modal = this.add.sprite(centerX, centerY, 'modal').setDepth(10);
+
       this._pauseElements.bg = this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0)
-      this._pauseElements.text = new Text(this, 'ПАУЗА', { x: centerX, y: centerY - 200, fontSize: 44 })
-      this._pauseElements.btnResume = new Button(this, centerX, centerY - 100, 'button-red-def').setDepth(10)
+      this._pauseElements.btnResume = new Button(this, centerX, this._pauseElements.modal.getBounds().top + 60, 'button-green-def').setDepth(10)
       this._pauseElements.btnResume.text = this.add.text(this._pauseElements.btnResume.x, this._pauseElements.btnResume.y, ('Продолжить').toUpperCase(), {
-        color: '#000000',
+        color: 'white',
         fontSize: 32,
+        fontStyle: 'bold'
       }).setOrigin(.5, .5).setDepth(11);
 
-      this._pauseElements.btnExit = new Button(this, centerX, centerY, 'button-red-def').setDepth(10)
+
+      const btnMusicTexture = Settings.sounds.getVolume() === 1 ? 'button-music-unmute' : 'button-music-mute'
+      this._pauseElements.btnMusic = new Button(this, this._pauseElements.modal.getBounds().left + 60, this._pauseElements.modal.getBounds().bottom - 60, btnMusicTexture).setDepth(10)
+      this._pauseElements.btnMusic.callback = (): void => {
+        if (Settings.sounds.getVolume() === 1) {
+          Settings.sounds.mute()
+          this._pauseElements.btnMusic.setTexture('button-music-mute')
+        } else {
+          Settings.sounds.unmute()
+          this._pauseElements.btnMusic.setTexture('button-music-unmute')
+        }
+      }
+
+      this._pauseElements.btnExit = new Button(this, centerX, this._pauseElements.btnResume.getBounds().bottom + 60, 'button-red-def').setDepth(10)
       this._pauseElements.btnExit.text = this.add.text(this._pauseElements.btnExit.x, this._pauseElements.btnExit.y, ('Выход').toUpperCase(), {
-        color: '#000000',
+        color: 'white',
         fontSize: 32,
+        fontStyle: 'bold'
       }).setOrigin(.5, .5).setDepth(11);
 
       const sceneGame = this.game.scene.getScene('Game') as Game;
@@ -66,11 +83,9 @@ class UI extends Phaser.Scene {
     const sceneGame = this.game.scene.getScene('Game') as Game;
 
     sceneGame.scene.resume()
-
-    this._pauseElements.bg.destroy()
-    this._pauseElements.btnResume.destroy()
-    this._pauseElements.btnExit.destroy()
-    this._pauseElements.text.destroy()
+    Object.values(this._pauseElements).forEach(el => {
+      el.destroy()
+    })
   }
 
   private _exit(): void {
@@ -87,18 +102,34 @@ class UI extends Phaser.Scene {
     const { width, height, centerX, centerY } = this.cameras.main;
 
     this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0);
-    new Text(this, 'Конец игры', { x: centerX, y: centerY - 200, fontSize: 44 })
-    const restartBtn = new Button(this, centerX, centerY - 100, 'button-red-def').setDepth(10)
+
+    const modal = this.add.sprite(centerX, centerY, 'modal').setDepth(10);
+
+    const restartBtn = new Button(this, centerX, modal.getBounds().top + 60, 'button-green-def').setDepth(10)
     restartBtn.text = this.add.text(restartBtn.x, restartBtn.y, ('Рестарт').toUpperCase(), {
-      color: '#000000',
+      color: 'white',
       fontSize: 32,
+      fontStyle: 'bold'
     }).setOrigin(.5, .5).setDepth(11);
 
-    const exitBtn = new Button(this, centerX, centerY, 'button-red-def').setDepth(10)
+    const exitBtn = new Button(this, centerX, restartBtn.getBounds().bottom + 60, 'button-red-def').setDepth(10)
     exitBtn.text = this.add.text(exitBtn.x, exitBtn.y, ('Выход').toUpperCase(), {
-      color: '#000000',
+      color: 'white',
       fontSize: 32,
+      fontStyle: 'bold'
     }).setOrigin(.5, .5).setDepth(11);
+
+    const btnMusicTexture = Settings.sounds.getVolume() === 1 ? 'button-music-unmute' : 'button-music-mute'
+    this._pauseElements.btnMusic = new Button(this, this._pauseElements.modal.getBounds().left + 60, this._pauseElements.modal.getBounds().bottom - 60, btnMusicTexture).setDepth(10)
+    this._pauseElements.btnMusic.callback = (): void => {
+      if (Settings.sounds.getVolume() === 1) {
+        Settings.sounds.mute()
+        this._pauseElements.btnMusic.setTexture('button-music-mute')
+      } else {
+        Settings.sounds.unmute()
+        this._pauseElements.btnMusic.setTexture('button-music-unmute')
+      }
+    }
 
     const sceneGame = this.game.scene.getScene('Game') as Game;
     sceneGame.scene.pause()
@@ -124,11 +155,12 @@ class UI extends Phaser.Scene {
 
 
   public createMobilePauseButton(): void {
-    const pauseBtn = new Button(this, 100, 150, 'button-red-def').setDepth(10)
-    pauseBtn.setDisplaySize(60, 40)
+    const pauseBtn = new Button(this, 100, 180, 'button-blue-press').setDepth(10)
+    pauseBtn.setDisplaySize(150, pauseBtn.height)
     pauseBtn.text = this.add.text(pauseBtn.x, pauseBtn.y, ('Пауза').toUpperCase(), {
-      color: '#000000',
-      fontSize: 14,
+      color: 'white',
+      fontSize: 32,
+      fontStyle: 'bold'
     }).setOrigin(.5, .5).setDepth(11)
 
     pauseBtn.callback = (): void => {

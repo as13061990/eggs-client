@@ -25,14 +25,33 @@ class Main {
     background.setScale(scale).setScrollFactor(0);
 
     const modal = this._scene.add.sprite(centerX, centerY, 'modal')
-
-    const btn = new Button(this._scene, centerX, modal.getBounds().top + 60, 'button-green-def').setDepth(10)
-    btn.text = this._scene.add.text(btn.x, btn.y, ('Играть').toUpperCase(), {
+    modal.setDisplaySize(modal.width, modal.height - 65)
+    const btnPlay = new Button(this._scene, centerX, modal.getBounds().top + 60, 'button-green-def').setDepth(10)
+    btnPlay.text = this._scene.add.text(btnPlay.x, btnPlay.y, ('Играть').toUpperCase(), {
       color: 'white',
       fontSize: 32,
       fontStyle: 'bold'
     }).setOrigin(.5, .5).setDepth(11);
-    btn.callback = (): void => this._play();
+    btnPlay.callback = (): void => this._play();
+
+    const btnRatings = new Button(this._scene, centerX, btnPlay.getBounds().bottom + 60, 'button-blue-def').setDepth(10)
+    btnRatings.text = this._scene.add.text(btnRatings.x, btnRatings.y, ('Рейтинг').toUpperCase(), {
+      color: 'white',
+      fontSize: 32,
+      fontStyle: 'bold'
+    }).setOrigin(.5, .5).setDepth(11);
+
+    const btnMusicTexture = Settings.sounds.getVolume() === 1 ? 'button-music-unmute' : 'button-music-mute'
+    const btnMusic = new Button(this._scene, modal.getBounds().left + 60, modal.getBounds().bottom - 60, btnMusicTexture).setDepth(10)
+    btnMusic.callback = (): void => {
+      if (Settings.sounds.getVolume() === 1) {
+        Settings.sounds.mute()
+        btnMusic.setTexture('button-music-mute')
+      } else {
+        Settings.sounds.unmute()
+        btnMusic.setTexture('button-music-unmute')
+      }
+    }
 
     Settings.sounds.playMusic('bg')
   }
