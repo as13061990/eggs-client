@@ -31,6 +31,8 @@ class Main {
       fontSize: 32,
     }).setOrigin(.5, .5).setDepth(11);
     btn.callback = (): void => this._play();
+
+    Settings.sounds.playMusic('bg')
   }
 
   private _play(): void {

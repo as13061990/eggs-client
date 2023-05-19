@@ -85,7 +85,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
 
   private _destroyUncaughtEgg(): void {
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
-    Settings.sounds.play('eggSmash')
+    Settings.sounds.play('egg-smash')
     this.destroy()
     Session.minusHealth()
 

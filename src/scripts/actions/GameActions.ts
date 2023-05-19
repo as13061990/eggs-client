@@ -71,15 +71,16 @@ class GameActions {
     this._scene.physics.add.collider(
       this._scene.eggs,
       this._scene.player,
-      this._eggsPlatform.bind(this)
+      this._eggsPlayer.bind(this)
     );
   }
 
-  private _eggsPlatform(player: Player, egg: Egg): void {
+  private _eggsPlayer(player: Player, egg: Egg): void {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
+    Settings.sounds.play('egg-catch')
     sceneUI.score.setText(Session.getPoints().toString())
   }
 
