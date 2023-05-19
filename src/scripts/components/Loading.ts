@@ -3,6 +3,8 @@ import wood from '../../assets/images/wood.png';
 import redPixel from '../../assets/images/red-pixel.png';
 import playerUP from '../../assets/images/player-up.png';
 import playerDown from '../../assets/images/player-down.png';
+import healthFull from '../../assets/images/hearth-full.png';
+import healthEmpty from '../../assets/images/hearth-empty.png';
 
 import bg from '../../assets/images/bg/bg.jpg';
 import bg1 from '../../assets/images/bg/bg-1.jpg';
@@ -21,11 +23,10 @@ import buttonMusicUnmute from '../../assets/images/buttons/button-music-unmute.p
 import buttonMusicMute from '../../assets/images/buttons/button-music-mute.png'
 import modal from '../../assets/images/buttons/modal.png'
 
-
-
 import eggSmash from '../../assets/audio/egg-smash.mp3';
 import eggCatch from '../../assets/audio/egg-catch.mp3';
 import bgSound from '../../assets/audio/bg.mp3';
+
 import Session from '../data/Session';
 
 class Loading {
@@ -77,12 +78,14 @@ class Loading {
     const randomNumber = Phaser.Math.Between(1,5)
     Session.setBg(randomNumber)
     this._scene.load.image(`bg-${randomNumber}`, arr[randomNumber-1]);
+
     this._scene.load.image('player-up', playerUP);
     this._scene.load.image('player-down', playerDown);
     this._scene.load.image('red-pixel', redPixel);
     this._scene.load.image('egg', egg);
     this._scene.load.image('wood', wood);
-
+    this._scene.load.image('health-full', healthFull);
+    this._scene.load.image('health-empty', healthEmpty);
 
     this._scene.load.image('button-red-def', buttonRedDef);
     this._scene.load.image('button-red-press', buttonRedPress);
@@ -93,8 +96,6 @@ class Loading {
     this._scene.load.image('button-music-mute', buttonMusicMute);
     this._scene.load.image('button-music-unmute', buttonMusicUnmute);
     this._scene.load.image('modal', modal);
-
-
   }
 
   private _loadSounds(): void {

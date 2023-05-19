@@ -1,6 +1,6 @@
 import Button from "../components/Button";
+import HealthBar from "../components/HealthBar";
 import Modal from "../components/Modal";
-import Text from "../components/Text";
 import Session from "../data/Session";
 import Settings from "../data/Settings";
 import { screen } from "../types/enums";
@@ -19,7 +19,7 @@ class UI extends Phaser.Scene {
 
   private _pauseElements: IPauseElements = { bg: null, modal: null }
   public score: Phaser.GameObjects.Text
-  public health: Phaser.GameObjects.Text
+  public health: HealthBar
 
   public gamePause(): void {
     if (Session.getOver()) return;
@@ -94,12 +94,12 @@ class UI extends Phaser.Scene {
   }
 
   public createHealth(): void {
-    this.health = this.add.text(this.scale.width - 70, 80, Session.getHealth().toString(), { fontSize: 44, color: 'black' }).setDepth(6)
+    this.health = new HealthBar(this, this.scale.width - 450, 80)
   }
 
 
   public createMobilePauseButton(): void {
-    const pauseBtn = new Button(this, 100, 180, 'button-blue-press').setDepth(10)
+    const pauseBtn = new Button(this, this.scale.width - 150, 80, 'button-blue-press').setDepth(10)
     pauseBtn.setDisplaySize(150, pauseBtn.height)
     pauseBtn.text = this.add.text(pauseBtn.x, pauseBtn.y, ('Пауза').toUpperCase(), {
       color: 'white',

@@ -88,12 +88,12 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
     Settings.sounds.play('egg-smash')
     this.destroy()
     Session.minusHealth()
+    sceneUI.health.minusHealth()
 
     if (Session.getHealth() === 0) {
       sceneUI.gameOver()
     }
 
-    sceneUI.health.setText(Session.getHealth().toString())
   }
 
   private static _checkForStartPosition(type: eggPosition, scene: Game): { x: number, y: number } {
