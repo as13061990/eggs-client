@@ -1,6 +1,7 @@
 class User {
 
   private _id: string;
+  private _vkId: number;
   private _username: string;
   private _firstname: string;
   private _lastname: string;
@@ -11,6 +12,14 @@ class User {
 
   public getID(): string {
     return this._id;
+  }
+
+  public setVKID(id: number): void {
+    this._vkId = id;
+  }
+
+  public getVKID(): number {
+    return this._vkId;
   }
 
   public setUsername(username: string): void {

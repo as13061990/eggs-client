@@ -78,7 +78,13 @@ class Boot extends Phaser.Scene {
     let bridgeData: UserInfo = await bridge.send('VKWebAppGetUserInfo', {});
     // this.postCheckUser(bridgeData.id);
     // this.state.vkId = bridgeData.id;
-    console.log(bridgeData)
+    if (bridgeData?.id) {
+      User.setVKID(bridgeData.id)
+      User.setFirstName(bridgeData.first_name)
+      User.setLastName(bridgeData.last_name)
+      User.setUsername(bridgeData.first_name + ' ' + bridgeData.last_name)
+      this._postCheckUser(User.getVKID(), User.getUsername())
+    }
   }
 
   private _initUserWeb(): void {
@@ -92,6 +98,17 @@ class Boot extends Phaser.Scene {
     this._user = true;
   }
 
+  private _postCheckUser(id: number | string, name: string): void {
+    axios.post(process.env.API + '/user/check', {
+      platform: Settings.getPlatform(),
+      id: id,
+      name: name,
+    }).then((response) => {
+      console.log(response.data)
+      this._user = true
+    }).catch(er=>console.log(er, 'er'))
+  }
+
   private _randomString(length: number = 5): string {
     let characters: string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let rs: string = '';
@@ -99,7 +116,6 @@ class Boot extends Phaser.Scene {
     while (rs.length < length) {
       rs += characters[Math.floor(Math.random() * characters.length)];
     }
-
     return rs;
   }
 
