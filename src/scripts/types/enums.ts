@@ -1,5 +1,6 @@
 enum screen {
-  MAIN
+  MAIN,
+  RATING
 }
 
 enum eggPosition {

@@ -1,6 +1,7 @@
 import Loading from '../components/Loading';
 import Settings from '../data/Settings';
 import Main from '../screen/Main';
+import Rating from '../screen/Rating';
 import { screen } from '../types/enums';
 
 class Menu extends Phaser.Scene {
@@ -18,9 +19,10 @@ class Menu extends Phaser.Scene {
   }
 
   public create(): void {
-    console.log('`111')
     if (Settings.getScreen() === screen.MAIN) {
       new Main(this)
+    } else if (Settings.getScreen() === screen.RATING) {
+      new Rating(this)
     }
   }
 

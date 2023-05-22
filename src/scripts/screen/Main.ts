@@ -1,9 +1,5 @@
-import Button from '../components/Button';
 import Modal from '../components/Modal';
-import Text from '../components/Text';
 import Settings from '../data/Settings';
-import User from '../data/User';
-import Utils from '../data/Utils';
 import UI from '../scenes/Menu';
 import { screen } from '../types/enums';
 
@@ -31,9 +27,10 @@ class Main {
     modal.setTextBtn('second', 'Рейтинг')
 
     modal.btnFirst.callback = (): void => this._play()
+    modal.btnSecond.callback = (): void => { Settings.setScreen(screen.RATING); this._scene.scene.restart(); }
 
     Settings.sounds.playMusic('bg')
-    
+
   }
 
   private _play(): void {
