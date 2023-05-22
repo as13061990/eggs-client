@@ -40,7 +40,7 @@ class Boot extends Phaser.Scene {
   private _setFonts(): void {
     Webfont.load({
       custom: {
-        families: ['Triomphe']
+        families: ['EpilepsySansBold', 'EpilepsySans']
       },
       active: (): void => {
         this._fonts = true;

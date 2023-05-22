@@ -90,7 +90,7 @@ class UI extends Phaser.Scene {
   }
 
   public createScore(): void {
-    this.score = this.add.text(68, 80, Session.getPoints().toString(), { fontSize: 44, color: 'black' }).setDepth(6)
+    this.score = this.add.text(68, 80, Session.getPoints().toString(), { font: '48px EpilepsySans', color: 'yellow  ' }).setDepth(6)
   }
 
   public createHealth(): void {
@@ -103,8 +103,7 @@ class UI extends Phaser.Scene {
     pauseBtn.setDisplaySize(150, pauseBtn.height)
     pauseBtn.text = this.add.text(pauseBtn.x, pauseBtn.y, ('Пауза').toUpperCase(), {
       color: 'white',
-      fontSize: 32,
-      fontStyle: 'bold'
+      font: '36px EpilepsySans',
     }).setOrigin(.5, .5).setDepth(11)
 
     pauseBtn.callback = (): void => {

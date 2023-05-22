@@ -1,6 +1,10 @@
 @font-face {
-  font-family: Triomphe;
-  src: url('../fonts/Triomphe.ttf');
+  font-family: EpilepsySans;
+  src: url('../fonts/EpilepsySans.ttf');
+}
+@font-face {
+  font-family: EpilepsySansBold;
+  src: url('../fonts/EpilepsySansBold.ttf');
 }
 * {
   font-family: Triomphe;

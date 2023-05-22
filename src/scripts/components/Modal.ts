@@ -48,15 +48,13 @@ class Modal extends Phaser.GameObjects.Sprite {
     if (btn === 'first') {
       this.btnFirst.text = this._scene.add.text(this.btnFirst.x, this.btnFirst.y, (text).toUpperCase(), {
         color: 'white',
-        fontSize: 32,
-        fontStyle: 'bold'
-      }).setOrigin(.5, .5).setDepth(11);
+        font: '36px EpilepsySans'
+      }).setOrigin(.5, .6).setDepth(11);
     } else {
       this.btnSecond.text = this._scene.add.text(this.btnSecond.x, this.btnSecond.y, (text).toUpperCase(), {
         color: 'white',
-        fontSize: 32,
-        fontStyle: 'bold'
-      }).setOrigin(.5, .5).setDepth(11);
+        font: '36px EpilepsySans',
+      }).setOrigin(.5, .6).setDepth(11);
     }
   }
 
