@@ -106,7 +106,7 @@ class Boot extends Phaser.Scene {
     }).then((response) => {
       console.log(response.data)
       this._user = true
-    }).catch(er=>console.log(er, 'er'))
+    })
   }
 
   private _randomString(length: number = 5): string {

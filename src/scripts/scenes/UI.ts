@@ -1,10 +1,12 @@
+import axios from "axios";
 import Button from "../components/Button";
 import HealthBar from "../components/HealthBar";
 import Modal from "../components/Modal";
 import Session from "../data/Session";
 import Settings from "../data/Settings";
-import { screen } from "../types/enums";
+import { platforms, screen } from "../types/enums";
 import Game from "./Game";
+import User from "../data/User";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
@@ -72,7 +74,9 @@ class UI extends Phaser.Scene {
   public gameOver(): void {
     if (Session.getOver()) return;
     Session.setOver(true);
-
+    if (Settings.getPlatform() === platforms.VK) {
+      this._postRating(User.getVKID())
+    }
     const { width, height } = this.cameras.main;
 
     this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0);
@@ -109,6 +113,14 @@ class UI extends Phaser.Scene {
     pauseBtn.callback = (): void => {
       this.gamePause()
     }
+  }
+
+  private _postRating(id: number | string): void {
+    axios.post(process.env.API + '/rating/post', {
+      platform: Settings.getPlatform(),
+      id: id,
+      score: Session.getPoints(),
+    })
   }
 }
 
