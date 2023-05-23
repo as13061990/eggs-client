@@ -30,13 +30,13 @@ class UI extends Phaser.Scene {
 
     if (!Settings.getIsPaused()) {
       Settings.setIsPaused(true)
-      
+
       this._pauseElements.bg = this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0)
       this._pauseElements.modal = new Modal(this, 'button-green-def', 'button-blue-def')
 
       this._pauseElements.modal.setTextBtn('first', 'Продолжить')
       this._pauseElements.modal.setTextBtn('second', 'Выход')
-  
+
       this._pauseElements.modal.btnFirst.callback = (): void => this._pauseClose()
       this._pauseElements.modal.btnSecond.callback = (): void => this._exit()
 
@@ -74,9 +74,7 @@ class UI extends Phaser.Scene {
   public gameOver(): void {
     if (Session.getOver()) return;
     Session.setOver(true);
-    if (Settings.getPlatform() === platforms.VK) {
-      this._postRating(User.getVKID())
-    }
+    this._postRating(User.getID())
     const { width, height } = this.cameras.main;
 
     this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0);
@@ -88,7 +86,7 @@ class UI extends Phaser.Scene {
 
     const sceneGame = this.game.scene.getScene('Game') as Game;
     sceneGame.scene.pause()
-    
+
     modal.btnFirst.callback = (): void => this._restart()
     modal.btnSecond.callback = (): void => this._exit()
   }

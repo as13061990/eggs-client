@@ -1,3 +1,6 @@
+import { platforms } from "../types/enums";
+import Settings from "./Settings";
+
 class User {
 
   private _id: string;
@@ -10,16 +13,17 @@ class User {
     this._id = id;
   }
 
-  public getID(): string {
-    return this._id;
+  public getID(): string | number {
+    switch(Settings.getPlatform()) {
+      case platforms.VK:
+        return this._vkId;
+      case platforms.WEB:
+        return this._id
+    }
   }
 
   public setVKID(id: number): void {
     this._vkId = id;
-  }
-
-  public getVKID(): number {
-    return this._vkId;
   }
 
   public setUsername(username: string): void {

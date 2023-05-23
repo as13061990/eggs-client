@@ -83,7 +83,7 @@ class Boot extends Phaser.Scene {
       User.setFirstName(bridgeData.first_name)
       User.setLastName(bridgeData.last_name)
       User.setUsername(bridgeData.first_name + ' ' + bridgeData.last_name)
-      this._postCheckUser(User.getVKID(), User.getUsername())
+      this._postCheckUser(User.getID(), User.getUsername())
     }
   }
 
