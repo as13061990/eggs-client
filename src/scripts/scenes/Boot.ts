@@ -104,7 +104,6 @@ class Boot extends Phaser.Scene {
       id: id,
       name: name,
     }).then((response) => {
-      console.log(response.data)
       this._user = true
     })
   }
