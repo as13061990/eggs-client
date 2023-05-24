@@ -87,7 +87,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
     Settings.sounds.play('egg-smash')
     this.destroy()
-    Session.minusHealth()
+
     sceneUI.health.minusHealth()
 
     if (Session.getHealth() === 0) {

@@ -28,6 +28,11 @@ class Session {
     return this._health -= 1
   }
 
+  public plusHealth(): number {
+    if (this._health === 3) return
+    return this._health += 1
+  }
+
   public getOver(): boolean {
     return this._over
   }

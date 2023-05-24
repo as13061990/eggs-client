@@ -20,6 +20,7 @@ class HealthBar {
   }
 
   public minusHealth(): void {
+    Session.minusHealth()
     switch (Session.getHealth()) {
       case 0:
         this._healthFirst.setTexture('health-empty')
@@ -29,6 +30,21 @@ class HealthBar {
         break;
       case 2:
         this._healthThird.setTexture('health-empty')
+        break;
+    }
+  }
+
+  public plusHealth(): void {
+    Session.plusHealth()
+    switch (Session.getHealth()) {
+      case 1:
+        this._healthFirst.setTexture('health-full')
+        break;
+      case 2:
+        this._healthSecond.setTexture('health-full')
+        break;
+      case 3:
+        this._healthThird.setTexture('health-full')
         break;
     }
   }
