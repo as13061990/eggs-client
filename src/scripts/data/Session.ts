@@ -3,6 +3,7 @@ class Session {
   private _health: number = 3
   private _over: boolean = false;
   private _difficulty: number = 1
+  private _watchedRewardAd: boolean = false
   private _bg: number = 1
 
   public clear(): void {
@@ -57,6 +58,14 @@ class Session {
 
   public setBg(value: number): void {
     this._bg = value
+  }
+
+  public setWatchedRewardAd(watched: boolean): void {
+    this._watchedRewardAd = watched
+  }
+
+  public getWatchedRewardAd(): boolean {
+    return this._watchedRewardAd
   }
 
 }

@@ -22,6 +22,7 @@ class Boot extends Phaser.Scene {
     this._setSounds()
     this._setInteval()
 
+    this._checkAbBlock()
     this._setPlatform()
   }
 
@@ -35,6 +36,21 @@ class Boot extends Phaser.Scene {
     this._fonts = false;
     this._user = false;
     this.scene.launch('Menu');
+  }
+
+  private _checkAbBlock(): void {
+    async function detectAdBlock() {
+      Settings.setAdblock(false)
+      const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+      try {
+        await fetch(new Request(googleAdUrl)).catch(_ => Settings.setAdblock(true))
+      } catch (e) {
+        Settings.setAdblock(true)
+      } finally {
+        console.log(Settings.getAdblock())
+      }
+    }
+   detectAdBlock()
   }
 
   private _setFonts(): void {

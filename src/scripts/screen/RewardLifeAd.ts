@@ -1,4 +1,6 @@
+import Ads from '../actions/Ads';
 import Button from '../components/Button';
+import Session from '../data/Session';
 import UI from '../scenes/UI';
 
 class RewardLifeAd {
@@ -71,6 +73,7 @@ class RewardLifeAd {
       el.destroy()
     })
     this._interval.destroy()
+    if (!Session.getWatchedRewardAd()) Ads.showInterstitialAd()
     const sceneUI = this._scene as UI
     sceneUI.activeInteractiveBtns()
   }

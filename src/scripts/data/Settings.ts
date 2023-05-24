@@ -13,6 +13,7 @@ class Settings {
   private _mobile: boolean = false;
   private _isPaused: boolean = false
   private _platform: platforms = platforms.WEB
+  private _adblock: boolean
   public sounds: Isounds;
   public interval: Interval;
 
@@ -47,6 +48,14 @@ class Settings {
 
   public setPlatform(platform: platforms): void {
     this._platform = platform
+  }
+
+  public setAdblock(block: boolean): void {
+    this._adblock = block
+  }
+
+  public getAdblock(): boolean {
+    return this._adblock
   }
 }
 
