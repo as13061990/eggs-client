@@ -11,8 +11,8 @@ enum eggPosition {
 }
 
 enum platforms {
-  WEB,
-  VK
+  WEB = 0,
+  VK = 1
 }
 
 export {

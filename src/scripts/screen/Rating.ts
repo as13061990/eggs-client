@@ -13,7 +13,7 @@ class Rating {
 
   private _scene: UI;
   private _users: any[];
-  private _userScore: {score: number, place: number};
+  private _userScore: {score: number, place: number} = {score: null, place: null};
   private _modal: Phaser.GameObjects.Sprite
 
   private _build(): void {
@@ -54,26 +54,47 @@ class Rating {
 
     this._users.forEach((user, i) => {
       this._scene.add.text(
-        centerX,
+        this._modal.getBounds().left + 20,
         this._modal.getBounds().top + 100 + 60 * (i + 1),
-        (i + 1 + ". " + user?.name + ' ' + user?.score).toUpperCase(),
+        (i + 1 + ". " + user?.name).toUpperCase(),
         { 
+          align: 'left',
           color: 'black',
           font: i + 1 === this._userScore.place ? '48px EpilepsySansBold' : '48px EpilepsySans',
         }
-      ).setOrigin(.5, .6).setDepth(11);
+      ).setOrigin(0, .5).setDepth(11);
+      this._scene.add.text(
+        this._modal.getBounds().right - 20,
+        this._modal.getBounds().top + 100 + 60 * (i + 1),
+        ((user?.score).toString()).toUpperCase(),
+        { 
+          align: 'left',
+          color: 'rgb(155,50,47)',
+          font: i + 1 === this._userScore.place ? '48px EpilepsySansBold' : '48px EpilepsySans',
+        }
+      ).setOrigin(1, .5).setDepth(11);
     })
 
-    if (this._userScore.place > this._users.length) {
+    if (this._userScore?.place > this._users?.length) {
       this._scene.add.text(
-        centerX,
+        this._modal.getBounds().left + 20,
         this._modal.getBounds().top + 100 + 60 * 11,
-        (this._userScore.place + '. ' + User.getUsername() + ' ' + this._userScore.score ).toUpperCase(),
+        (this._userScore.place + '. ' + User.getUsername()).toUpperCase(),
         {
+          align: 'left',
           color: 'black',
           font: '48px EpilepsySansBold',
         }
-      ).setOrigin(.5, .6).setDepth(11);
+      ).setOrigin(0, .5).setDepth(11);
+      this._scene.add.text(
+        this._modal.getBounds().right - 20,
+        this._modal.getBounds().top + 100 + 60 * 11,
+        (this._userScore.score.toString()).toUpperCase(),
+        {
+          color: 'rgb(155,50,47)',
+          font: '48px EpilepsySansBold',
+        }
+      ).setOrigin(1, .5).setDepth(11);
     }
 
     const btn = new Button(this._scene, centerX, this._modal.getBounds().bottom - 80, 'button-red-def').setDepth(10)
@@ -82,7 +103,7 @@ class Rating {
       font: '36px EpilepsySans'
     }).setOrigin(.5, .6).setDepth(11);
     btn.callback = (): void => { Settings.setScreen(screen.MAIN); this._scene.scene.restart(); }
-
+    
 
   }
 

@@ -31,7 +31,7 @@ class UI extends Phaser.Scene {
     if (!Settings.getIsPaused()) {
       Settings.setIsPaused(true)
 
-      this._pauseElements.bg = this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0)
+      this._pauseElements.bg = this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5)
       this._pauseElements.modal = new Modal(this, 'button-green-def', 'button-blue-def')
 
       this._pauseElements.modal.setTextBtn('first', 'Продолжить')
@@ -77,7 +77,7 @@ class UI extends Phaser.Scene {
     this._postRating(User.getID())
     const { width, height } = this.cameras.main;
 
-    this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0);
+    this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5);
 
     const modal = new Modal(this, 'button-green-def', 'button-blue-def')
 
@@ -101,12 +101,12 @@ class UI extends Phaser.Scene {
 
 
   public createMobilePauseButton(): void {
-    const pauseBtn = new Button(this, this.scale.width - 150, 80, 'button-blue-press').setDepth(10)
+    const pauseBtn = new Button(this, this.scale.width - 150, 80, 'button-blue-press').setDepth(5)
     pauseBtn.setDisplaySize(150, pauseBtn.height)
     pauseBtn.text = this.add.text(pauseBtn.x, pauseBtn.y, ('Пауза').toUpperCase(), {
       color: 'white',
       font: '36px EpilepsySans',
-    }).setOrigin(.5, .5).setDepth(11)
+    }).setOrigin(.5, .5).setDepth(5)
 
     pauseBtn.callback = (): void => {
       this.gamePause()

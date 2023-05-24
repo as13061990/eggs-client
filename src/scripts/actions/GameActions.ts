@@ -56,7 +56,7 @@ class GameActions {
   }
 
   private _createWoodElements(): void {
-    const { centerX, centerY, width } = this._scene.cameras.main;
+    const { centerY, width } = this._scene.cameras.main;
     this.woodElements.leftDown = new Wood(this._scene, PIXEL_FROM_WOOD_EDGES, centerY + centerY / 3).setRotation(WOOD_ROTATE)
     this.woodElements.leftUp = new Wood(this._scene, PIXEL_FROM_WOOD_EDGES, centerY - centerY / 3).setRotation(WOOD_ROTATE)
     this.woodElements.rightDown = new Wood(this._scene, width - PIXEL_FROM_WOOD_EDGES, centerY + centerY / 3).setRotation(-WOOD_ROTATE)
