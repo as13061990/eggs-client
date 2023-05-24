@@ -46,8 +46,8 @@ class GameActions {
     sceneUI.createHealth()
 
     const { width, height } = this._scene.cameras.main;
-    const background = this._scene.add.sprite(width / 2, height / 2, `bg-${Session.getBg()}`);
-    background.setOrigin(0.5);
+    const background = this._scene.add.sprite(width / 2, height, `bg-${Session.getBg()}`);
+    background.setOrigin(0.5, 1);
 
     const scaleX = width / background.width;
     const scaleY = height / background.height;
@@ -56,11 +56,11 @@ class GameActions {
   }
 
   private _createWoodElements(): void {
-    const { centerY, width } = this._scene.cameras.main;
-    this.woodElements.leftDown = new Wood(this._scene, PIXEL_FROM_WOOD_EDGES, centerY + centerY / 3).setRotation(WOOD_ROTATE)
-    this.woodElements.leftUp = new Wood(this._scene, PIXEL_FROM_WOOD_EDGES, centerY - centerY / 3).setRotation(WOOD_ROTATE)
-    this.woodElements.rightDown = new Wood(this._scene, width - PIXEL_FROM_WOOD_EDGES, centerY + centerY / 3).setRotation(-WOOD_ROTATE)
-    this.woodElements.rightUp = new Wood(this._scene, width - PIXEL_FROM_WOOD_EDGES, centerY - centerY / 3).setRotation(-WOOD_ROTATE)
+    const { centerY, width, height } = this._scene.cameras.main;
+    this.woodElements.leftDown = new Wood(this._scene, PIXEL_FROM_WOOD_EDGES, height / 1.7).setRotation(WOOD_ROTATE)
+    this.woodElements.leftUp = new Wood(this._scene, PIXEL_FROM_WOOD_EDGES, height / 4.5).setRotation(WOOD_ROTATE)
+    this.woodElements.rightDown = new Wood(this._scene, width - PIXEL_FROM_WOOD_EDGES, height / 1.7).setRotation(-WOOD_ROTATE)
+    this.woodElements.rightUp = new Wood(this._scene, width - PIXEL_FROM_WOOD_EDGES, height / 4.5).setRotation(-WOOD_ROTATE)
   }
 
   private _createPlayer(): void {

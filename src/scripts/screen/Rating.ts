@@ -18,8 +18,8 @@ class Rating {
 
   private _build(): void {
     const { width, height, centerX, centerY } = this._scene.cameras.main;
-    const background = this._scene.add.sprite(width / 2, height / 2, 'bg');
-    background.setOrigin(0.5);
+    const background = this._scene.add.sprite(width / 2, height, 'bg');
+    background.setOrigin(0.5, 1);
 
     const scaleX = width / background.width;
     const scaleY = height / background.height;
@@ -103,7 +103,7 @@ class Rating {
       font: '36px EpilepsySans'
     }).setOrigin(.5, .6).setDepth(11);
     btn.callback = (): void => { Settings.setScreen(screen.MAIN); this._scene.scene.restart(); }
-    
+
 
   }
 

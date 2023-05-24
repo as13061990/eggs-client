@@ -12,9 +12,9 @@ class Main {
   private _scene: UI;
 
   private _build(): void {
-    const { centerX, centerY, width, height } = this._scene.cameras.main;
-    const background = this._scene.add.sprite(width / 2, height / 2, 'bg');
-    background.setOrigin(0.5);
+    const { width, height } = this._scene.cameras.main;
+    const background = this._scene.add.sprite(width / 2, height, 'bg');
+    background.setOrigin(0.5, 1);
 
     const scaleX = width / background.width;
     const scaleY = height / background.height;
