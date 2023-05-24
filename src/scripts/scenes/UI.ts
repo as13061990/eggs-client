@@ -7,6 +7,7 @@ import Settings from "../data/Settings";
 import { platforms, screen } from "../types/enums";
 import Game from "./Game";
 import User from "../data/User";
+import Rating from "../screen/Rating";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
@@ -19,26 +20,33 @@ class UI extends Phaser.Scene {
     super('UI');
   }
 
+  private _pauseMobileBtn: Button
   private _pauseElements: IPauseElements = { bg: null, modal: null }
+  private _activeScreen: Rating = null
   public score: Phaser.GameObjects.Text
   public health: HealthBar
 
+
   public gamePause(): void {
     if (Session.getOver()) return;
-
-    const { width, height, centerX, centerY } = this.cameras.main;
+    if (this._activeScreen) {
+      this._activeScreen.back()
+      return
+    }
+    const { width, height } = this.cameras.main;
 
     if (!Settings.getIsPaused()) {
       Settings.setIsPaused(true)
 
       this._pauseElements.bg = this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5)
-      this._pauseElements.modal = new Modal(this, 'button-green-def', 'button-blue-def')
+      this._pauseElements.modal = new Modal(this, 'button-green-def', 'button-red-def', true)
 
       this._pauseElements.modal.setTextBtn('first', 'Продолжить')
       this._pauseElements.modal.setTextBtn('second', 'Выход')
 
       this._pauseElements.modal.btnFirst.callback = (): void => this._pauseClose()
       this._pauseElements.modal.btnSecond.callback = (): void => this._exit()
+      this._pauseElements.modal.btnRating.callback = (): void => this._rating()
 
       const sceneGame = this.game.scene.getScene('Game') as Game;
       sceneGame.scene.pause()
@@ -77,18 +85,36 @@ class UI extends Phaser.Scene {
     this._postRating(User.getID())
     const { width, height } = this.cameras.main;
 
-    this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5);
+    this._pauseElements.bg = this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5);
 
-    const modal = new Modal(this, 'button-green-def', 'button-blue-def')
+    this._pauseElements.modal = new Modal(this, 'button-green-def', 'button-red-def', true)
 
-    modal.setTextBtn('first', 'Рестарт')
-    modal.setTextBtn('second', 'Выход')
+    this._pauseElements.modal.setTextBtn('first', 'Рестарт')
+    this._pauseElements.modal.setTextBtn('second', 'Выход')
 
     const sceneGame = this.game.scene.getScene('Game') as Game;
     sceneGame.scene.pause()
 
-    modal.btnFirst.callback = (): void => this._restart()
-    modal.btnSecond.callback = (): void => this._exit()
+    this._pauseElements.modal.btnFirst.callback = (): void => this._restart()
+    this._pauseElements.modal.btnSecond.callback = (): void => this._exit()
+    this._pauseElements.modal.btnRating.callback = (): void => this._rating()
+  }
+
+  public activeInteractiveBtns(): void {
+    this._pauseElements.modal.btnFirst.setInteractive();
+    this._pauseElements.modal.btnSecond.setInteractive();
+    this._pauseElements.modal.btnRating.setInteractive();
+    this._pauseElements.modal.btnMusic.setInteractive();
+    this._pauseMobileBtn.setInteractive()
+  }
+
+  private _rating(): void {
+    this._activeScreen = new Rating(this, true);
+    this._pauseElements.modal.btnFirst.disableInteractive();
+    this._pauseElements.modal.btnSecond.disableInteractive();
+    this._pauseElements.modal.btnRating.disableInteractive();
+    this._pauseElements.modal.btnMusic.disableInteractive();
+    this._pauseMobileBtn.disableInteractive()
   }
 
   public createScore(): void {
@@ -101,14 +127,14 @@ class UI extends Phaser.Scene {
 
 
   public createMobilePauseButton(): void {
-    const pauseBtn = new Button(this, this.scale.width - 150, 80, 'button-blue-press').setDepth(5)
-    pauseBtn.setDisplaySize(150, pauseBtn.height)
-    pauseBtn.text = this.add.text(pauseBtn.x, pauseBtn.y, ('Пауза').toUpperCase(), {
+    this._pauseMobileBtn = new Button(this, this.scale.width - 150, 80, 'button-blue-press').setDepth(5)
+    this._pauseMobileBtn.setDisplaySize(150, this._pauseMobileBtn.height)
+    this._pauseMobileBtn.text = this.add.text(this._pauseMobileBtn.x, this._pauseMobileBtn.y, ('Пауза').toUpperCase(), {
       color: 'white',
       font: '36px EpilepsySans',
     }).setOrigin(.5, .5).setDepth(5)
 
-    pauseBtn.callback = (): void => {
+    this._pauseMobileBtn.callback = (): void => {
       this.gamePause()
     }
   }
@@ -119,6 +145,10 @@ class UI extends Phaser.Scene {
       id: id,
       score: Session.getPoints(),
     })
+  }
+
+  public setActiveScreen(screen: Rating) {
+    this._activeScreen = screen
   }
 }
 
