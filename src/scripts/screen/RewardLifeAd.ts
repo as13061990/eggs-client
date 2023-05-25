@@ -1,15 +1,17 @@
 import Ads from '../actions/Ads';
 import Button from '../components/Button';
 import Session from '../data/Session';
+import Settings from '../data/Settings';
+import Game from '../scenes/Game';
 import UI from '../scenes/UI';
 
 class RewardLifeAd {
-  constructor(scene: Phaser.Scene, isUIScene?: boolean) {
+  constructor(scene: UI, isUIScene?: boolean) {
     this._scene = scene;
     this._build();
   }
 
-  private _scene: Phaser.Scene;
+  private _scene: UI;
   private _timerNumber: number = 5;
   private _timerText: Phaser.GameObjects.Text;
   private _interval: Phaser.Time.TimerEvent
@@ -41,6 +43,7 @@ class RewardLifeAd {
       color: 'white',
       font: '36px EpilepsySans'
     }).setOrigin(.5, .6).setDepth(21);
+    btn.callback = (): Promise<void> => this._showReward()
 
     this._timerText = this._scene.add.text(centerX, centerY + 30, ('5').toUpperCase(), {
       align: 'center',
@@ -53,7 +56,8 @@ class RewardLifeAd {
       callback: (): void => {
         this._minusTimer()
       }
-    , loop: true});
+      , loop: true
+    });
 
     this._elements.push(this._modal, text, health, this._timerText, plus, btn, this._interval)
   }
@@ -67,6 +71,14 @@ class RewardLifeAd {
     this._timerText.setText(this._timerNumber.toString())
   }
 
+  private async _showReward(): Promise<void> {
+    Ads.rewardCallback = () => {
+      Session.setOver(false)
+      this._scene.pauseClose()
+      this._scene.health.plusHealth()
+    }
+    await Ads.adReward()
+  }
 
   public destroy(): void {
     this._elements.forEach(el => {
@@ -74,8 +86,7 @@ class RewardLifeAd {
     })
     this._interval.destroy()
     if (!Session.getWatchedRewardAd()) Ads.showInterstitialAd()
-    const sceneUI = this._scene as UI
-    sceneUI.activeInteractiveBtns()
+    this._scene.activeInteractiveBtns()
   }
 
 }

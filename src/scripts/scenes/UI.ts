@@ -9,6 +9,7 @@ import Game from "./Game";
 import User from "../data/User";
 import Rating from "../screen/Rating";
 import RewardLifeAd from "../screen/RewardLifeAd";
+import Ads from "../actions/Ads";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
@@ -45,18 +46,18 @@ class UI extends Phaser.Scene {
       this._pauseElements.modal.setTextBtn('first', 'Продолжить')
       this._pauseElements.modal.setTextBtn('second', 'Выход')
 
-      this._pauseElements.modal.btnFirst.callback = (): void => this._pauseClose()
+      this._pauseElements.modal.btnFirst.callback = (): void => this.pauseClose()
       this._pauseElements.modal.btnSecond.callback = (): void => this._exit()
       this._pauseElements.modal.btnRating.callback = (): void => this._rating()
 
       const sceneGame = this.game.scene.getScene('Game') as Game;
       sceneGame.scene.pause()
     } else {
-      this._pauseClose()
+      this.pauseClose()
     }
   }
 
-  private _pauseClose(): void {
+  public pauseClose(): void {
     Settings.setIsPaused(false)
 
     const sceneGame = this.game.scene.getScene('Game') as Game;
@@ -95,12 +96,19 @@ class UI extends Phaser.Scene {
     this._pauseElements.modal.setTextBtn('second', 'Выход')
     
     const sceneGame = this.game.scene.getScene('Game') as Game;
+    sceneGame.eggs.clear(true, true)
+    sceneGame.physics.world.bodies.iterate((body:any):any => {
+      if (body.gameObject && body.gameObject.group === sceneGame.eggs) {
+        body.destroy();
+      }
+    })
     sceneGame.scene.pause()
     
     this._pauseElements.modal.btnFirst.callback = (): void => this._restart()
     this._pauseElements.modal.btnSecond.callback = (): void => this._exit()
     this._pauseElements.modal.btnRating.callback = (): void => this._rating()
     
+    this._postRating()
     this._rewardLifeAd()
   }
   
@@ -112,13 +120,16 @@ class UI extends Phaser.Scene {
     this._pauseMobileBtn.setInteractive()
   }
 
-  private _rewardLifeAd(): void {
-    new RewardLifeAd(this, true);
-    this._pauseElements.modal.btnFirst.disableInteractive();
-    this._pauseElements.modal.btnSecond.disableInteractive();
-    this._pauseElements.modal.btnRating.disableInteractive();
-    this._pauseElements.modal.btnMusic.disableInteractive();
-    this._pauseMobileBtn.disableInteractive()
+  private async _rewardLifeAd(): Promise<void> {
+    await Ads.checkReadyAd()
+    if (Ads.getReadyAd()) {
+      new RewardLifeAd(this, true);
+      this._pauseElements.modal.btnFirst.disableInteractive();
+      this._pauseElements.modal.btnSecond.disableInteractive();
+      this._pauseElements.modal.btnRating.disableInteractive();
+      this._pauseElements.modal.btnMusic.disableInteractive();
+      this._pauseMobileBtn.disableInteractive()
+    }
   }
 
   private _rating(): void {
@@ -152,10 +163,10 @@ class UI extends Phaser.Scene {
     }
   }
 
-  private _postRating(id: number | string): void {
+  private _postRating(): void {
     axios.post(process.env.API + '/rating/post', {
       platform: Settings.getPlatform(),
-      id: id,
+      id: User.getID(),
       score: Session.getPoints(),
     })
   }

@@ -27,6 +27,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
 
   private _build(): void {
     this._scene.add.existing(this);
+    this._scene.physics.add.existing(this);
     this._scene.eggs.add(this);
     this._startFirstAnimation()
   }
