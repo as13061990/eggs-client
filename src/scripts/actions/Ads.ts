@@ -15,6 +15,7 @@ class Ads {
           .then((data) => {
             if (data.result) {
               this._readyAd = true
+              console.log(this._readyAd,'1')
             }
           })
         break;
@@ -23,10 +24,13 @@ class Ads {
 
   public showInterstitialAd(): void {
     this.checkReadyAd()
+    Settings.sounds.mute()
     if (this._readyAd) {
       switch (Settings.getPlatform()) {
         case platforms.VK:
-          bridge.send("VKWebAppShowNativeAds", { ad_format: EAdsFormats.INTERSTITIAL }).catch(e => console.log(e))
+          bridge.send("VKWebAppShowNativeAds", { ad_format: EAdsFormats.INTERSTITIAL })
+          .then((data)=>Settings.sounds.unmute())
+          .catch(e =>Settings.sounds.unmute())
           break;
       }
     }
@@ -34,18 +38,18 @@ class Ads {
 
   public adReward(): void {
     this.checkReadyAd()
-
+    Settings.sounds.mute()
     if (this._readyAd) {
       switch (Settings.getPlatform()) {
         case platforms.VK:
           bridge.send("VKWebAppShowNativeAds", { ad_format: EAdsFormats.REWARD })
             .then((data) => {
               if (data.result) {
-                console.log('reward')
+                Settings.sounds.unmute()
                 this.rewardCallback()
               }
             })
-            .catch(e => console.log(e))
+            .catch(e => Settings.sounds.unmute())
           break;
       }
     }

@@ -24,10 +24,10 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   private _type: eggPosition
   private _reverse: 1 | -1
   private _tween: Phaser.Tweens.Tween = null
+  public danger: boolean = true
 
   private _build(): void {
     this._scene.add.existing(this);
-    this._scene.physics.add.existing(this);
     this._scene.eggs.add(this);
     this._startFirstAnimation()
   }
@@ -82,14 +82,16 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
       duration: duration,
       onComplete: this._destroyUncaughtEgg.bind(this)
     });
+
   }
 
   private _destroyUncaughtEgg(): void {
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
     Settings.sounds.play('egg-smash')
     this.destroy()
-
-    sceneUI.health.minusHealth()
+    if (this.danger) {
+      sceneUI.health.minusHealth()
+    }
 
     if (Session.getHealth() === 0) {
       sceneUI.gameOver()

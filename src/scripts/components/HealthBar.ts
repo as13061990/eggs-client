@@ -1,4 +1,5 @@
 import Session from "../data/Session"
+import Settings from "../data/Settings"
 
 const MARGIN_BETWEEN = 40
 class HealthBar {
@@ -36,6 +37,7 @@ class HealthBar {
 
   public plusHealth(): void {
     Session.plusHealth()
+    Settings.sounds.play('heal')
     switch (Session.getHealth()) {
       case 1:
         this._healthFirst.setTexture('health-full')

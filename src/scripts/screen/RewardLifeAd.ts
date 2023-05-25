@@ -9,6 +9,7 @@ class RewardLifeAd {
   constructor(scene: UI, isUIScene?: boolean) {
     this._scene = scene;
     this._build();
+    Session.setWatchedRewardAd(false)
   }
 
   private _scene: UI;
@@ -72,9 +73,11 @@ class RewardLifeAd {
   }
 
   private async _showReward(): Promise<void> {
+    Session.setWatchedRewardAd(true)
     Ads.rewardCallback = () => {
       Session.setOver(false)
       this._scene.pauseClose()
+      this._scene.gamePause()
       this._scene.health.plusHealth()
     }
     await Ads.adReward()

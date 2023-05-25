@@ -24,6 +24,7 @@ class Boot extends Phaser.Scene {
     this._setInteval()
 
     this._setPlatform()
+    Ads.checkReadyAd()
   }
 
   public preload(): void {
