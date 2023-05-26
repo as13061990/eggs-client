@@ -26,6 +26,7 @@ import eggSmash from '../../assets/audio/egg-smash.mp3';
 import eggCatch from '../../assets/audio/egg-catch.mp3';
 import bgSound from '../../assets/audio/bg.mp3';
 import heal from '../../assets/audio/heal.mp3';
+import keyboard from '../../assets/audio/keyboard.mp3';
 
 import Session from '../data/Session';
 
@@ -102,6 +103,7 @@ class Loading {
     this._scene.load.audio('egg-catch', eggCatch);
 
     this._scene.load.audio('heal', heal);
+    this._scene.load.audio('keyboard', keyboard);
     
     this._scene.load.audio('bg', bgSound);
 

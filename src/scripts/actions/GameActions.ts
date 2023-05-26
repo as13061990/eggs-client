@@ -136,29 +136,37 @@ class GameActions {
     const cursors = this._scene.input.keyboard.createCursorKeys();
 
     this._scene.input.keyboard.on('keydown-A', () => {
+      Settings.sounds.play('keyboard')
       this._scene.player.left()
     }, this)
     this._scene.input.keyboard.on('keydown-D', () => {
+      Settings.sounds.play('keyboard')
       this._scene.player.right()
     }, this)
     this._scene.input.keyboard.on('keydown-W', () => {
+      Settings.sounds.play('keyboard')
       this._scene.player.up()
     }, this)
     this._scene.input.keyboard.on('keydown-S', () => {
+      Settings.sounds.play('keyboard')
       this._scene.player.down()
     }, this)
 
 
     cursors.left.on('down', (): void => {
+      Settings.sounds.play('keyboard')
       this._scene.player.left()
     });
     cursors.right.on('down', (): void => {
+      Settings.sounds.play('keyboard')
       this._scene.player.right()
     });
     cursors.down.on('down', (): void => {
+      Settings.sounds.play('keyboard')
       this._scene.player.down()
     });
     cursors.up.on('down', (): void => {
+      Settings.sounds.play('keyboard')
       this._scene.player.up()
     });
   }
@@ -168,12 +176,14 @@ class GameActions {
 
     const leftUpZone = new Zone(this._scene, centerX / 2, height / 4, width / 2, height / 2).setDepth(5)
     leftUpZone.clickCallback = (): void => {
+      Settings.sounds.play('keyboard')
       this._scene.player.up()
       this._scene.player.left()
     }
 
     const leftDownZone = new Zone(this._scene, centerX / 2, leftUpZone.getBounds().bottom * 1.5, width / 2, height / 2).setDepth(5)
     leftDownZone.clickCallback = (): void => {
+      Settings.sounds.play('keyboard')
       this._scene.player.down()
       this._scene.player.left()
     }
@@ -186,12 +196,14 @@ class GameActions {
 
     const rightUpZone = new Zone(this._scene, centerX * 1.5, height / 4, width / 2, height / 2).setDepth(5)
     rightUpZone.clickCallback = (): void => {
+      Settings.sounds.play('keyboard')
       this._scene.player.up()
       this._scene.player.right()
     }
 
     const rightDownZone = new Zone(this._scene, centerX * 1.5, rightUpZone.getBounds().bottom * 1.5, width / 2, height / 2).setDepth(5);;
     rightDownZone.clickCallback = (): void => {
+      Settings.sounds.play('keyboard')
       this._scene.player.right()
       this._scene.player.down()
     }
