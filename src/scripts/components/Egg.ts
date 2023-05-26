@@ -10,6 +10,7 @@ const PLATFORM_MARGIN_Y = 60
 
 const DURATION_FIRST_ANIMATION = 3000
 const DURATION_SECOND_ANIMATION = 1500
+const DURATION_SMASHE_EGG_ANIMATION = 2000
 
 class Egg extends Phaser.Physics.Arcade.Sprite {
   constructor(scene: Game, type: eggPosition) {
@@ -69,16 +70,15 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   private _startSecondAnimation(): void {
     const duration =
       this._type === eggPosition.LEFT_DOWN || this._type === eggPosition.RIGHT_DOWN
-        ? DURATION_SECOND_ANIMATION / 3.5 : DURATION_SECOND_ANIMATION
+        ? DURATION_SECOND_ANIMATION / 2.5 : DURATION_SECOND_ANIMATION
     const turnovers =
       this._type === eggPosition.LEFT_DOWN || this._type === eggPosition.RIGHT_DOWN
         ? 1 : 2
-
     this._tween = this._scene.tweens.add({
       targets: this,
       rotation: turnovers * Math.PI * this._reverse,
       x: { value: this.x },
-      y: { value: this._scene.scale.height - 200 },
+      y: { value: this._scene.scale.height - 100 },
       duration: duration,
       onComplete: this._destroyUncaughtEgg.bind(this)
     });
@@ -88,10 +88,20 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   private _destroyUncaughtEgg(): void {
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
     Settings.sounds.play('egg-smash')
+    const { x, y } = this
+
     this.destroy()
     if (this.danger) {
       sceneUI.health.minusHealth()
     }
+
+    const eggSmash = this._scene.add.sprite(x, y, 'egg-smash')
+    this._tween = this._scene.tweens.add({
+      targets: eggSmash,
+      alpha: 0,
+      duration: DURATION_SMASHE_EGG_ANIMATION,
+      onComplete: () => eggSmash.destroy()
+    });
 
     if (Session.getHealth() === 0) {
       sceneUI.gameOver()
