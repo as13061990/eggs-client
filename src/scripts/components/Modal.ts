@@ -87,9 +87,11 @@ class Modal extends Phaser.GameObjects.Sprite {
   public destroyAll(): void {
     this.destroy()
     this.btnFirst.destroy()
-    this.btnSecond.destroy()
+    if (this.btnFirst) {
+      this.btnSecond.destroy()
+    }
     this.btnMusic.destroy()
-    if (this._btnRating) {
+    if (this.btnRating) {
       this.btnRating.destroy()
     }
   }

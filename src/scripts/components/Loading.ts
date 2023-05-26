@@ -14,14 +14,13 @@ import bg4 from '../../assets/images/bg/bg-4.jpg';
 import bg5 from '../../assets/images/bg/bg-5.jpg';
 
 import buttonRedDef from '../../assets/images/buttons/button-red-def.png'
-import buttonRedPress from '../../assets/images/buttons/button-red-press.png'
-import buttonGreenPress from '../../assets/images/buttons/button-green-press.png'
 import buttonGreenDef from '../../assets/images/buttons/button-green-def.png'
 import buttonBlueDef from '../../assets/images/buttons/button-blue-def.png'
-import buttonBluePress from '../../assets/images/buttons/button-blue-press.png'
 import buttonMusicUnmute from '../../assets/images/buttons/button-music-unmute.png.png'
 import buttonMusicMute from '../../assets/images/buttons/button-music-mute.png'
 import modal from '../../assets/images/buttons/modal.png'
+import pause from '../../assets/images/buttons/pause.png'
+import resume from '../../assets/images/buttons/resume.png'
 
 import eggSmash from '../../assets/audio/egg-smash.mp3';
 import eggCatch from '../../assets/audio/egg-catch.mp3';
@@ -89,13 +88,12 @@ class Loading {
     this._scene.load.image('health-empty', healthEmpty);
 
     this._scene.load.image('button-red-def', buttonRedDef);
-    this._scene.load.image('button-red-press', buttonRedPress);
     this._scene.load.image('button-green-def', buttonGreenDef);
-    this._scene.load.image('button-green-press', buttonGreenPress);
     this._scene.load.image('button-blue-def', buttonBlueDef);
-    this._scene.load.image('button-blue-press', buttonBluePress);
     this._scene.load.image('button-music-mute', buttonMusicMute);
     this._scene.load.image('button-music-unmute', buttonMusicUnmute);
+    this._scene.load.image('pause', pause);
+    this._scene.load.image('resume', resume);
     this._scene.load.image('modal', modal);
   }
 

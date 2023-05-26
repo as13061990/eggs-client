@@ -40,6 +40,8 @@ class UI extends Phaser.Scene {
 
     if (!Settings.getIsPaused()) {
       Settings.setIsPaused(true)
+      this._pauseMobileBtn.setTexture('resume')
+
 
       this._pauseElements.bg = this.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5)
       this._pauseElements.modal = new Modal(this, 'button-green-def', 'button-red-def', true)
@@ -62,6 +64,8 @@ class UI extends Phaser.Scene {
 
   public pauseClose(): void {
     Settings.setIsPaused(false)
+
+    this._pauseMobileBtn.setTexture('pause')
 
     const sceneGame = this.game.scene.getScene('Game') as Game;
     sceneGame.scene.resume()
@@ -155,13 +159,7 @@ class UI extends Phaser.Scene {
 
 
   public createMobilePauseButton(): void {
-    this._pauseMobileBtn = new Button(this, this.scale.width - 150, 80, 'button-blue-press').setDepth(5)
-    this._pauseMobileBtn.setDisplaySize(150, this._pauseMobileBtn.height)
-    this._pauseMobileBtn.text = this.add.text(this._pauseMobileBtn.x, this._pauseMobileBtn.y, ('Пауза').toUpperCase(), {
-      color: 'white',
-      font: '36px EpilepsySans',
-    }).setOrigin(.5, .5).setDepth(5)
-
+    this._pauseMobileBtn = new Button(this, this.scale.width - 150, 80, 'pause').setDepth(5)
     this._pauseMobileBtn.callback = (): void => {
       this.gamePause()
     }
