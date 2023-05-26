@@ -49,7 +49,9 @@ class UI extends Phaser.Scene {
 
       this._pauseElements.modal.btnFirst.callback = (): void => this.pauseClose()
       this._pauseElements.modal.btnSecond.callback = (): void => this._exit()
-      this._pauseElements.modal.btnRating.callback = (): void => this._rating()
+      if (this._pauseElements.modal.btnRating) {
+        this._pauseElements.modal.btnRating.callback = (): void => this._rating()
+      }
 
       const sceneGame = this.game.scene.getScene('Game') as Game;
       sceneGame.scene.pause()
@@ -106,7 +108,9 @@ class UI extends Phaser.Scene {
 
     this._pauseElements.modal.btnFirst.callback = (): void => this._restart()
     this._pauseElements.modal.btnSecond.callback = (): void => this._exit()
-    this._pauseElements.modal.btnRating.callback = (): void => this._rating()
+    if (this._pauseElements.modal.btnRating) {
+      this._pauseElements.modal.btnRating.callback = (): void => this._rating()
+    }
 
     this._postRating()
     this._rewardLifeAd()

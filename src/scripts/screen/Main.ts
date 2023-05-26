@@ -27,7 +27,9 @@ class Main {
     modal.setTextBtn('second', 'Рейтинг')
 
     modal.btnFirst.callback = (): void => this._play()
-    modal.btnSecond.callback = (): void => { Settings.setScreen(screen.RATING); this._scene.scene.restart(); }
+    if (modal.btnSecond) {
+      modal.btnSecond.callback = (): void => { Settings.setScreen(screen.RATING); this._scene.scene.restart(); }
+    }
 
     Settings.sounds.playMusic('bg')
 
