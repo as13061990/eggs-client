@@ -130,7 +130,7 @@ class UI extends Phaser.Scene {
 
   private _rewardLifeAd(): void {
 
-    if (Ads.getReadyAd()) {
+    if (Ads.getReadyAd() && Session.getWatchedAds() > 0) {
       new RewardLifeAd(this, true);
       this._pauseElements.modal.btnFirst.disableInteractive();
       this._pauseElements.modal.btnSecond.disableInteractive();

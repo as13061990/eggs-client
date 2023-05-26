@@ -26,7 +26,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this._sprite = this._scene.add.sprite(this.x + MARGIN_X_PLAYER_SPRITE, this._scene.scale.height - MARGIN_Y_PLAYER_SPRITE, 'player-down')
     this._sprite.flipX = true
     this._sprite.setOrigin(0.5, 1)
-    this._sprite.setScale(1, 1.2)
+    this._sprite.setDisplaySize(this._sprite.width, this._scene.scale.height - MARGIN_Y_PLAYER_SPRITE * 3)
     this.setBodySize(280, 250)
     this.setAlpha(0)
     this.setDepth(12)

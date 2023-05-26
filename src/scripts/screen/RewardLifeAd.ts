@@ -76,6 +76,7 @@ class RewardLifeAd {
     Session.setWatchedRewardAd(true)
     Ads.rewardCallback = () => {
       Session.setOver(false)
+      Session.minusWatchedAds()
       this._scene.pauseClose()
       this._scene.gamePause()
       this._scene.health.plusHealth()

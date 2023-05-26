@@ -4,12 +4,15 @@ class Session {
   private _over: boolean = false;
   private _difficulty: number = 1
   private _watchedRewardAd: boolean = false
+  private _watchedAds: number = 3
   private _bg: number = 1
 
   public clear(): void {
     this._points = 0
     this._health = 3
     this._over = false
+    this._watchedRewardAd = false
+    this._watchedAds = 3
   }
 
   public getPoints(): number {
@@ -66,6 +69,15 @@ class Session {
 
   public getWatchedRewardAd(): boolean {
     return this._watchedRewardAd
+  }
+
+  public getWatchedAds(): number {
+    return this._watchedAds
+  }
+
+  public minusWatchedAds(): void {
+    if (this._watchedAds === 0) return
+    this._watchedAds -= 1
   }
 
 }
