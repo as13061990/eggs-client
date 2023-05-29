@@ -6,6 +6,8 @@ import playerDown from '../../assets/images/player-down.png';
 import healthFull from '../../assets/images/hearth-full.png';
 import healthEmpty from '../../assets/images/hearth-empty.png';
 import eggSmashImg from '../../assets/images/egg-smash.png';
+import keyboardArrows from '../../assets/images/keyboard-arrows.png';
+import keyboardWASD from '../../assets/images/keyboard-wasd.png';
 
 import bg from '../../assets/images/bg/bg.jpg';
 import bg1 from '../../assets/images/bg/bg-1.jpg';
@@ -89,6 +91,8 @@ class Loading {
     this._scene.load.image('health-full', healthFull);
     this._scene.load.image('health-empty', healthEmpty);
     this._scene.load.image('egg-smash', eggSmashImg);
+    this._scene.load.image('keyboard-arrows', keyboardArrows);
+    this._scene.load.image('keyboard-wasd', keyboardWASD);
 
     this._scene.load.image('button-red-def', buttonRedDef);
     this._scene.load.image('button-green-def', buttonGreenDef);

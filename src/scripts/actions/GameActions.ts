@@ -44,6 +44,7 @@ class GameActions {
     sceneUI.createMobilePauseButton()
     sceneUI.createScore()
     sceneUI.createHealth()
+    sceneUI.creatTutorial()
 
     const { width, height } = this._scene.cameras.main;
     const background = this._scene.add.sprite(width / 2, height, `bg-${Session.getBg()}`);

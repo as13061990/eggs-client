@@ -11,6 +11,8 @@ import Rating from "../screen/Rating";
 import RewardLifeAd from "../screen/RewardLifeAd";
 import Ads from "../actions/Ads";
 import Egg from "../components/Egg";
+import Zone from "../components/Zone";
+import { Scene } from "phaser";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
@@ -166,11 +168,103 @@ class UI extends Phaser.Scene {
   }
 
   private _postRating(): void {
-    axios.post(process.env.API + '/rating/post', {
-      platform: Settings.getPlatform(),
-      id: User.getID(),
-      score: Session.getPoints(),
-    })
+    if (Settings.getPlatform() !== platforms.WEB) {
+      axios.post(process.env.API + '/rating/post', {
+        platform: Settings.getPlatform(),
+        id: User.getID(),
+        score: Session.getPoints(),
+      })
+    }
+  }
+
+  public creatTutorial(): void {
+    const sceneGame = this.game.scene.getScene('Game') as Game;
+    sceneGame.scene.pause()
+    const elements = []
+    const { centerX, centerY, width, height } = sceneGame.cameras.main;
+
+    const text = Settings.isMobile() ? 'Нажимай на зоны на экране, \n чтобы передвигаться и ловить яйца'
+      : 'Нажимай на кнопки, \n чтобы передвигаться и ловить яйца'
+
+    const title = this.add.text(centerX, centerY, (text).toUpperCase(), {
+      align: 'center',
+      color: 'black',
+      font: '48px EpilepsySansBold',
+    }).setOrigin(.5, .5).setDepth(21);
+
+    const modal = this.add.sprite(centerX, centerY, 'modal')
+      .setOrigin(.5, .5).setDepth(20).setDisplaySize(title.width + 50, title.height + 100)
+
+    elements.push(title, modal)
+    if (Settings.isMobile()) {
+
+      const leftUpZone = this.add.sprite(centerX / 2, height / 4, 'modal')
+        .setDisplaySize(width / 2, height / 2)
+        .setAlpha(0.3)
+        .setDepth(5)
+
+      const leftUpZoneText = this.add.text(leftUpZone.getBounds().centerX, leftUpZone.getBounds().centerY, ('Сюда').toUpperCase(), {
+        align: 'center',
+        color: '#1e1112',
+        font: '48px EpilepsySansBold',
+      }).setOrigin(.5, .5).setDepth(21);
+
+      const leftDownZone = this.add.sprite(centerX / 2, leftUpZone.getBounds().bottom * 1.5, 'modal')
+        .setDisplaySize(width / 2, height / 2)
+        .setAlpha(0.3)
+        .setDepth(5)
+
+      const leftDownZoneText = this.add.text(leftDownZone.getBounds().centerX, leftDownZone.getBounds().centerY, ('Сюда').toUpperCase(), {
+        align: 'center',
+        color: '#1e1112',
+        font: '48px EpilepsySansBold',
+      }).setOrigin(.5, .5).setDepth(21);
+
+      const rightUpZone = this.add.sprite(centerX * 1.5, height / 4, 'modal')
+        .setDisplaySize(width / 2, height / 2)
+        .setAlpha(0.3)
+        .setDepth(5)
+
+      const rightUpZoneText = this.add.text(rightUpZone.getBounds().centerX, rightUpZone.getBounds().centerY, ('Сюда').toUpperCase(), {
+        align: 'center',
+        color: '#1e1112',
+        font: '48px EpilepsySansBold',
+      }).setOrigin(.5, .5).setDepth(21);
+
+      const rightDownZone = this.add.sprite(centerX * 1.5, rightUpZone.getBounds().bottom * 1.5, 'modal')
+        .setDisplaySize(width / 2, height / 2)
+        .setAlpha(0.3)
+        .setDepth(5);
+
+      const rightDownZoneText = this.add.text(rightDownZone.getBounds().centerX, rightDownZone.getBounds().centerY, ('Сюда').toUpperCase(), {
+        align: 'center',
+        color: '#1e1112',
+        font: '48px EpilepsySansBold',
+      }).setOrigin(.5, .5).setDepth(21);
+
+
+      elements.push(leftUpZone, leftUpZoneText, leftDownZone, leftDownZoneText, rightDownZone, rightDownZoneText, rightUpZone, rightUpZoneText)
+    } else {
+      const closeText = this.add.text(centerX, centerY + 70, ("Нажми ПКМ по экрану, чтобы закрыть").toUpperCase(), {
+        align: 'center',
+        color: 'black',
+        font: '36px EpilepsySans',
+      }).setOrigin(.5, .5).setDepth(21);
+      const modaBtns = this.add.sprite(centerX, modal.getBounds().bottom + 200, 'modal')
+      .setOrigin(.5, .5).setDepth(20).setDisplaySize(title.width + 50, title.height + 150)
+      const imgArrow = this.add.sprite(centerX + 200, modaBtns.getBounds().centerY, 'keyboard-arrows').setDepth(20)
+      const imgWasd = this.add.sprite(centerX - 200, modaBtns.getBounds().centerY, 'keyboard-wasd').setDepth(20)
+      elements.push(modaBtns, imgArrow, imgWasd, closeText)
+    }
+
+    const closeTutorialZone = new Zone(this, centerX, centerY, width, height).setDepth(5)
+    closeTutorialZone.clickCallback = (): void => {
+      elements.forEach(el => {
+        el.destroy()
+      })
+      closeTutorialZone.destroy()
+      sceneGame.scene.resume()
+    }
   }
 
   public setActiveScreen(screen: Rating) {
