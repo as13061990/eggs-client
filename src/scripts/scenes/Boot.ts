@@ -107,6 +107,9 @@ class Boot extends Phaser.Scene {
       name: name,
     }).then((response) => {
       this._user = true
+    }).catch(() => {
+      Settings.setPlatform(platforms.WEB)
+      this._user = true;
     })
   }
 
