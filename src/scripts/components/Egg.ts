@@ -92,7 +92,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
 
     this.destroy()
     if (this.danger) {
-      sceneUI.health.minusHealth()
+      sceneUI.actions.health.minusHealth()
     }
 
     const eggSmash = this._scene.add.sprite(x, y, 'egg-smash')
@@ -104,7 +104,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
     });
 
     if (Session.getHealth() === 0) {
-      sceneUI.gameOver()
+      sceneUI.actions.gameOver()
     }
 
   }

@@ -119,8 +119,8 @@ class Rating {
         el.destroy()
       })
       const sceneUI = this._scene as UI
-      sceneUI.activeInteractiveBtns()
-      sceneUI.setActiveScreen(null)
+      sceneUI.actions.activeInteractiveBtns()
+      sceneUI.actions.setActiveScreen(null)
     } else {
       Settings.setScreen(screen.MAIN);
       this._scene.scene.restart();

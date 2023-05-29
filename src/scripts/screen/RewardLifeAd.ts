@@ -77,9 +77,9 @@ class RewardLifeAd {
     Ads.rewardCallback = () => {
       Session.setOver(false)
       Session.minusWatchedAds()
-      this._scene.pauseClose()
-      this._scene.gamePause()
-      this._scene.health.plusHealth()
+      this._scene.actions.pauseClose()
+      this._scene.actions.gamePause()
+      this._scene.actions.health.plusHealth()
     }
     await Ads.adReward()
   }
@@ -90,7 +90,7 @@ class RewardLifeAd {
     })
     this._interval.destroy()
     if (!Session.getWatchedRewardAd()) Ads.showInterstitialAd()
-    this._scene.activeInteractiveBtns()
+    this._scene.actions.activeInteractiveBtns()
   }
 
 }

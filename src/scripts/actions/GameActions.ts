@@ -39,13 +39,6 @@ class GameActions {
   }
 
   private _createUI(): void {
-    const sceneUI = this._scene.game.scene.getScene('UI') as UI;
-
-    sceneUI.createMobilePauseButton()
-    sceneUI.createScore()
-    sceneUI.createHealth()
-    sceneUI.creatTutorial()
-
     const { width, height } = this._scene.cameras.main;
     const background = this._scene.add.sprite(width / 2, height, `bg-${Session.getBg()}`);
     background.setOrigin(0.5, 1);
@@ -82,7 +75,7 @@ class GameActions {
     Session.plusPoints(1)
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
     Settings.sounds.play('egg-catch')
-    sceneUI.score.setText(Session.getPoints().toString())
+    sceneUI.actions.score.setText(Session.getPoints().toString())
   }
 
 
@@ -123,7 +116,7 @@ class GameActions {
 
   private _controls(): void {
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
-    sceneUI.input.keyboard.on('keydown-ESC', () => { sceneUI.gamePause(); console.log('s') }, sceneUI)
+    sceneUI.input.keyboard.on('keydown-ESC', () => { sceneUI.actions.gamePause(); console.log('s') }, sceneUI)
 
     if (Settings.isMobile()) {
       this._controlsMobile()
