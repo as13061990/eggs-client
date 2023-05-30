@@ -22,7 +22,6 @@ interface IwoodElements {
 
 interface IgetRatingsUser {
   place: number
-  score: number
 }
 
 interface IgetRatingsUsersObject {

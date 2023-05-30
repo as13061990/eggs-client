@@ -79,6 +79,8 @@ class RewardLifeAd {
       Session.minusWatchedAds()
       this._scene.actions.pauseClose()
       this._scene.actions.gamePause()
+      Session.plusHealth()
+      Settings.sounds.play('heal')
       this._scene.actions.health.plusHealth()
     }
     await Ads.adReward()

@@ -21,7 +21,6 @@ class HealthBar {
   }
 
   public minusHealth(): void {
-    Session.minusHealth()
     switch (Session.getHealth()) {
       case 0:
         this._healthFirst.setTexture('health-empty')
@@ -36,8 +35,6 @@ class HealthBar {
   }
 
   public plusHealth(): void {
-    Session.plusHealth()
-    Settings.sounds.play('heal')
     switch (Session.getHealth()) {
       case 1:
         this._healthFirst.setTexture('health-full')

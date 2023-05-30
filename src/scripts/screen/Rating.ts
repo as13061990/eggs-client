@@ -15,7 +15,7 @@ class Rating {
   private _isUIScene: boolean = false
   private _scene: Phaser.Scene;
   private _users: IgetRatingsUsersObject[];
-  private _userScore: IgetRatingsUser = { score: null, place: null };
+  private _userScore: IgetRatingsUser = { place: null };
   private _modal: Phaser.GameObjects.Sprite
   private _elements: (Phaser.GameObjects.Sprite | Phaser.GameObjects.Text)[] = []
 
@@ -86,7 +86,7 @@ class Rating {
       const score = this._scene.add.text(
         this._modal.getBounds().right - 20,
         this._modal.getBounds().top + 100 + 60 * 11,
-        (this._userScore.score.toString()).toUpperCase(),
+        (User.getScore().toString()).toUpperCase(),
         {
           color: 'rgb(155,50,47)',
           font: '48px EpilepsySansBold',
