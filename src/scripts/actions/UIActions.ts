@@ -39,7 +39,7 @@ class UIActions {
     this.creatTutorial()
   }
 
-  
+
   public gamePause(): void {
     if (Session.getOver()) return;
     if (this._activeScreen) {
@@ -73,7 +73,7 @@ class UIActions {
 
   public pauseClose(): void {
     Settings.setIsPaused(false)
-    
+
     this._pauseMobileBtn.setInteractive()
     this._pauseMobileBtn.setTexture('pause')
 
@@ -109,7 +109,7 @@ class UIActions {
     if (User.getScore() < Session.getPoints()) {
       User.setScore(Session.getPoints());
     }
-    
+
     this._pauseElements.bg = this._scene.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5);
 
     this._pauseElements.modal = new Modal(this._scene, 'button-green-def', 'button-red-def', true)
@@ -186,7 +186,7 @@ class UIActions {
     Session.setOver(true)
     const elements = []
     const { centerX, centerY, width, height } = sceneGame.cameras.main;
-
+    const bg = this._scene.add.tileSprite(0, 0, width, height, 'black-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5);
     const text = Settings.isMobile() ? 'Нажимай на зоны на экране, \n чтобы передвигаться и ловить яйца'
       : 'Нажимай на кнопки, \n чтобы передвигаться и ловить яйца'
 
@@ -194,12 +194,14 @@ class UIActions {
       align: 'center',
       color: 'black',
       font: '48px EpilepsySansBold',
-    }).setOrigin(.5, .5).setDepth(21);
+    }).setOrigin(.5, .6).setDepth(21);
 
     const modal = this._scene.add.sprite(centerX, centerY, 'modal')
-      .setOrigin(.5, .5).setDepth(20).setDisplaySize(title.width + 50, title.height + 100)
+      .setOrigin(.5, .5).setDepth(20).setDisplaySize(title.width + 70, title.height + 150)
 
-    elements.push(title, modal)
+    const closeTutorialZone = new Zone(this._scene, centerX, centerY, width, height).setDepth(5)
+
+    elements.push(title, modal, bg, closeTutorialZone)
     if (Settings.isMobile()) {
 
       const leftUpZone = this._scene.add.sprite(centerX / 2, height / 4, 'modal')
@@ -248,6 +250,24 @@ class UIActions {
 
 
       elements.push(leftUpZone, leftUpZoneText, leftDownZone, leftDownZoneText, rightDownZone, rightDownZoneText, rightUpZone, rightUpZoneText)
+
+      this._scene.add.tween({
+        targets: [title, leftUpZoneText, leftDownZoneText, rightDownZoneText, rightUpZoneText],
+        duration: 700,
+        scaleX: 1.05,
+        scaleY: 1.05,
+        yoyo: true, 
+        repeat: 2,
+        onComplete: ()=>{
+          elements.forEach(el => {
+            el.destroy()
+          })
+          closeTutorialZone.destroy()
+          sceneGame.scene.resume()
+          Session.setOver(false)
+          Settings.setTutorial(false)
+        }
+      })
     } else {
       const closeText = this._scene.add.text(centerX, centerY + 70, ("Нажми ПКМ по экрану, чтобы закрыть").toUpperCase(), {
         align: 'center',
@@ -255,13 +275,33 @@ class UIActions {
         font: '36px EpilepsySans',
       }).setOrigin(.5, .5).setDepth(21);
       const modaBtns = this._scene.add.sprite(centerX, modal.getBounds().bottom + 200, 'modal')
-      .setOrigin(.5, .5).setDepth(20).setDisplaySize(title.width + 50, title.height + 150)
+        .setOrigin(.5, .5).setDepth(20).setDisplaySize(title.width + 60, title.height + 160)
       const imgArrow = this._scene.add.sprite(centerX + 200, modaBtns.getBounds().centerY, 'keyboard-arrows').setDepth(20)
       const imgWasd = this._scene.add.sprite(centerX - 200, modaBtns.getBounds().centerY, 'keyboard-wasd').setDepth(20)
       elements.push(modaBtns, imgArrow, imgWasd, closeText)
+      this._scene.add.tween({
+        targets: [title, closeText, imgArrow, imgWasd],
+        duration: 700,
+        scaleX: 1.05,
+        scaleY: 1.05,
+        yoyo: true,
+        repeat: 2,
+        onComplete: () => {
+          elements.forEach(el => {
+            el.destroy()
+          })
+          closeTutorialZone.destroy()
+          sceneGame.scene.resume()
+          Session.setOver(false)
+          Settings.setTutorial(false)
+        }
+      })
     }
 
-    const closeTutorialZone = new Zone(this._scene, centerX, centerY, width, height).setDepth(5)
+
+
+
+
     closeTutorialZone.clickCallback = (): void => {
       elements.forEach(el => {
         el.destroy()
