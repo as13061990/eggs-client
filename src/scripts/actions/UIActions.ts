@@ -51,9 +51,8 @@ class UIActions {
     if (!Settings.getIsPaused()) {
       Settings.setIsPaused(true)
       this._pauseMobileBtn.setTexture('resume')
-
-
-      this._pauseElements.bg = this._scene.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5)
+      this._pauseMobileBtn.disableInteractive();
+      this._pauseElements.bg = this._scene.add.tileSprite(0, 0, width, height, 'black-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5)
       this._pauseElements.modal = new Modal(this._scene, 'button-green-def', 'button-red-def', true)
 
       this._pauseElements.modal.setTextBtn('first', 'Продолжить')
@@ -74,7 +73,8 @@ class UIActions {
 
   public pauseClose(): void {
     Settings.setIsPaused(false)
-
+    
+    this._pauseMobileBtn.setInteractive()
     this._pauseMobileBtn.setTexture('pause')
 
     const sceneGame = this._scene.game.scene.getScene('Game') as Game;
@@ -164,7 +164,7 @@ class UIActions {
   }
 
   public createScore(): void {
-    this.score = this._scene.add.text(68, 80, Session.getPoints().toString(), { font: '48px EpilepsySans', color: 'yellow  ' }).setDepth(6)
+    this.score = this._scene.add.text(68, 80, Session.getPoints().toString(), { font: '48px EpilepsySans', color: 'yellow  ' }).setDepth(4)
   }
 
   public createHealth(): void {
