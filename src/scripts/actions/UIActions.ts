@@ -180,6 +180,7 @@ class UIActions {
   }
 
   public creatTutorial(): void {
+    if (!Settings.getTutorial()) return
     const sceneGame = this._scene.game.scene.getScene('Game') as Game;
     sceneGame.scene.pause()
     Session.setOver(true)
@@ -268,6 +269,7 @@ class UIActions {
       closeTutorialZone.destroy()
       sceneGame.scene.resume()
       Session.setOver(false)
+      Settings.setTutorial(false)
     }
   }
 

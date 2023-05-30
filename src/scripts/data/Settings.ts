@@ -14,6 +14,7 @@ class Settings {
   private _isPaused: boolean = false
   private _platform: platforms = platforms.WEB
   private _adblock: boolean
+  private _tutorial: boolean = true
   public sounds: Isounds;
   public interval: Interval;
 
@@ -56,6 +57,14 @@ class Settings {
 
   public getAdblock(): boolean {
     return this._adblock
+  }
+
+  public setTutorial(tutorial: boolean): void {
+    this._tutorial = tutorial
+  }
+
+  public getTutorial(): boolean {
+    return this._tutorial
   }
 }
 
