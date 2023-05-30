@@ -13,6 +13,7 @@ import { platforms, screen } from "../types/enums";
 import Ads from "./Ads";
 import User from "../data/User";
 import Zone from "../components/Zone";
+import Api from "../data/Api";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
@@ -104,7 +105,7 @@ class UIActions {
 
     const { width, height } = this._scene.cameras.main;
 
-    this._postRating()
+    Api.postRating()
     if (User.getScore() < Session.getPoints()) {
       User.setScore(Session.getPoints());
     }
@@ -175,20 +176,6 @@ class UIActions {
     this._pauseMobileBtn = new Button(this._scene, this._scene.scale.width - 150, 80, 'pause').setDepth(5)
     this._pauseMobileBtn.callback = (): void => {
       this.gamePause()
-    }
-  }
-
-  private async _postRating(): Promise<void> {
-    if (Settings.getPlatform() !== platforms.WEB) {
-      await axios.post(process.env.API + '/rating/post', {
-        platform: Settings.getPlatform(),
-        id: User.getID(),
-        score: Session.getPoints(),
-      })
-    } else {
-      if (User.getScore() < Session.getPoints()) {
-        localStorage.setItem('score', String(Session.getPoints()));
-      }
     }
   }
 

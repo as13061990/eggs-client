@@ -1,9 +1,9 @@
-import axios from 'axios';
 import Button from '../components/Button';
 import Settings from '../data/Settings';
 import { screen } from '../types/enums';
 import User from '../data/User';
 import UI from '../scenes/UI';
+import Api from '../data/Api';
 
 class Rating {
   constructor(scene: Phaser.Scene, isUIScene?: boolean) {
@@ -14,8 +14,8 @@ class Rating {
 
   private _isUIScene: boolean = false
   private _scene: Phaser.Scene;
-  private _users: any[];
-  private _userScore: { score: number, place: number } = { score: null, place: null };
+  private _users: IgetRatingsUsersObject[];
+  private _userScore: IgetRatingsUser = { score: null, place: null };
   private _modal: Phaser.GameObjects.Sprite
   private _elements: (Phaser.GameObjects.Sprite | Phaser.GameObjects.Text)[] = []
 
@@ -31,24 +31,15 @@ class Rating {
     this._modal = this._scene.add.sprite(centerX, centerY, 'modal')
     this._modal.setDisplaySize(this._modal.width * 3, this._modal.height * 2.5).setDepth(21)
     this._elements.push(background, this._modal)
-    this._getRatings()
+    this._buildModalRating()
   }
 
-  private async _getRatings(): Promise<void> {
-    await axios.post(process.env.API + '/rating/top', { id: User.getID(), platform: Settings.getPlatform() })
-      .then((response) => {
-        console.log(response.data)
-        if (response.data.error) {
-          this._users = [{ name: 'Анонимус', score: 200 }]
-        } else {
-          this._users = response?.data?.data?.users
-          this._userScore = response?.data?.data?.user
-        }
-        this._buildModalRating()
-      })
-  }
+  private async _buildModalRating(): Promise<void> {
 
-  private _buildModalRating(): void {
+    const ratings = await Api.getRatings()
+    this._users = ratings.users;
+    this._userScore = ratings.user;
+  
     const { centerX } = this._scene.cameras.main;
     const title = this._scene.add.text(centerX, this._modal.getBounds().top + 50, ('Рейтинг').toUpperCase(), {
       color: 'black',

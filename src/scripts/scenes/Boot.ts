@@ -1,4 +1,3 @@
-import axios from 'axios';
 //@ts-ignore
 import * as Webfont from 'webfontloader';
 import loading from '../../assets/images/loading.png';
@@ -9,6 +8,7 @@ import User from '../data/User';
 import { platforms } from '../types/enums';
 import bridge, { UserInfo } from '@vkontakte/vk-bridge';
 import Ads from '../actions/Ads';
+import Api from '../data/Api';
 
 class Boot extends Phaser.Scene {
   constructor() {
@@ -16,7 +16,7 @@ class Boot extends Phaser.Scene {
   }
 
   private _fonts: boolean = false;
-  private _user: boolean = false;
+  private _user: boolean | Promise<boolean> = false;
 
   public init(): void {
     this._setFonts()
@@ -85,7 +85,7 @@ class Boot extends Phaser.Scene {
       User.setFirstName(bridgeData.first_name)
       User.setLastName(bridgeData.last_name)
       User.setUsername(bridgeData.first_name + ' ' + bridgeData.last_name)
-      this._postCheckUser(User.getID(), User.getUsername())
+      this._user = Api.postCheckUser()
     }
   }
 
@@ -98,22 +98,6 @@ class Boot extends Phaser.Scene {
       User.setScore(0);
     }
     this._user = true;
-  }
-
-  private _postCheckUser(id: number, name: string): void {
-    axios.post(process.env.API + '/user/check', {
-      platform: Settings.getPlatform(),
-      id: id,
-      name: name,
-    }).then((response) => {
-      console.log(response.data?.data?.user?.score)
-      if (response.data?.data?.user?.score) User.setScore(response.data?.data?.user?.score)
-      else User.setScore(0)
-      this._user = true
-    }).catch(() => {
-      Settings.setPlatform(platforms.WEB)
-      this._user = true;
-    })
   }
 }
 

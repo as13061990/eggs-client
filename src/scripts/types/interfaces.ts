@@ -19,3 +19,19 @@ interface IwoodElements {
   rightUp: Phaser.GameObjects.Sprite
   rightDown: Phaser.GameObjects.Sprite
 }
+
+interface IgetRatingsUser {
+  place: number
+  score: number
+}
+
+interface IgetRatingsUsersObject {
+  score: number 
+  name: string
+}
+
+
+interface IgetRatings {
+  user: IgetRatingsUser
+  users: IgetRatingsUsersObject[]
+}
