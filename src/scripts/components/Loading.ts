@@ -9,7 +9,6 @@ import eggSmashImg from '../../assets/images/egg-smash.png';
 import keyboardArrows from '../../assets/images/keyboard-arrows.png';
 import keyboardWASD from '../../assets/images/keyboard-wasd.png';
 
-import bg from '../../assets/images/bg/bg.jpg';
 import bg1 from '../../assets/images/bg/bg-1.jpg';
 import bg2 from '../../assets/images/bg/bg-2.jpg';
 import bg3 from '../../assets/images/bg/bg-3.jpg';
@@ -42,17 +41,18 @@ class Loading {
   private _scene: Phaser.Scene;
 
   private _build(): void {
-    const { centerX, centerY } = this._scene.cameras.main;
-    const sprite = this._scene.add.sprite(centerX, centerY, 'loading');
-    this._scene.add.tween({
-      targets: sprite,
-      rotation: Math.PI * 2,
-      repeat: -1
-    });
-    const bounds = sprite.getBounds();
-    const text = this._scene.add.text(centerX, bounds.bottom + 50, 'Loading...0%', {
-      font: '40px Triomphe',
-      color: '#FFFFFF'
+    const { centerX, centerY, width, height } = this._scene.cameras.main;
+
+    const background = this._scene.add.sprite(width / 2, height, 'bg');
+    background.setOrigin(0.5, 1);
+    const scaleX = width / background.width;
+    const scaleY = height / background.height;
+    const scale = Math.max(scaleX, scaleY);
+    background.setScale(scale).setScrollFactor(0);
+
+    const text = this._scene.add.text(centerX, centerY, 'Loading...0%', {
+      color: 'white',
+      font: '72px EpilepsySansBold',
     }).setOrigin(.5, .5);
 
     const build = this._scene.add.text(10, 10, 'build: ' + process.env.BUILD_TIME, {
@@ -64,11 +64,13 @@ class Loading {
       const percent = Math.round(value * 100);
       text.setText('Loading...' + percent + '%');
     }, this);
+
     this._scene.load.on('complete', (): void => {
       this._scene.load.removeAllListeners();
-      sprite.destroy();
+
       text.destroy();
       build.destroy();
+      background.destroy()
     }, this);
 
     this._loadImages();
@@ -76,12 +78,11 @@ class Loading {
   }
 
   private _loadImages(): void {
-    this._scene.load.image('bg', bg);
 
     const arr = [bg1, bg2, bg3, bg4, bg5]
-    const randomNumber = Phaser.Math.Between(1,5)
+    const randomNumber = Phaser.Math.Between(1, 5)
     Session.setBg(randomNumber)
-    this._scene.load.image(`bg-${randomNumber}`, arr[randomNumber-1]);
+    this._scene.load.image(`bg-${randomNumber}`, arr[randomNumber - 1]);
 
     this._scene.load.image('player-up', playerUP);
     this._scene.load.image('player-down', playerDown);
@@ -110,7 +111,7 @@ class Loading {
 
     this._scene.load.audio('heal', heal);
     this._scene.load.audio('keyboard', keyboard);
-    
+
     this._scene.load.audio('bg', bgSound);
 
   }

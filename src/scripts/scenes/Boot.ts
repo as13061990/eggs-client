@@ -9,6 +9,7 @@ import { platforms } from '../types/enums';
 import bridge, { UserInfo } from '@vkontakte/vk-bridge';
 import Ads from '../actions/Ads';
 import Api from '../data/Api';
+import bg from '../../assets/images/bg/bg.jpg';
 
 class Boot extends Phaser.Scene {
   constructor() {
@@ -28,7 +29,7 @@ class Boot extends Phaser.Scene {
   }
 
   public preload(): void {
-    this.load.image('loading', loading);
+    this.load.image('bg', bg);
   }
 
   public update(): void {
