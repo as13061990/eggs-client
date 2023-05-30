@@ -3,22 +3,17 @@ import Settings from "./Settings";
 
 class User {
 
-  private _id: string;
   private _vkId: number;
   private _username: string;
   private _firstname: string;
   private _lastname: string;
+  private _score: number = 0;
 
-  public setID(id: string): void {
-    this._id = id;
-  }
 
-  public getID(): string | number {
+  public getID(): number {
     switch(Settings.getPlatform()) {
       case platforms.VK:
         return this._vkId;
-      case platforms.WEB:
-        return this._id
     }
   }
 
@@ -48,6 +43,14 @@ class User {
 
   public getLastName(): string {
     return this._lastname;
+  }
+
+  public getScore(): number {
+    return this._score;
+  }
+
+  public setScore(score: number): void {
+    this._score = score;
   }
 }
 

@@ -90,39 +90,31 @@ class Boot extends Phaser.Scene {
   }
 
   private _initUserWeb(): void {
-    const id = localStorage.getItem('id');
-    if (id) {
-      User.setID(id);
+    const score = Number(localStorage.getItem('score'));
+    if (!isNaN(score)) {
+      User.setScore(score);
     } else {
-      User.setID(this._randomString(10));
-      localStorage.setItem('id', String(User.getID()));
+      localStorage.setItem('score', String(0));
+      User.setScore(0);
     }
     this._user = true;
   }
 
-  private _postCheckUser(id: number | string, name: string): void {
+  private _postCheckUser(id: number, name: string): void {
     axios.post(process.env.API + '/user/check', {
       platform: Settings.getPlatform(),
       id: id,
       name: name,
     }).then((response) => {
+      console.log(response.data?.data?.user?.score)
+      if (response.data?.data?.user?.score) User.setScore(response.data?.data?.user?.score)
+      else User.setScore(0)
       this._user = true
     }).catch(() => {
       Settings.setPlatform(platforms.WEB)
       this._user = true;
     })
   }
-
-  private _randomString(length: number = 5): string {
-    let characters: string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let rs: string = '';
-
-    while (rs.length < length) {
-      rs += characters[Math.floor(Math.random() * characters.length)];
-    }
-    return rs;
-  }
-
 }
 
 export default Boot;

@@ -104,6 +104,11 @@ class UIActions {
 
     const { width, height } = this._scene.cameras.main;
 
+    this._postRating()
+    if (User.getScore() < Session.getPoints()) {
+      User.setScore(Session.getPoints());
+    }
+    
     this._pauseElements.bg = this._scene.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5);
 
     this._pauseElements.modal = new Modal(this._scene, 'button-green-def', 'button-red-def', true)
@@ -125,7 +130,6 @@ class UIActions {
       this._pauseElements.modal.btnRating.callback = (): void => this._rating()
     }
 
-    this._postRating()
     this._rewardLifeAd()
   }
 
@@ -174,19 +178,24 @@ class UIActions {
     }
   }
 
-  private _postRating(): void {
+  private async _postRating(): Promise<void> {
     if (Settings.getPlatform() !== platforms.WEB) {
-      axios.post(process.env.API + '/rating/post', {
+      await axios.post(process.env.API + '/rating/post', {
         platform: Settings.getPlatform(),
         id: User.getID(),
         score: Session.getPoints(),
       })
+    } else {
+      if (User.getScore() < Session.getPoints()) {
+        localStorage.setItem('score', String(Session.getPoints()));
+      }
     }
   }
 
   public creatTutorial(): void {
     const sceneGame = this._scene.game.scene.getScene('Game') as Game;
     sceneGame.scene.pause()
+    Session.setOver(true)
     const elements = []
     const { centerX, centerY, width, height } = sceneGame.cameras.main;
 
@@ -271,6 +280,7 @@ class UIActions {
       })
       closeTutorialZone.destroy()
       sceneGame.scene.resume()
+      Session.setOver(false)
     }
   }
 
