@@ -194,7 +194,7 @@ class UIActions {
       align: 'center',
       color: 'black',
       font: '48px EpilepsySansBold',
-    }).setOrigin(.5, .6).setDepth(21);
+    }).setOrigin(.5, .5).setDepth(21);
 
     const modal = this._scene.add.sprite(centerX, centerY, 'modal')
       .setOrigin(.5, .5).setDepth(20).setDisplaySize(title.width + 70, title.height + 150)
@@ -204,10 +204,11 @@ class UIActions {
     elements.push(title, modal, bg, closeTutorialZone)
     if (Settings.isMobile()) {
 
-      const leftUpZone = this._scene.add.sprite(centerX / 2, height / 4, 'modal')
-        .setDisplaySize(width / 2, height / 2)
+      const leftUpZone = this._scene.add.tileSprite(centerX / 2, height / 4, width / 4, height / 4, 'modal-pixel')
+        .setOrigin(0.5, 0.5)
         .setAlpha(0.3)
         .setDepth(5)
+
 
       const leftUpZoneText = this._scene.add.text(leftUpZone.getBounds().centerX, leftUpZone.getBounds().centerY, ('Сюда').toUpperCase(), {
         align: 'center',
@@ -215,10 +216,10 @@ class UIActions {
         font: '48px EpilepsySansBold',
       }).setOrigin(.5, .5).setDepth(21);
 
-      const leftDownZone = this._scene.add.sprite(centerX / 2, leftUpZone.getBounds().bottom * 1.5, 'modal')
-        .setDisplaySize(width / 2, height / 2)
-        .setAlpha(0.3)
-        .setDepth(5)
+      const leftDownZone = this._scene.add.tileSprite(centerX / 2, leftUpZone.getBounds().bottom * 2, width / 4, height / 4, 'modal-pixel')
+      .setOrigin(0.5, 0.5)
+      .setAlpha(0.3)
+      .setDepth(5)
 
       const leftDownZoneText = this._scene.add.text(leftDownZone.getBounds().centerX, leftDownZone.getBounds().centerY, ('Сюда').toUpperCase(), {
         align: 'center',
@@ -226,8 +227,8 @@ class UIActions {
         font: '48px EpilepsySansBold',
       }).setOrigin(.5, .5).setDepth(21);
 
-      const rightUpZone = this._scene.add.sprite(centerX * 1.5, height / 4, 'modal')
-        .setDisplaySize(width / 2, height / 2)
+      const rightUpZone = this._scene.add.tileSprite(centerX * 1.5, height / 4, centerX / 2, height / 4, 'modal-pixel')
+        .setOrigin(0.5, 0.5)
         .setAlpha(0.3)
         .setDepth(5)
 
@@ -237,10 +238,10 @@ class UIActions {
         font: '48px EpilepsySansBold',
       }).setOrigin(.5, .5).setDepth(21);
 
-      const rightDownZone = this._scene.add.sprite(centerX * 1.5, rightUpZone.getBounds().bottom * 1.5, 'modal')
-        .setDisplaySize(width / 2, height / 2)
+      const rightDownZone = this._scene.add.tileSprite(centerX * 1.5, rightUpZone.getBounds().bottom * 2, centerX / 2, height / 4, 'modal-pixel')
+        .setOrigin(0.5, 0.5)
         .setAlpha(0.3)
-        .setDepth(5);
+        .setDepth(5)
 
       const rightDownZoneText = this._scene.add.text(rightDownZone.getBounds().centerX, rightDownZone.getBounds().centerY, ('Сюда').toUpperCase(), {
         align: 'center',
@@ -256,9 +257,9 @@ class UIActions {
         duration: 700,
         scaleX: 1.05,
         scaleY: 1.05,
-        yoyo: true, 
+        yoyo: true,
         repeat: 2,
-        onComplete: ()=>{
+        onComplete: () => {
           elements.forEach(el => {
             el.destroy()
           })
@@ -269,6 +270,7 @@ class UIActions {
         }
       })
     } else {
+      title.setOrigin(0.5, 0.95)
       const closeText = this._scene.add.text(centerX, centerY + 70, ("Нажми ПКМ по экрану, чтобы закрыть").toUpperCase(), {
         align: 'center',
         color: 'black',

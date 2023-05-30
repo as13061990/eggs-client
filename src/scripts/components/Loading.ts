@@ -2,6 +2,7 @@ import egg from '../../assets/images/egg.png';
 import wood from '../../assets/images/wood.png';
 import redPixel from '../../assets/images/red-pixel.png';
 import blackPixel from '../../assets/images/black-pixel.png';
+import modalPixel from '../../assets/images/modal-pixel.png';
 import playerUP from '../../assets/images/player-up.png';
 import playerDown from '../../assets/images/player-down.png';
 import healthFull from '../../assets/images/hearth-full.png';
@@ -89,6 +90,7 @@ class Loading {
     this._scene.load.image('player-down', playerDown);
     this._scene.load.image('red-pixel', redPixel);
     this._scene.load.image('black-pixel', blackPixel);
+    this._scene.load.image('modal-pixel', modalPixel);
     this._scene.load.image('egg', egg);
     this._scene.load.image('wood', wood);
     this._scene.load.image('health-full', healthFull);
