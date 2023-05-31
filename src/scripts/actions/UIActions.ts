@@ -203,7 +203,8 @@ class UIActions {
     elements.push(title, modal, bg, closeTutorialZone)
     if (Settings.isMobile()) {
 
-      const leftUpZone = this._scene.add.tileSprite(centerX / 2, height / 4, width / 4, height / 4, 'modal-pixel')
+      const leftUpZone = this._scene.add.sprite(centerX / 2 + 7, height / 4 + 7, 'modal-full')
+        .setDisplaySize(width / 2 - 50, height / 2 - 50)
         .setOrigin(0.5, 0.5)
         .setAlpha(0.3)
         .setDepth(5)
@@ -215,8 +216,9 @@ class UIActions {
         font: '48px EpilepsySansBold',
       }).setOrigin(.5, .5).setDepth(21);
 
-      const leftDownZone = this._scene.add.tileSprite(centerX / 2, leftUpZone.getBounds().bottom * 2, width / 4, height / 4, 'modal-pixel')
-      .setOrigin(0.5, 0.5)
+      const leftDownZone = this._scene.add.sprite(centerX / 2 + 7, height / 2 + 18, 'modal-full')
+      .setDisplaySize(width / 2 - 50, height / 2 - 50)
+      .setOrigin(0.5, 0)
       .setAlpha(0.3)
       .setDepth(5)
 
@@ -226,7 +228,8 @@ class UIActions {
         font: '48px EpilepsySansBold',
       }).setOrigin(.5, .5).setDepth(21);
 
-      const rightUpZone = this._scene.add.tileSprite(centerX * 1.5, height / 4, centerX / 2, height / 4, 'modal-pixel')
+      const rightUpZone = this._scene.add.sprite(centerX * 1.5 - 7, height / 4 + 7, 'modal-full')
+        .setDisplaySize(width / 2 - 50, height / 2 - 50)
         .setOrigin(0.5, 0.5)
         .setAlpha(0.3)
         .setDepth(5)
@@ -237,8 +240,9 @@ class UIActions {
         font: '48px EpilepsySansBold',
       }).setOrigin(.5, .5).setDepth(21);
 
-      const rightDownZone = this._scene.add.tileSprite(centerX * 1.5, rightUpZone.getBounds().bottom * 2, centerX / 2, height / 4, 'modal-pixel')
-        .setOrigin(0.5, 0.5)
+      const rightDownZone = this._scene.add.sprite(centerX * 1.5 - 7, height / 2 + 18, 'modal-full')
+        .setDisplaySize(width / 2 - 50, height / 2 - 50)
+        .setOrigin(0.5, 0)
         .setAlpha(0.3)
         .setDepth(5)
 
@@ -259,13 +263,13 @@ class UIActions {
         yoyo: true,
         repeat: 2,
         onComplete: () => {
-          elements.forEach(el => {
-            el.destroy()
-          })
-          closeTutorialZone.destroy()
-          sceneGame.scene.resume()
-          Session.setOver(false)
-          Settings.setTutorial(false)
+          // elements.forEach(el => {
+          //   el.destroy()
+          // })
+          // closeTutorialZone.destroy()
+          // sceneGame.scene.resume()
+          // Session.setOver(false)
+          // Settings.setTutorial(false)
         }
       })
     } else {

@@ -1,7 +1,6 @@
 import egg from '../../assets/images/egg.png';
 import wood from '../../assets/images/wood.png';
 import blackPixel from '../../assets/images/black-pixel.png';
-import modalPixel from '../../assets/images/modal-pixel.png';
 import playerUP from '../../assets/images/player-up.png';
 import playerDown from '../../assets/images/player-down.png';
 import healthFull from '../../assets/images/hearth-full.png';
@@ -22,6 +21,7 @@ import buttonBlueDef from '../../assets/images/buttons/button-blue-def.png'
 import buttonMusicUnmute from '../../assets/images/buttons/button-music-unmute.png.png'
 import buttonMusicMute from '../../assets/images/buttons/button-music-mute.png'
 import modal from '../../assets/images/buttons/modal.png'
+import modalFull from '../../assets/images/buttons/modal-full.png'
 import pause from '../../assets/images/buttons/pause.png'
 import resume from '../../assets/images/buttons/resume.png'
 
@@ -90,7 +90,6 @@ class Loading {
     this._scene.load.image('player-up', playerUP);
     this._scene.load.image('player-down', playerDown);
     this._scene.load.image('black-pixel', blackPixel);
-    this._scene.load.image('modal-pixel', modalPixel);
     this._scene.load.image('egg', egg);
     this._scene.load.image('wood', wood);
     this._scene.load.image('health-full', healthFull);
@@ -107,6 +106,7 @@ class Loading {
     this._scene.load.image('pause', pause);
     this._scene.load.image('resume', resume);
     this._scene.load.image('modal', modal);
+    this._scene.load.image('modal-full', modalFull);
   }
 
   private _loadSounds(): void {
