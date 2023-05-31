@@ -8,6 +8,9 @@ import healthEmpty from '../../assets/images/hearth-empty.png';
 import eggSmashImg from '../../assets/images/egg-smash.png';
 import keyboardArrows from '../../assets/images/keyboard-arrows.png';
 import keyboardWASD from '../../assets/images/keyboard-wasd.png';
+import basket from '../../assets/images/basket.png';
+
+import wizzard from '../../assets/images/wizzard.png';
 
 import bg1 from '../../assets/images/bg/bg-1.jpg';
 import bg2 from '../../assets/images/bg/bg-2.jpg';
@@ -107,6 +110,9 @@ class Loading {
     this._scene.load.image('resume', resume);
     this._scene.load.image('modal', modal);
     this._scene.load.image('modal-full', modalFull);
+    
+    this._scene.load.image('basket', basket);
+    this._scene.load.spritesheet('wizzard', wizzard, { frameWidth: 60, frameHeight: 85 });
   }
 
   private _loadSounds(): void {
