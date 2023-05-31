@@ -86,7 +86,8 @@ class GameActions {
         this._spawnEgg()
         this._createEggsGroup()
       }
-    , loop: false});
+      , loop: false
+    });
   }
 
   private _spawnEgg(): void {
@@ -94,15 +95,16 @@ class GameActions {
     if (diff > 1.2) {
       const randomNumber = Phaser.Math.Between(0, 3);
       new Egg(this._scene, randomNumber)
-    } else if (diff <= 1.2 && diff >= 0.8 ) {
+    } else if (diff <= 1.2 && diff >= 0.8) {
       const randomNumber = Phaser.Math.Between(0, 3);
       new Egg(this._scene, randomNumber)
       this._scene.time.addEvent({
         delay: 300, callback: (): void => {
           new Egg(this._scene, Math.abs(randomNumber - 2))
         }
-      , loop: false});
-    } else if (diff < 0.8 ) {
+        , loop: false
+      });
+    } else if (diff < 0.8) {
       const randomNumber = Phaser.Math.Between(0, 3);
       new Egg(this._scene, randomNumber)
       this._scene.time.addEvent({
@@ -110,7 +112,8 @@ class GameActions {
           new Egg(this._scene, Math.abs(randomNumber - 1))
           new Egg(this._scene, Math.abs(randomNumber - 3))
         }
-      , loop: false});
+        , loop: false
+      });
     }
   }
 
@@ -168,16 +171,54 @@ class GameActions {
   private _controlsMobile(): void {
     const { centerX, centerY, width, height } = this._scene.cameras.main;
 
+    let clickedLeftUp = false
     const leftUpZone = new Zone(this._scene, centerX / 2, height / 4, width / 2, height / 2).setDepth(5)
     leftUpZone.clickCallback = (): void => {
       Settings.sounds.play('keyboard')
       this._scene.player.leftUp()
+
+      if (!clickedLeftUp) {
+        const leftDownZoneAnim = this._scene.add.sprite(centerX / 2 + 7, height / 4 + 7, 'modal-full')
+          .setDisplaySize(width / 2 - 50, height / 2 - 50)
+          .setOrigin(0.5, 0.5)
+          .setAlpha(0.6)
+          .setDepth(5)
+          clickedLeftUp = true
+        this._scene.tweens.add({
+          targets: leftDownZoneAnim,
+          alpha: 0,
+          duration: 500,
+          onComplete: () => {
+            clickedLeftUp = false
+            leftDownZoneAnim.destroy()
+          }
+        });
+      }
     }
 
+    let clickedLeftDown = false
     const leftDownZone = new Zone(this._scene, centerX / 2, leftUpZone.getBounds().bottom * 1.5, width / 2, height / 2).setDepth(5)
     leftDownZone.clickCallback = (): void => {
       Settings.sounds.play('keyboard')
       this._scene.player.leftDown()
+
+      if (!clickedLeftDown) {
+        const leftDownZoneAnim = this._scene.add.sprite(centerX / 2 + 7, height / 2 + 18, 'modal-full')
+          .setDisplaySize(width / 2 - 50, height / 2 - 50)
+          .setOrigin(0.5, 0)
+          .setAlpha(0.6)
+          .setDepth(5)
+          clickedLeftDown = true
+        this._scene.tweens.add({
+          targets: leftDownZoneAnim,
+          alpha: 0,
+          duration: 500,
+          onComplete: () => {
+            clickedLeftDown = false
+            leftDownZoneAnim.destroy()
+          }
+        });
+      }
     }
 
     // const jumpBtn = new Button(this._scene, centerX / 3, height - 137, 'button')
@@ -185,17 +226,54 @@ class GameActions {
     //   color: '#000000',
     //   fontSize: 32,
     // }).setOrigin(.5, .5)
-
+    let clickedRightUp = false
     const rightUpZone = new Zone(this._scene, centerX * 1.5, height / 4, width / 2, height / 2).setDepth(5)
     rightUpZone.clickCallback = (): void => {
       Settings.sounds.play('keyboard')
       this._scene.player.rightUp()
-    }
 
+      if (!clickedRightUp) {
+        const rightUpZoneAnim = this._scene.add.sprite(centerX * 1.5 - 7, height / 4 + 7, 'modal-full')
+          .setDisplaySize(width / 2 - 50, height / 2 - 50)
+          .setOrigin(0.5, 0.5)
+          .setAlpha(0.6)
+          .setDepth(5)
+          clickedRightUp = true
+        this._scene.tweens.add({
+          targets: rightUpZoneAnim,
+          alpha: 0,
+          duration: 500,
+          onComplete: () => {
+            clickedRightUp = false
+            rightUpZoneAnim.destroy()
+          }
+        });
+      }
+    }
+    
+    let clickedRightDown = false
     const rightDownZone = new Zone(this._scene, centerX * 1.5, rightUpZone.getBounds().bottom * 1.5, width / 2, height / 2).setDepth(5);;
     rightDownZone.clickCallback = (): void => {
       Settings.sounds.play('keyboard')
       this._scene.player.rightDown()
+      
+      if (!clickedRightDown) {
+        const rightUpZoneAnim = this._scene.add.sprite(centerX * 1.5 - 7, height / 2 + 18, 'modal-full')
+          .setDisplaySize(width / 2 - 50, height / 2 - 50)
+          .setOrigin(0.5, 0)
+          .setAlpha(0.6)
+          .setDepth(5)
+          clickedRightDown = true
+        this._scene.tweens.add({
+          targets: rightUpZoneAnim,
+          alpha: 0,
+          duration: 500,
+          onComplete: () => {
+            clickedRightDown = false
+            rightUpZoneAnim.destroy()
+          }
+        });
+      }
     }
   }
 
