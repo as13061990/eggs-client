@@ -109,8 +109,8 @@ class UIActions {
     if (User.getScore() < Session.getPoints()) {
       User.setScore(Session.getPoints());
     }
-
-    this._pauseElements.bg = this._scene.add.tileSprite(0, 0, width, height, 'red-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5);
+    this._pauseMobileBtn.disableInteractive();
+    this._pauseElements.bg = this._scene.add.tileSprite(0, 0, width, height, 'black-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5);
 
     this._pauseElements.modal = new Modal(this._scene, 'button-green-def', 'button-red-def', true)
 
@@ -135,36 +135,35 @@ class UIActions {
   }
 
   public activeInteractiveBtns(): void {
-    this._pauseElements.modal.btnFirst.setInteractive();
-    this._pauseElements.modal.btnSecond.setInteractive();
-    this._pauseElements.modal.btnRating.setInteractive();
-    this._pauseElements.modal.btnMusic.setInteractive();
-    this._pauseMobileBtn.setInteractive()
+    this._pauseElements?.modal?.btnFirst?.setInteractive();
+    this._pauseElements?.modal?.btnSecond?.setInteractive();
+    this._pauseElements?.modal?.btnRating?.setInteractive();
+    this._pauseElements?.modal?.btnMusic?.setInteractive();
+    this._pauseMobileBtn?.setInteractive()
   }
 
   private _rewardLifeAd(): void {
-
     if (Ads.getReadyAd() && Session.getWatchedAds() > 0) {
       new RewardLifeAd(this._scene, true);
-      this._pauseElements.modal.btnFirst.disableInteractive();
-      this._pauseElements.modal.btnSecond.disableInteractive();
-      this._pauseElements.modal.btnRating.disableInteractive();
-      this._pauseElements.modal.btnMusic.disableInteractive();
-      this._pauseMobileBtn.disableInteractive()
+      this._pauseElements?.modal?.btnFirst?.disableInteractive();
+      this._pauseElements?.modal?.btnSecond?.disableInteractive();
+      this._pauseElements?.modal?.btnRating?.disableInteractive();
+      this._pauseElements?.modal?.btnMusic?.disableInteractive();
+      this._pauseMobileBtn?.disableInteractive()
     }
   }
 
   private _rating(): void {
     this._activeScreen = new Rating(this._scene, true);
-    this._pauseElements.modal.btnFirst.disableInteractive();
-    this._pauseElements.modal.btnSecond.disableInteractive();
-    this._pauseElements.modal.btnRating.disableInteractive();
-    this._pauseElements.modal.btnMusic.disableInteractive();
-    this._pauseMobileBtn.disableInteractive()
+    this._pauseElements?.modal?.btnFirst?.disableInteractive();
+    this._pauseElements?.modal?.btnSecond?.disableInteractive();
+    this._pauseElements?.modal?.btnRating?.disableInteractive();
+    this._pauseElements?.modal?.btnMusic?.disableInteractive();
+    this._pauseMobileBtn?.disableInteractive()
   }
 
   public createScore(): void {
-    this.score = this._scene.add.text(68, 80, Session.getPoints().toString(), { font: '48px EpilepsySans', color: 'yellow  ' }).setDepth(4)
+    this.score = this._scene.add.text(68, 60, Session.getPoints().toString(), { font: '64px EpilepsySansBold', color: 'yellow' }).setDepth(4)
   }
 
   public createHealth(): void {
@@ -254,7 +253,7 @@ class UIActions {
 
       this._scene.add.tween({
         targets: [title, leftUpZoneText, leftDownZoneText, rightDownZoneText, rightUpZoneText],
-        duration: 700,
+        duration: 600,
         scaleX: 1.05,
         scaleY: 1.05,
         yoyo: true,
@@ -283,7 +282,7 @@ class UIActions {
       elements.push(modaBtns, imgArrow, imgWasd, closeText)
       this._scene.add.tween({
         targets: [title, closeText, imgArrow, imgWasd],
-        duration: 700,
+        duration: 600,
         scaleX: 1.05,
         scaleY: 1.05,
         yoyo: true,

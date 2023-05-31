@@ -1,6 +1,5 @@
 import egg from '../../assets/images/egg.png';
 import wood from '../../assets/images/wood.png';
-import redPixel from '../../assets/images/red-pixel.png';
 import blackPixel from '../../assets/images/black-pixel.png';
 import modalPixel from '../../assets/images/modal-pixel.png';
 import playerUP from '../../assets/images/player-up.png';
@@ -63,8 +62,10 @@ class Loading {
     });
 
     this._scene.load.on('progress', (value: number): void => {
+      const totalFiles = this._scene.load.totalToLoad
       const percent = Math.round(value * 100);
-      text.setText('Loading...' + percent + '%');
+      if (totalFiles !== 1) text.setText('Loading...' + percent + '%');
+      else text.setText('Loading...')
     }, this);
 
     this._scene.load.on('complete', (): void => {
@@ -88,7 +89,6 @@ class Loading {
 
     this._scene.load.image('player-up', playerUP);
     this._scene.load.image('player-down', playerDown);
-    this._scene.load.image('red-pixel', redPixel);
     this._scene.load.image('black-pixel', blackPixel);
     this._scene.load.image('modal-pixel', modalPixel);
     this._scene.load.image('egg', egg);

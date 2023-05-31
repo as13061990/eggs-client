@@ -26,7 +26,6 @@ class Api {
     let users, user
     await axios.post(process.env.API + '/rating/top', { id: User.getID(), platform: Settings.getPlatform() })
       .then((response) => {
-        console.log(response.data)
         if (response.data.error) {
           users = [{ name: 'Анонимус', score: 200 }]
         } else {
@@ -34,6 +33,7 @@ class Api {
           user = response?.data?.data?.user
         }
       })
+      .catch((e) => console.log(e))
     return { users, user }
   }
 
@@ -44,6 +44,7 @@ class Api {
         id: User.getID(),
         score: Session.getPoints(),
       })
+        .catch((e) => console.log(e))
     } else {
       if (User.getScore() < Session.getPoints()) {
         localStorage.setItem('score', String(Session.getPoints()));
