@@ -263,13 +263,13 @@ class UIActions {
         yoyo: true,
         repeat: 2,
         onComplete: () => {
-          // elements.forEach(el => {
-          //   el.destroy()
-          // })
-          // closeTutorialZone.destroy()
-          // sceneGame.scene.resume()
-          // Session.setOver(false)
-          // Settings.setTutorial(false)
+          elements.forEach(el => {
+            el.destroy()
+          })
+          closeTutorialZone.destroy()
+          sceneGame.scene.resume()
+          Session.setOver(false)
+          Settings.setTutorial(false)
         }
       })
     } else {

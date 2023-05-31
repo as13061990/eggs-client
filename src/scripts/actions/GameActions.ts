@@ -171,15 +171,13 @@ class GameActions {
     const leftUpZone = new Zone(this._scene, centerX / 2, height / 4, width / 2, height / 2).setDepth(5)
     leftUpZone.clickCallback = (): void => {
       Settings.sounds.play('keyboard')
-      this._scene.player.up()
-      this._scene.player.left()
+      this._scene.player.leftUp()
     }
 
     const leftDownZone = new Zone(this._scene, centerX / 2, leftUpZone.getBounds().bottom * 1.5, width / 2, height / 2).setDepth(5)
     leftDownZone.clickCallback = (): void => {
       Settings.sounds.play('keyboard')
-      this._scene.player.down()
-      this._scene.player.left()
+      this._scene.player.leftDown()
     }
 
     // const jumpBtn = new Button(this._scene, centerX / 3, height - 137, 'button')
@@ -191,15 +189,13 @@ class GameActions {
     const rightUpZone = new Zone(this._scene, centerX * 1.5, height / 4, width / 2, height / 2).setDepth(5)
     rightUpZone.clickCallback = (): void => {
       Settings.sounds.play('keyboard')
-      this._scene.player.up()
-      this._scene.player.right()
+      this._scene.player.rightUp()
     }
 
     const rightDownZone = new Zone(this._scene, centerX * 1.5, rightUpZone.getBounds().bottom * 1.5, width / 2, height / 2).setDepth(5);;
     rightDownZone.clickCallback = (): void => {
       Settings.sounds.play('keyboard')
-      this._scene.player.right()
-      this._scene.player.down()
+      this._scene.player.rightDown()
     }
   }
 
