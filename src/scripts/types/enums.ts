@@ -18,6 +18,8 @@ enum platforms {
 enum eggType {
   default = 'egg',
   gold = 'egg-gold',
+  good = 'egg-good',
+  bad = 'egg-bad',
 }
 
 export {

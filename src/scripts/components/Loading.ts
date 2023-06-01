@@ -1,6 +1,8 @@
 import egg from '../../assets/images/egg.png';
 import eggSmashImg from '../../assets/images/egg-smash.png';
 import eggGold from '../../assets/images/egg-gold.png';
+import eggGood from '../../assets/images/egg-good.png';
+import eggBad from '../../assets/images/egg-bad.png';
 
 import wood from '../../assets/images/wood.png';
 import blackPixel from '../../assets/images/black-pixel.png';
@@ -95,6 +97,8 @@ class Loading {
     this._scene.load.image('egg', egg);
     this._scene.load.image('egg-smash', eggSmashImg);
     this._scene.load.image('egg-gold', eggGold);
+    this._scene.load.image('egg-good', eggGood);
+    this._scene.load.image('egg-bad', eggBad);
 
     this._scene.load.image('player-up', playerUP);
     this._scene.load.image('player-down', playerDown);
