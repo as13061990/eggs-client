@@ -21,6 +21,7 @@ class UI extends Phaser.Scene {
   }
 
   public actions: UIActions = new UIActions(this);
+  public boostTimer: Phaser.GameObjects.Text
 
   public create(): void {
     this.actions.build();

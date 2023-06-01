@@ -2,7 +2,7 @@ import Session from "../data/Session";
 import Settings from "../data/Settings";
 import Game from "../scenes/Game";
 import UI from "../scenes/UI";
-import { eggPosition } from "../types/enums";
+import { eggType, eggPosition } from "../types/enums";
 
 
 const PLATFORM_MARGIN_X = 40
@@ -13,18 +13,20 @@ const DURATION_SECOND_ANIMATION = 1500
 const DURATION_SMASHE_EGG_ANIMATION = 2000
 
 class Egg extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene: Game, type: eggPosition) {
-    const { x, y } = Egg._checkForStartPosition(type, scene)
-    super(scene, x, y, 'egg');
+  constructor(scene: Game, position: eggPosition, type: eggType = eggType.default ) {
+    const { x, y } = Egg._checkForStartPosition(position, scene)
+    super(scene, x, y, type);
     this._scene = scene;
     this._type = type
+    this._position = position
     this._build();
   }
 
   private _scene: Game;
-  private _type: eggPosition
+  private _position: eggPosition
   private _reverse: 1 | -1
   private _tween: Phaser.Tweens.Tween = null
+  private _type: eggType
   public danger: boolean = true
 
   private _build(): void {
@@ -35,7 +37,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
 
   private _startFirstAnimation(): void {
     let x: number, y: number
-    switch (this._type) {
+    switch (this._position) {
       case eggPosition.LEFT_UP:
         x = this._scene.actions.woodElements.leftUp.getBounds().right + PLATFORM_MARGIN_X
         y = this._scene.actions.woodElements.leftUp.getBounds().bottom - PLATFORM_MARGIN_Y
@@ -69,10 +71,10 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
 
   private _startSecondAnimation(): void {
     const duration =
-      this._type === eggPosition.LEFT_DOWN || this._type === eggPosition.RIGHT_DOWN
+      this._position === eggPosition.LEFT_DOWN || this._position === eggPosition.RIGHT_DOWN
         ? DURATION_SECOND_ANIMATION / 2.5 : DURATION_SECOND_ANIMATION
     const turnovers =
-      this._type === eggPosition.LEFT_DOWN || this._type === eggPosition.RIGHT_DOWN
+      this._position === eggPosition.LEFT_DOWN || this._position === eggPosition.RIGHT_DOWN
         ? 1 : 2
     this._tween = this._scene.tweens.add({
       targets: this,
@@ -111,8 +113,8 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
 
   }
 
-  private static _checkForStartPosition(type: eggPosition, scene: Game): { x: number, y: number } {
-    switch (type) {
+  private static _checkForStartPosition(position: eggPosition, scene: Game): { x: number, y: number } {
+    switch (position) {
       case eggPosition.LEFT_UP:
         return {
           x: scene.actions.woodElements.leftUp.getBounds().left,
@@ -138,6 +140,10 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
 
   public stopTween(): void {
     this._tween.stop()
+  }
+
+  public getType(): eggType  {
+    return this._type
   }
 }
 

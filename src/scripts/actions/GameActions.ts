@@ -6,6 +6,7 @@ import Session from '../data/Session';
 import Settings from '../data/Settings';
 import Game from '../scenes/Game';
 import UI from '../scenes/UI';
+import { eggType } from '../types/enums';
 
 const PIXEL_FROM_WOOD_EDGES = 100
 const WOOD_ROTATE = 0.46
@@ -70,12 +71,42 @@ class GameActions {
   }
 
   private _eggsPlayer(player: Player, egg: Egg): void {
+    if (egg.getType() === eggType.gold) {
+      this._catchGoldenEgg(egg)
+    } else if (egg.getType() === eggType.default) {
+      this._catchDefaultEgg(egg)
+    }
+  }
+
+  private _catchDefaultEgg(egg: Egg): void {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
     Settings.sounds.play('egg-catch')
     sceneUI.actions.score.setText(Session.getPoints().toString())
+  }
+
+  private _catchGoldenEgg(eggGold: Egg): void {
+    const sceneUI = this._scene.game.scene.getScene('UI') as UI;
+    eggGold.destroy()
+    eggGold.stopTween()
+    Session.plusPoints(1)
+    sceneUI.actions.score.setText(Session.getPoints().toString())
+    this._scene.eggs.getChildren().forEach((egg: Egg) => {
+      egg.stopTween()
+      this._scene.tweens.add({
+        targets: egg,
+        x: sceneUI.actions.score.x,
+        y: sceneUI.actions.score.y,
+        duration: 1000,
+        onComplete: () => {
+          egg.destroy()
+          Session.plusPoints(1)
+          sceneUI.actions.score.setText(Session.getPoints().toString())
+        }
+      });
+    })
   }
 
 
@@ -90,14 +121,24 @@ class GameActions {
     });
   }
 
+  private _generateTypeEgg(): eggType {
+    if (Phaser.Math.RND.frac() < 0.3) {
+      return eggType.gold
+    } else {
+      return eggType.default
+    }
+  }
+
   private _spawnEgg(): void {
     const diff = Session.getDifficulty()
-    if (diff > 1.5) {
+    if (diff > 1.7) {
       const randomNumber = Phaser.Math.Between(0, 3);
-      new Egg(this._scene, randomNumber)
-    } else if (diff <= 1.5 && diff >= 0.8) {
+      const type = this._generateTypeEgg()
+      new Egg(this._scene, randomNumber, type)
+    } else if (diff <= 1.7 && diff >= 0.8) {
       const randomNumber = Phaser.Math.Between(0, 3);
-      new Egg(this._scene, randomNumber)
+      const type = this._generateTypeEgg()
+      new Egg(this._scene, randomNumber, type)
       this._scene.time.addEvent({
         delay: 300, callback: (): void => {
           new Egg(this._scene, Math.abs(randomNumber - 2))
@@ -106,10 +147,10 @@ class GameActions {
       });
     } else if (diff < 0.8) {
       const randomNumber = Phaser.Math.Between(0, 3);
-      new Egg(this._scene, randomNumber)
+      const type = this._generateTypeEgg()
+      new Egg(this._scene, randomNumber, type)
       this._scene.time.addEvent({
-        delay: 200, callback: (): void => {
-          new Egg(this._scene, Math.abs(randomNumber - 1))
+        delay: 300, callback: (): void => {
           new Egg(this._scene, Math.abs(randomNumber - 3))
         }
         , loop: false
@@ -183,7 +224,7 @@ class GameActions {
           .setOrigin(0.5, 0.5)
           .setAlpha(0.6)
           .setDepth(5)
-          clickedLeftUp = true
+        clickedLeftUp = true
         this._scene.tweens.add({
           targets: leftDownZoneAnim,
           alpha: 0,
@@ -208,7 +249,7 @@ class GameActions {
           .setOrigin(0.5, 0)
           .setAlpha(0.6)
           .setDepth(5)
-          clickedLeftDown = true
+        clickedLeftDown = true
         this._scene.tweens.add({
           targets: leftDownZoneAnim,
           alpha: 0,
@@ -238,7 +279,7 @@ class GameActions {
           .setOrigin(0.5, 0.5)
           .setAlpha(0.6)
           .setDepth(5)
-          clickedRightUp = true
+        clickedRightUp = true
         this._scene.tweens.add({
           targets: rightUpZoneAnim,
           alpha: 0,
@@ -250,20 +291,20 @@ class GameActions {
         });
       }
     }
-    
+
     let clickedRightDown = false
     const rightDownZone = new Zone(this._scene, centerX * 1.5, rightUpZone.getBounds().bottom * 1.5, width / 2, height / 2).setDepth(5);;
     rightDownZone.clickCallback = (): void => {
       Settings.sounds.play('keyboard')
       this._scene.player.rightDown()
-      
+
       if (!clickedRightDown) {
         const rightUpZoneAnim = this._scene.add.sprite(centerX * 1.5 - 7, height / 2 + 18, 'modal-full')
           .setDisplaySize(width / 2 - 50, height / 2 - 50)
           .setOrigin(0.5, 0)
           .setAlpha(0.6)
           .setDepth(5)
-          clickedRightDown = true
+        clickedRightDown = true
         this._scene.tweens.add({
           targets: rightUpZoneAnim,
           alpha: 0,

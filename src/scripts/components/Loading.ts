@@ -1,11 +1,13 @@
 import egg from '../../assets/images/egg.png';
+import eggSmashImg from '../../assets/images/egg-smash.png';
+import eggGold from '../../assets/images/egg-gold.png';
+
 import wood from '../../assets/images/wood.png';
 import blackPixel from '../../assets/images/black-pixel.png';
 import playerUP from '../../assets/images/player-up.png';
 import playerDown from '../../assets/images/player-down.png';
 import healthFull from '../../assets/images/hearth-full.png';
 import healthEmpty from '../../assets/images/hearth-empty.png';
-import eggSmashImg from '../../assets/images/egg-smash.png';
 import keyboardArrows from '../../assets/images/keyboard-arrows.png';
 import keyboardWASD from '../../assets/images/keyboard-wasd.png';
 import basket from '../../assets/images/basket.png';
@@ -90,14 +92,16 @@ class Loading {
     Session.setBg(randomNumber)
     this._scene.load.image(`bg-${randomNumber}`, arr[randomNumber - 1]);
 
+    this._scene.load.image('egg', egg);
+    this._scene.load.image('egg-smash', eggSmashImg);
+    this._scene.load.image('egg-gold', eggGold);
+
     this._scene.load.image('player-up', playerUP);
     this._scene.load.image('player-down', playerDown);
     this._scene.load.image('black-pixel', blackPixel);
-    this._scene.load.image('egg', egg);
     this._scene.load.image('wood', wood);
     this._scene.load.image('health-full', healthFull);
     this._scene.load.image('health-empty', healthEmpty);
-    this._scene.load.image('egg-smash', eggSmashImg);
     this._scene.load.image('keyboard-arrows', keyboardArrows);
     this._scene.load.image('keyboard-wasd', keyboardWASD);
 

@@ -4,7 +4,7 @@ class Session {
   private _points: number = 0
   private _health: number = 3
   private _over: boolean = false;
-  private _difficulty: number = 2
+  private _difficulty: number = 1.5
   private _watchedRewardAd: boolean = false
   private _watchedAds: number = 3
   private _bg: number = 1

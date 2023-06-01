@@ -170,6 +170,10 @@ class UIActions {
     this.health = new HealthBar(this._scene, this._scene.scale.width - 450, 80)
   }
 
+  public startBoostTimer(): void {
+    
+  }
+
 
   public createMobilePauseButton(): void {
     this._pauseMobileBtn = new Button(this._scene, this._scene.scale.width - 150, 80, 'pause').setDepth(5)

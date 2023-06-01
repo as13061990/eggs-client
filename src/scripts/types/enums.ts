@@ -15,7 +15,13 @@ enum platforms {
   VK = 1
 }
 
+enum eggType {
+  default = 'egg',
+  gold = 'egg-gold',
+}
+
 export {
+  eggType,
   screen,
   platforms,
   eggPosition
