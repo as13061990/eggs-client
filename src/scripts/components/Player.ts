@@ -4,7 +4,7 @@ import Game from '../scenes/Game';
 const MARGIN_X = 150
 const MARGIN_X_PLAYER_SPRITE = 330
 const MARGIN_Y_PLAYER_SPRITE = 100
-const ANIMATION_DURATION = Settings.isMobile() ? 100 : 200  
+const ANIMATION_DURATION = Settings.isMobile() ? 100 : 200
 
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene: Game) {
@@ -49,7 +49,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       repeat: -1,
     });
   }
-  
+
   private _startFlyAnimation(): void {
     this._flyAnimation = this._scene.tweens.add({
       targets: this,
@@ -68,6 +68,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     if (!this.isMoving) {
       this._stopFlyAnimation()
       this.isMoving = true;
+      const { centerY } = this._scene.cameras.main;
+      if (this.y > centerY) {
+        this.setPosition(this.x, this._scene.actions.woodElements.leftDown.getBounds().bottom)
+      } else {
+        this.setPosition(this.x, this._scene.actions.woodElements.leftUp.getBounds().bottom)
+      }
       this._scene.tweens.add({
         targets: this,
         x: { value: this._scene.actions.woodElements.rightDown.getBounds().left - MARGIN_X },
@@ -87,6 +93,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     if (!this.isMoving) {
       this._stopFlyAnimation()
       this.isMoving = true;
+      const { centerY } = this._scene.cameras.main;
+      if (this.y > centerY) {
+        this.setPosition(this.x, this._scene.actions.woodElements.leftDown.getBounds().bottom)
+      } else {
+        this.setPosition(this.x, this._scene.actions.woodElements.leftUp.getBounds().bottom)
+      }
       this._scene.tweens.add({
         targets: this,
         x: { value: this._scene.actions.woodElements.leftDown.getBounds().right + MARGIN_X },
@@ -94,14 +106,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         duration: ANIMATION_DURATION,
         onComplete: () => {
           this.isMoving = false;
-           this._startFlyAnimation()
+          this._startFlyAnimation()
         }
       });
-      // this.setPosition(this._scene.actions.woodElements.leftDown.getBounds().right + MARGIN_X, this.y)
+
       this._sprite.flipX = true
     }
   }
-  
+
   public down(): void {
     if (!this.isMoving) {
       this._stopFlyAnimation()
@@ -113,7 +125,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         duration: ANIMATION_DURATION,
         onComplete: () => {
           this.isMoving = false;
-           this._startFlyAnimation()
+          this._startFlyAnimation()
         }
       });
     }
@@ -131,7 +143,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         duration: ANIMATION_DURATION,
         onComplete: () => {
           this.isMoving = false;
-           this._startFlyAnimation()
+          this._startFlyAnimation()
         }
       });
     }
@@ -144,12 +156,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.isMoving = true;
       this._scene.tweens.add({
         targets: this,
-        x: { value:this._scene.actions.woodElements.leftUp.getBounds().right + MARGIN_X  },
+        x: { value: this._scene.actions.woodElements.leftUp.getBounds().right + MARGIN_X },
         y: { value: this._scene.actions.woodElements.leftUp.getBounds().bottom },
         duration: ANIMATION_DURATION,
         onComplete: () => {
           this.isMoving = false;
-           this._startFlyAnimation()
+          this._startFlyAnimation()
         }
       });
       this._sprite.flipX = true
@@ -162,12 +174,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.isMoving = true;
       this._scene.tweens.add({
         targets: this,
-        x: { value:this._scene.actions.woodElements.leftDown.getBounds().right + MARGIN_X  },
+        x: { value: this._scene.actions.woodElements.leftDown.getBounds().right + MARGIN_X },
         y: { value: this._scene.actions.woodElements.leftDown.getBounds().bottom },
         duration: ANIMATION_DURATION,
         onComplete: () => {
           this.isMoving = false;
-           this._startFlyAnimation()
+          this._startFlyAnimation()
         }
       });
       this._sprite.flipX = true
@@ -180,12 +192,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.isMoving = true;
       this._scene.tweens.add({
         targets: this,
-        x: { value:this._scene.actions.woodElements.rightUp.getBounds().left - MARGIN_X  },
+        x: { value: this._scene.actions.woodElements.rightUp.getBounds().left - MARGIN_X },
         y: { value: this._scene.actions.woodElements.rightUp.getBounds().bottom },
         duration: ANIMATION_DURATION,
         onComplete: () => {
           this.isMoving = false;
-           this._startFlyAnimation()
+          this._startFlyAnimation()
         }
       });
       this._sprite.flipX = false
@@ -198,12 +210,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.isMoving = true;
       this._scene.tweens.add({
         targets: this,
-        x: { value:this._scene.actions.woodElements.rightDown.getBounds().left - MARGIN_X  },
+        x: { value: this._scene.actions.woodElements.rightDown.getBounds().left - MARGIN_X },
         y: { value: this._scene.actions.woodElements.rightDown.getBounds().bottom },
         duration: ANIMATION_DURATION,
         onComplete: () => {
           this.isMoving = false;
-           this._startFlyAnimation()
+          this._startFlyAnimation()
         }
       });
       this._sprite.flipX = false

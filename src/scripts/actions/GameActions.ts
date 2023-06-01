@@ -92,10 +92,10 @@ class GameActions {
 
   private _spawnEgg(): void {
     const diff = Session.getDifficulty()
-    if (diff > 1.2) {
+    if (diff > 1.5) {
       const randomNumber = Phaser.Math.Between(0, 3);
       new Egg(this._scene, randomNumber)
-    } else if (diff <= 1.2 && diff >= 0.8) {
+    } else if (diff <= 1.5 && diff >= 0.8) {
       const randomNumber = Phaser.Math.Between(0, 3);
       new Egg(this._scene, randomNumber)
       this._scene.time.addEvent({

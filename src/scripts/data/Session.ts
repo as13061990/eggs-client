@@ -1,13 +1,16 @@
+const DIFFICULTY_SCALE = 0.01
+const DIFFICULTY_SCALE_MEDIUM = 0.005
 class Session {
   private _points: number = 0
   private _health: number = 3
   private _over: boolean = false;
-  private _difficulty: number = 0.7
+  private _difficulty: number = 2
   private _watchedRewardAd: boolean = false
   private _watchedAds: number = 3
   private _bg: number = 1
 
   public clear(): void {
+    this._difficulty = 2
     this._points = 0
     this._health = 3
     this._over = false
@@ -50,9 +53,20 @@ class Session {
   }
 
   public setDifficulty(value: number): void {
-    if (value >= 0.2 && value <= 2) {
+    if (value >= 0.5 && value <= 2) {
       this._difficulty = value
     }
+  }
+
+  public scaleDifficulty(): void {
+    if (this._difficulty >= 0.5 && this._difficulty <= 2) {
+      if (this._difficulty >= 0.8 && this._difficulty <= 1.5) {
+        this._difficulty -= DIFFICULTY_SCALE_MEDIUM
+      } else {
+        this._difficulty -= DIFFICULTY_SCALE
+      }
+    }
+
   }
 
   public getBg(): number {
