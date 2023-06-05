@@ -84,18 +84,14 @@ class GameActions {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
-    const sceneUI = this._scene.game.scene.getScene('UI') as UI;
     Settings.sounds.play('egg-catch')
-    sceneUI.score.setText(Session.getPoints().toString())
   }
 
   private _catchGoodEgg(egg: Egg): void {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
-    const sceneUI = this._scene.game.scene.getScene('UI') as UI;
     Settings.sounds.play('egg-catch')
-    sceneUI.score.setText(Session.getPoints().toString())
     Session.setActiveBooster(true, eggType.good)
   }
 
@@ -104,7 +100,6 @@ class GameActions {
     eggGold.destroy()
     eggGold.stopTween()
     Session.plusPoints(1)
-    sceneUI.score.setText(Session.getPoints().toString())
     this._scene.eggs.getChildren().forEach((egg: Egg) => {
       egg.stopTween()
       this._scene.tweens.add({
@@ -115,7 +110,6 @@ class GameActions {
         onComplete: () => {
           egg.destroy()
           Session.plusPoints(1)
-          sceneUI.score.setText(Session.getPoints().toString())
         }
       });
     })

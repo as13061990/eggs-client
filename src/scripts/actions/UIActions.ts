@@ -15,6 +15,7 @@ import User from "../data/User";
 import Zone from "../components/Zone";
 import Api from "../data/Api";
 import GoodMushroomBooster from "../components/GoodMushroomBooster";
+import Score from "../components/Score";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
@@ -163,7 +164,7 @@ class UIActions {
   }
 
   private _createScore(): void {
-    this._scene.score = this._scene.add.text(68, 60, Session.getPoints().toString(), { font: '64px EpilepsySansBold', color: 'yellow' }).setDepth(4)
+    this._scene.score = new Score(this._scene)
   }
 
   private _createHealth(): void {
