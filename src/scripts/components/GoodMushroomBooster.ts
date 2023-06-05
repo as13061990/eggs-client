@@ -2,6 +2,7 @@ import Session from "../data/Session";
 import Game from "../scenes/Game";
 import UI from "../scenes/UI";
 import { eggType } from "../types/enums";
+import Egg from "./Egg";
 
 class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
   constructor(scene: UI) {
@@ -24,7 +25,6 @@ class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
 
   protected preUpdate(time: number, delta: number): void {
     if (!this.visible && Session.getBoostTimer(this._type) > 0 && Session.getActiveBooster(this._type)) {
-      console.log('asd')
       let countActive = 0
       if (Session.getActiveBooster(eggType.bad)) countActive++
       if (Session.getActiveBooster(eggType.score)) countActive++
@@ -40,8 +40,16 @@ class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
       this._text.setText(Session.getBoostTimer(this._type).toString())
     }
     if (this.visible && Session.getBoostTimer(this._type) === 0) {
+      Session.setActiveBooster(false, this._type)
+
       this.setVisible(false)
       this._text.setVisible(false)
+      
+      const game = this._scene.game.scene.getScene('Game') as Game;
+      game.eggs.getChildren().forEach((egg: Egg) => {
+        console.log('easdasd')
+        egg.resetScaleTweenTime()
+      });
     }
   }
 }

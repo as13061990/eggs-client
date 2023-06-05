@@ -93,6 +93,9 @@ class GameActions {
     Session.plusPoints(1)
     Settings.sounds.play('egg-catch')
     Session.setActiveBooster(true, eggType.good)
+    this._scene.eggs.getChildren().forEach((egg: Egg) => {
+      egg.scaleTweenTime()
+    });
   }
 
   private _catchGoldenEgg(eggGold: Egg): void {

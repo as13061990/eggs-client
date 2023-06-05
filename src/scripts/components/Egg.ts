@@ -7,13 +7,12 @@ import { eggType, eggPosition } from "../types/enums";
 
 const PLATFORM_MARGIN_X = 40
 const PLATFORM_MARGIN_Y = 60
-
 const DURATION_FIRST_ANIMATION = 3000
 const DURATION_SECOND_ANIMATION = 1500
 const DURATION_SMASHE_EGG_ANIMATION = 2000
 
 class Egg extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene: Game, position: eggPosition, type: eggType = eggType.default ) {
+  constructor(scene: Game, position: eggPosition, type: eggType = eggType.default) {
     const { x, y } = Egg._checkForStartPosition(position, scene)
     super(scene, x, y, type);
     this._scene = scene;
@@ -59,12 +58,14 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
         this._reverse = -1
         break;
     }
+
+    const boost = Session.getActiveBooster(eggType.good) ? 1.5 : 1
     this._tween = this._scene.tweens.add({
       targets: this,
       rotation: 4 * Math.PI * this._reverse,
       x: { value: x },
       y: { value: y },
-      duration: DURATION_FIRST_ANIMATION,
+      duration: DURATION_FIRST_ANIMATION * boost,
       onComplete: this._startSecondAnimation.bind(this)
     });
   }
@@ -76,12 +77,14 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
     const turnovers =
       this._position === eggPosition.LEFT_DOWN || this._position === eggPosition.RIGHT_DOWN
         ? 1 : 2
+
+    const boost = Session.getActiveBooster(eggType.good) ? 1.5 : 1
     this._tween = this._scene.tweens.add({
       targets: this,
       rotation: turnovers * Math.PI * this._reverse,
       x: { value: this.x },
       y: { value: this._scene.scale.height - 100 },
-      duration: duration,
+      duration: duration * boost,
       onComplete: this._destroyUncaughtEgg.bind(this)
     });
 
@@ -96,15 +99,21 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
     if (this.danger) {
       Session.minusHealth()
       sceneUI.actions.health.minusHealth()
-      
     }
 
-    const eggSmash = this._scene.add.sprite(x, y, 'egg-smash')
+    let sprite
+    if (this._type === eggType.default || this._type === eggType.gold) {
+      sprite = this._scene.add.sprite(x, y, 'egg-smash')
+    } else if (this._type === eggType.good) {
+      sprite = this._scene.add.sprite(x, y, 'egg-good')
+      sprite.setRotation(0.40)
+    }
+
     this._tween = this._scene.tweens.add({
-      targets: eggSmash,
+      targets: sprite,
       alpha: 0,
       duration: DURATION_SMASHE_EGG_ANIMATION,
-      onComplete: () => eggSmash.destroy()
+      onComplete: () => sprite.destroy()
     });
 
     if (Session.getHealth() === 0) {
@@ -142,7 +151,15 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
     this._tween.stop()
   }
 
-  public getType(): eggType  {
+  public scaleTweenTime(): void {
+    this._tween.setTimeScale(0.67)
+  }
+
+  public resetScaleTweenTime(): void {
+    this._tween.setTimeScale(1.49)
+  }
+
+  public getType(): eggType {
     return this._type
   }
 }
