@@ -26,6 +26,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   private _reverse: 1 | -1
   private _tween: Phaser.Tweens.Tween = null
   private _type: eggType
+  private _isScaleTweenTime: boolean = false
   public danger: boolean = true
 
   private _build(): void {
@@ -60,6 +61,8 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
     }
 
     const boost = Session.getActiveBooster(eggType.good) ? 1.5 : 1
+    if (boost === 1.5) this._isScaleTweenTime = true
+
     this._tween = this._scene.tweens.add({
       targets: this,
       rotation: 4 * Math.PI * this._reverse,
@@ -79,6 +82,8 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
         ? 1 : 2
 
     const boost = Session.getActiveBooster(eggType.good) ? 1.5 : 1
+    if (boost === 1.5) this._isScaleTweenTime = true
+
     this._tween = this._scene.tweens.add({
       targets: this,
       rotation: turnovers * Math.PI * this._reverse,
@@ -152,10 +157,14 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   }
 
   public scaleTweenTime(): void {
-    this._tween.setTimeScale(0.67)
+    if (!this._isScaleTweenTime) {
+      this._isScaleTweenTime = true
+      this._tween.setTimeScale(0.68)
+    }
   }
 
   public resetScaleTweenTime(): void {
+    this._isScaleTweenTime = false
     this._tween.setTimeScale(1.49)
   }
 
