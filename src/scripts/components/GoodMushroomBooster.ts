@@ -1,4 +1,5 @@
 import Session from "../data/Session";
+import Settings from "../data/Settings";
 import Game from "../scenes/Game";
 import UI from "../scenes/UI";
 import { eggType } from "../types/enums";
@@ -35,6 +36,9 @@ class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
 
       this.setVisible(true)
       this._text.setVisible(true)
+
+      Settings.sounds.stopMusic()
+      Settings.sounds.playMusic('egg-good')
     }
     if (this.visible && this._text.text !== Session.getBoostTimer(this._type).toString()) {
       this._text.setText(Session.getBoostTimer(this._type).toString())
@@ -44,10 +48,12 @@ class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
 
       this.setVisible(false)
       this._text.setVisible(false)
-      
+
+      Settings.sounds.stopMusic()
+      Settings.sounds.playMusic('bg')
+
       const game = this._scene.game.scene.getScene('Game') as Game;
       game.eggs.getChildren().forEach((egg: Egg) => {
-        console.log('easdasd')
         egg.resetScaleTweenTime()
       });
     }
