@@ -1,8 +1,6 @@
 import Interval from '../actions/Interval';
-import { platforms, screen } from '../types/enums';
+import { eggType, platforms, screen } from '../types/enums';
 
-
-const BOOST_TIMER = 10
 
 class Settings {
 
@@ -18,7 +16,6 @@ class Settings {
   private _platform: platforms = platforms.WEB
   private _adblock: boolean
   private _tutorial: boolean = true
-  private _boostTimer: number = BOOST_TIMER
   public sounds: Isounds;
   public interval: Interval;
 
@@ -69,18 +66,6 @@ class Settings {
 
   public getTutorial(): boolean {
     return this._tutorial
-  }
-
-  public minusBoostTimer(): void {
-    this._boostTimer--
-  }
-
-  public resetBoostTimer(): void {
-    this._boostTimer = BOOST_TIMER
-  }
-
-  public getBoostTimer(): number {
-    return this._boostTimer
   }
 }
 

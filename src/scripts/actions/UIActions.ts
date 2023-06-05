@@ -14,6 +14,7 @@ import Ads from "./Ads";
 import User from "../data/User";
 import Zone from "../components/Zone";
 import Api from "../data/Api";
+import GoodMushroomBooster from "../components/GoodMushroomBooster";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
@@ -29,16 +30,15 @@ class UIActions {
   private _pauseMobileBtn: Button
   private _pauseElements: IPauseElements = { bg: null, modal: null }
   private _activeScreen: Rating = null
-  public score: Phaser.GameObjects.Text
   public health: HealthBar
 
   public build(): void {
-    this.createMobilePauseButton()
-    this.createScore()
-    this.createHealth()
-    this.creatTutorial()
+    this._createMobilePauseButton()
+    this._createScore()
+    this._createHealth()
+    this._createTutorial()
+    this._createBoosters()
   }
-
 
   public gamePause(): void {
     if (Session.getOver()) return;
@@ -162,27 +162,27 @@ class UIActions {
     this._pauseMobileBtn?.disableInteractive()
   }
 
-  public createScore(): void {
-    this.score = this._scene.add.text(68, 60, Session.getPoints().toString(), { font: '64px EpilepsySansBold', color: 'yellow' }).setDepth(4)
+  private _createScore(): void {
+    this._scene.score = this._scene.add.text(68, 60, Session.getPoints().toString(), { font: '64px EpilepsySansBold', color: 'yellow' }).setDepth(4)
   }
 
-  public createHealth(): void {
+  private _createHealth(): void {
     this.health = new HealthBar(this._scene, this._scene.scale.width - 450, 80)
   }
 
-  public startBoostTimer(): void {
-    
+  private _createBoosters(): void {
+    this._scene.goodEggBoost = new GoodMushroomBooster(this._scene)
   }
 
 
-  public createMobilePauseButton(): void {
+  private _createMobilePauseButton(): void {
     this._pauseMobileBtn = new Button(this._scene, this._scene.scale.width - 150, 80, 'pause').setDepth(5)
     this._pauseMobileBtn.callback = (): void => {
       this.gamePause()
     }
   }
 
-  public creatTutorial(): void {
+  private _createTutorial(): void {
     if (!Settings.getTutorial()) return
     const sceneGame = this._scene.game.scene.getScene('Game') as Game;
     sceneGame.scene.pause()
@@ -221,10 +221,10 @@ class UIActions {
       }).setOrigin(.5, .5).setDepth(21);
 
       const leftDownZone = this._scene.add.sprite(centerX / 2 + 7, height / 2 + 18, 'modal-full')
-      .setDisplaySize(width / 2 - 50, height / 2 - 50)
-      .setOrigin(0.5, 0)
-      .setAlpha(0.3)
-      .setDepth(5)
+        .setDisplaySize(width / 2 - 50, height / 2 - 50)
+        .setOrigin(0.5, 0)
+        .setAlpha(0.3)
+        .setDepth(5)
 
       const leftDownZoneText = this._scene.add.text(leftDownZone.getBounds().centerX, leftDownZone.getBounds().centerY, ('Сюда').toUpperCase(), {
         align: 'center',

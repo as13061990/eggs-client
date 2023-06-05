@@ -1,5 +1,9 @@
+import { eggType } from "../types/enums";
+
 const DIFFICULTY_SCALE = 0.01
 const DIFFICULTY_SCALE_MEDIUM = 0.005
+const BOOST_TIMER = 10
+
 class Session {
   private _points: number = 0
   private _health: number = 3
@@ -8,6 +12,12 @@ class Session {
   private _watchedRewardAd: boolean = false
   private _watchedAds: number = 3
   private _bg: number = 1
+  private _isActiveGoodBooster: boolean = false
+  private _isActiveBadBooster: boolean = false
+  private _isActiveScoreBooster: boolean = false
+  private _boostTimerScore: number = 0
+  private _boostTimerGood: number = 0
+  private _boostTimerBad: number = 0
 
   public clear(): void {
     this._difficulty = 2
@@ -16,6 +26,9 @@ class Session {
     this._over = false
     this._watchedRewardAd = false
     this._watchedAds = 3
+    this._isActiveGoodBooster = false
+    this._isActiveBadBooster = false
+    this._isActiveScoreBooster = false
   }
 
   public getPoints(): number {
@@ -92,6 +105,76 @@ class Session {
   public minusWatchedAds(): void {
     if (this._watchedAds === 0) return
     this._watchedAds -= 1
+  }
+
+  public getActiveBooster(type: eggType): boolean {
+    switch (type) {
+      case (eggType.good):
+        return this._isActiveGoodBooster
+      case (eggType.bad):
+        return this._isActiveBadBooster
+      case (eggType.score):
+        return this._isActiveScoreBooster
+    }
+  }
+
+  public setActiveBooster(active: boolean, type: eggType,): void {
+    switch (type) {
+      case (eggType.good):
+        if (active) this._boostTimerGood = BOOST_TIMER
+        this._isActiveGoodBooster = active
+        break;
+      case (eggType.bad):
+        if (active) this._boostTimerBad = BOOST_TIMER
+        this._isActiveBadBooster = active
+        break;
+      case (eggType.score):
+        if (active) this._boostTimerScore = BOOST_TIMER
+        this._isActiveScoreBooster = active
+        break;
+    }
+  }
+
+  public minusBoostTimer(type: eggType): void {
+    switch (type) {
+      case (eggType.good):
+        if (this._boostTimerGood === 0) return
+        this._boostTimerGood--
+        break;
+      case (eggType.bad):
+        if (this._boostTimerBad === 0) return
+        this._boostTimerBad--
+        break;
+      case (eggType.score):
+        if (this._boostTimerScore === 0) return
+        this._boostTimerScore--
+        break;
+    }
+  }
+
+  public resetBoostTimer(type: eggType): void {
+    switch (type) {
+      case (eggType.good):
+        this._boostTimerGood = 0
+        break;
+      case (eggType.bad):
+        this._boostTimerBad = 0
+        break;
+      case (eggType.score):
+        this._boostTimerScore = 0
+        break;
+    }
+  }
+
+  public getBoostTimer(type: eggType): number {
+    switch (type) {
+      case (eggType.good):
+        return this._boostTimerGood
+      case (eggType.bad):
+        return this._boostTimerBad
+      case (eggType.score):
+        return this._boostTimerScore
+    }
   }
 
 }

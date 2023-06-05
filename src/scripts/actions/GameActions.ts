@@ -75,6 +75,8 @@ class GameActions {
       this._catchGoldenEgg(egg)
     } else if (egg.getType() === eggType.default) {
       this._catchDefaultEgg(egg)
+    } else if (egg.getType() === eggType.good) {
+      this._catchGoodEgg(egg)
     }
   }
 
@@ -84,7 +86,17 @@ class GameActions {
     Session.plusPoints(1)
     const sceneUI = this._scene.game.scene.getScene('UI') as UI;
     Settings.sounds.play('egg-catch')
-    sceneUI.actions.score.setText(Session.getPoints().toString())
+    sceneUI.score.setText(Session.getPoints().toString())
+  }
+
+  private _catchGoodEgg(egg: Egg): void {
+    egg.destroy()
+    egg.stopTween()
+    Session.plusPoints(1)
+    const sceneUI = this._scene.game.scene.getScene('UI') as UI;
+    Settings.sounds.play('egg-catch')
+    sceneUI.score.setText(Session.getPoints().toString())
+    Session.setActiveBooster(true, eggType.good)
   }
 
   private _catchGoldenEgg(eggGold: Egg): void {
@@ -92,18 +104,18 @@ class GameActions {
     eggGold.destroy()
     eggGold.stopTween()
     Session.plusPoints(1)
-    sceneUI.actions.score.setText(Session.getPoints().toString())
+    sceneUI.score.setText(Session.getPoints().toString())
     this._scene.eggs.getChildren().forEach((egg: Egg) => {
       egg.stopTween()
       this._scene.tweens.add({
         targets: egg,
-        x: sceneUI.actions.score.x,
-        y: sceneUI.actions.score.y,
+        x: sceneUI.score.x,
+        y: sceneUI.score.y,
         duration: 1000,
         onComplete: () => {
           egg.destroy()
           Session.plusPoints(1)
-          sceneUI.actions.score.setText(Session.getPoints().toString())
+          sceneUI.score.setText(Session.getPoints().toString())
         }
       });
     })
@@ -122,8 +134,15 @@ class GameActions {
   }
 
   private _generateTypeEgg(): eggType {
-    if (Phaser.Math.RND.frac() < 0.3) {
-      return eggType.gold
+    if (Phaser.Math.RND.frac() < 0.5) {
+      const randomNumber = Phaser.Math.RND.frac()
+      if (randomNumber <= 0.5) {
+        return eggType.gold
+      } else if (randomNumber > 0.1 && randomNumber <= 0.9) {
+        return eggType.good
+      } else if (randomNumber > 0.2 && randomNumber <= 0.3) {
+        return eggType.bad
+      }
     } else {
       return eggType.default
     }
