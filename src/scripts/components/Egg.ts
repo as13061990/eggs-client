@@ -96,14 +96,12 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   }
 
   private _destroyUncaughtEgg(): void {
-    const sceneUI = this._scene.game.scene.getScene('UI') as UI;
     Settings.sounds.play('egg-smash')
     const { x, y } = this
 
     this.destroy()
     if (this.danger) {
       Session.minusHealth()
-      sceneUI.actions.health.minusHealth()
     }
 
     let sprite
@@ -120,11 +118,6 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
       duration: DURATION_SMASHE_EGG_ANIMATION,
       onComplete: () => sprite.destroy()
     });
-
-    if (Session.getHealth() === 0) {
-      sceneUI.actions.gameOver()
-    }
-
   }
 
   private static _checkForStartPosition(position: eggPosition, scene: Game): { x: number, y: number } {

@@ -21,6 +21,7 @@ enum eggType {
   good = 'egg-good',
   bad = 'egg-bad',
   score = 'egg-score',
+  health = 'health-full'
 }
 
 export {

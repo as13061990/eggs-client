@@ -111,8 +111,12 @@ class GameActions {
         y: sceneUI.score.y,
         duration: 1000,
         onComplete: () => {
-          egg.destroy()
-          Session.plusPoints(1)
+          if (egg.getType() === eggType.good) {
+            this._catchGoodEgg(egg)
+          } else {
+            egg.destroy()
+            Session.plusPoints(1)
+          }
         }
       });
     })
@@ -133,12 +137,14 @@ class GameActions {
   private _generateTypeEgg(): eggType {
     if (Phaser.Math.RND.frac() < 0.5) {
       const randomNumber = Phaser.Math.RND.frac()
-      if (randomNumber <= 0.5) {
+      if (randomNumber <= 0.1) {
         return eggType.gold
-      } else if (randomNumber > 0.1 && randomNumber <= 0.9) {
+      } else if (randomNumber > 0.1 && randomNumber <= 0.2) {
         return eggType.good
       } else if (randomNumber > 0.2 && randomNumber <= 0.3) {
-        return eggType.bad
+        return eggType.health
+      } else if (randomNumber > 0.3 && randomNumber <= 0.4) {
+        return eggType.health
       }
     } else {
       return eggType.default
