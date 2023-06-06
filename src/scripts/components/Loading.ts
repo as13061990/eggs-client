@@ -7,6 +7,7 @@ import eggHeal from '../../assets/images/egg-heal.png';
 import eggHealSmash from '../../assets/images/egg-heal-smash.png';
 import eggBomb from '../../assets/images/egg-bomb.png';
 import eggBombSmash from '../../assets/images/egg-bomb-smash.png';
+import eggScore from '../../assets/images/egg-score.png';
 
 import wood from '../../assets/images/wood.png';
 import blackPixel from '../../assets/images/black-pixel.png';
@@ -105,6 +106,7 @@ class Loading {
     this._scene.load.image('egg-bad', eggBad);
     this._scene.load.image('egg-heal', eggHeal);
     this._scene.load.image('egg-bomb', eggBomb);
+    this._scene.load.image('egg-score', eggScore);
 
     this._scene.load.image('egg-smash', eggSmashImg);
     this._scene.load.image('egg-heal-smash', eggHealSmash);

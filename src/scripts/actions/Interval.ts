@@ -24,6 +24,8 @@ class Interval {
     const game = this._scene.game.scene.getScene('Game') as Game;
     Session.scaleDifficulty()
     if (Session.getActiveBooster(boosterType.good)) Session.minusBoostTimer(boosterType.good) 
+    if (Session.getActiveBooster(boosterType.score)) Session.minusBoostTimer(boosterType.score) 
+    if (Session.getActiveBooster(boosterType.bad)) Session.minusBoostTimer(boosterType.bad) 
   }
 }
 

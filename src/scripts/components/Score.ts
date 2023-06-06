@@ -17,7 +17,6 @@ class Score extends Phaser.GameObjects.Text {
 
   protected preUpdate(time: number, delta: number): void {
     if (this.text !== Session.getPoints().toString()) {
-      console.log('score')
       this.setText(Session.getPoints().toString())
     }
   }

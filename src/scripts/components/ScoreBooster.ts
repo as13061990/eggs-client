@@ -5,21 +5,21 @@ import UI from "../scenes/UI";
 import { boosterType } from "../types/enums";
 import Egg from "./Egg";
 
-class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
+class ScoreBooster extends Phaser.GameObjects.Sprite {
   constructor(scene: UI) {
-    super(scene, 0, 0, 'egg-good')
+    super(scene, 0, 0, 'egg-score')
     this._scene = scene
     this._build()
   }
 
   private _scene: UI
   private _text: Phaser.GameObjects.Text
-  private _type: boosterType = boosterType.good
+  private _type: boosterType = boosterType.score
 
   private _build(): void {
     this._scene.add.existing(this);
     this._text = this._scene.add.text(0, 0, Session.getBoostTimer(this._type).toString(), { font: '64px EpilepsySansBold', color: 'white' })
-
+    this.setDisplaySize(80, 66)
     this.setVisible(false)
     this._text.setVisible(false)
   }
@@ -28,7 +28,7 @@ class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
     if (!this.visible && Session.getBoostTimer(this._type) > 0 && Session.getActiveBooster(this._type)) {
       let countActive = 0
       if (Session.getActiveBooster(boosterType.bad)) countActive++
-      if (Session.getActiveBooster(boosterType.score)) countActive++
+      if (Session.getActiveBooster(boosterType.good)) countActive++
 
       const { centerX } = this._scene.cameras.main;
       this.setPosition(centerX, this._scene.score.getBounds().centerY + (70 * countActive))
@@ -36,9 +36,10 @@ class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
 
       this.setVisible(true)
       this._text.setVisible(true)
-
-      Settings.sounds.stopMusic()
-      Settings.sounds.playMusic('egg-good')
+      if (countActive === 0) {
+        Settings.sounds.stopMusic()
+        Settings.sounds.playMusic('egg-good')
+      }
     }
     if (this.visible && this._text.text !== Session.getBoostTimer(this._type).toString()) {
       this._text.setText(Session.getBoostTimer(this._type).toString())
@@ -49,15 +50,16 @@ class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
       this.setVisible(false)
       this._text.setVisible(false)
 
-      Settings.sounds.stopMusic()
-      Settings.sounds.playMusic('bg')
+      let countActive = 0
+      if (Session.getActiveBooster(boosterType.bad)) countActive++
+      if (Session.getActiveBooster(boosterType.good)) countActive++
 
-      const game = this._scene.game.scene.getScene('Game') as Game;
-      game.eggs.getChildren().forEach((egg: Egg) => {
-        egg.resetScaleTweenTime()
-      });
+      if (countActive === 0) {
+        Settings.sounds.stopMusic()
+        Settings.sounds.playMusic('bg')
+      }
     }
   }
 }
 
-export default GoodMushroomBooster
+export default ScoreBooster

@@ -36,7 +36,9 @@ class Session {
   }
 
   public plusPoints(number: number): number {
-    return this._points += number
+    let scale = 1
+    if (this._isActiveScoreBooster) scale = 2
+    return this._points += number * scale
   }
 
   public getHealth(): number {

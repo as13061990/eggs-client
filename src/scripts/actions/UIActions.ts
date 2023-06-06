@@ -1,4 +1,3 @@
-import axios from "axios";
 import Button from "../components/Button";
 import Egg from "../components/Egg";
 import HealthBar from "../components/HealthBar";
@@ -9,13 +8,14 @@ import Game from "../scenes/Game";
 import UI from "../scenes/UI";
 import Rating from "../screen/Rating";
 import RewardLifeAd from "../screen/RewardLifeAd";
-import { platforms, screen } from "../types/enums";
+import { boosterType, screen } from "../types/enums";
 import Ads from "./Ads";
 import User from "../data/User";
 import Zone from "../components/Zone";
 import Api from "../data/Api";
-import GoodMushroomBooster from "../components/GoodMushroomBooster";
+import GoodBooster from "../components/GoodBooster";
 import Score from "../components/Score";
+import ScoreBooster from "../components/ScoreBooster";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
@@ -103,6 +103,15 @@ class UIActions {
     if (Session.getOver()) return;
     Session.setOver(true);
 
+    let countActive = 0
+    if (Session.getActiveBooster(boosterType.bad)) countActive++
+    if (Session.getActiveBooster(boosterType.score)) countActive++
+    if (Session.getActiveBooster(boosterType.good)) countActive++
+
+    if (countActive > 0) {
+      Settings.sounds.stopMusic()
+      Settings.sounds.playMusic('bg')
+    }
 
     const { width, height } = this._scene.cameras.main;
 
@@ -172,7 +181,8 @@ class UIActions {
   }
 
   private _createBoosters(): void {
-    this._scene.goodEggBoost = new GoodMushroomBooster(this._scene)
+    this._scene.goodEggBoost = new GoodBooster(this._scene)
+    this._scene.scoreEggBoost = new ScoreBooster(this._scene)
   }
 
 

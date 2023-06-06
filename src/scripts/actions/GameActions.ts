@@ -91,6 +91,8 @@ class GameActions {
       this._catchHealEgg(egg)
     } else if (egg.getType() === eggType.bomb) {
       this._catchBombEgg(egg)
+    } else if (egg.getType() === eggType.score) {
+      this._catchScoreEgg(egg)
     }
   }
 
@@ -136,6 +138,8 @@ class GameActions {
       this._catchHealEgg(egg)
     } else if (egg.getType() === eggType.bomb) {
       this._catchBombEgg(egg)
+    } else if (egg.getType() === eggType.score) {
+      this._catchScoreEgg(egg)
     } else {
       egg.destroy()
       Session.plusPoints(1)
@@ -163,6 +167,13 @@ class GameActions {
     })
   }
 
+  private _catchScoreEgg(egg: Egg): void {
+    egg.destroy()
+    egg.stopTween()
+    Session.plusPoints(1)
+    Settings.sounds.play('egg-catch')
+    Session.setActiveBooster(true, boosterType.score)
+  }
 
   private _createEggsGroup(): void {
     const delay = Session.getDifficulty() * 1000
@@ -175,8 +186,10 @@ class GameActions {
     });
   }
 
+
+
   private _generateTypeEgg(): eggType {
-    if (Phaser.Math.RND.frac() < 0.5) {
+    if (Phaser.Math.RND.frac() < 0.8) {
       const randomNumber = Phaser.Math.RND.frac()
       if (randomNumber <= 0.1) {
         return eggType.gold
@@ -186,6 +199,8 @@ class GameActions {
         return eggType.heal
       } else if (randomNumber > 0.3 && randomNumber <= 0.4) {
         return eggType.bomb
+      } else if (randomNumber > 0.4 && randomNumber <= 0.5) {
+        return eggType.score
       }
     } else {
       return eggType.default

@@ -14,7 +14,8 @@ import Egg from "../components/Egg";
 import Zone from "../components/Zone";
 import { Scene } from "phaser";
 import UIActions from "../actions/UIActions";
-import GoodMushroomBooster from "../components/GoodMushroomBooster";
+import GoodBooster from "../components/GoodBooster";
+import ScoreBooster from "../components/ScoreBooster";
 
 class UI extends Phaser.Scene {
   constructor() {
@@ -22,7 +23,8 @@ class UI extends Phaser.Scene {
   }
 
   public actions: UIActions = new UIActions(this);
-  public goodEggBoost: GoodMushroomBooster
+  public goodEggBoost: GoodBooster
+  public scoreEggBoost: ScoreBooster
   public score: Phaser.GameObjects.Text
 
   public create(): void {
