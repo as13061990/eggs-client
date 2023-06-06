@@ -99,7 +99,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
     const { x, y } = this
 
     this.destroy()
-    if (this.danger && this._type !== eggType.bomb) {
+    if (this.danger && this._type !== eggType.bomb && this._type !== eggType.bad) {
       Session.minusHealth()
     }
 
@@ -115,6 +115,10 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
       sprite = this._scene.add.sprite(x, y, 'egg-bomb-smash')
       sprite.anims.play('egg-bomb-smash', true)
       Settings.sounds.play('egg-bomb-smash')
+    } else if (this._type === eggType.bad) {
+      sprite = this._scene.add.sprite(x, y, 'egg-bad')
+      sprite.setRotation(0.40)
+      Settings.sounds.play('egg-smash')
     } else {
       Settings.sounds.play('egg-smash')
       sprite = this._scene.add.sprite(x, y, 'egg-smash')

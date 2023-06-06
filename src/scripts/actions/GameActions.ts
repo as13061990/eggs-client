@@ -93,6 +93,8 @@ class GameActions {
       this._catchBombEgg(egg)
     } else if (egg.getType() === eggType.score) {
       this._catchScoreEgg(egg)
+    } else if (egg.getType() === eggType.bad) {
+      this._catchBadEgg(egg)
     }
   }
 
@@ -140,6 +142,8 @@ class GameActions {
       this._catchBombEgg(egg)
     } else if (egg.getType() === eggType.score) {
       this._catchScoreEgg(egg)
+    } else if (egg.getType() === eggType.bad) {
+      this._catchBadEgg(egg)
     } else {
       egg.destroy()
       Session.plusPoints(1)
@@ -175,6 +179,14 @@ class GameActions {
     Session.setActiveBooster(true, boosterType.score)
   }
 
+  private _catchBadEgg(egg: Egg): void {
+    egg.destroy()
+    egg.stopTween()
+    Session.plusPoints(1)
+    Settings.sounds.play('egg-catch')
+    Session.setActiveBooster(true, boosterType.bad)
+  }
+
   private _createEggsGroup(): void {
     const delay = Session.getDifficulty() * 1000
     this._scene.time.addEvent({
@@ -189,18 +201,22 @@ class GameActions {
 
 
   private _generateTypeEgg(): eggType {
-    if (Phaser.Math.RND.frac() < 0.8) {
+    if (Phaser.Math.RND.frac() < 0.1) {
       const randomNumber = Phaser.Math.RND.frac()
-      if (randomNumber <= 0.1) {
+      const isBadBoost = Session.getActiveBooster(boosterType.bad)
+      const isGoodBoost = Session.getActiveBooster(boosterType.good)
+      if (randomNumber <= 0.1 && !isBadBoost) {
         return eggType.gold
-      } else if (randomNumber > 0.1 && randomNumber <= 0.2) {
+      } else if (randomNumber > 0.1 && randomNumber <= 0.2 && !isBadBoost) {
         return eggType.good
-      } else if (randomNumber > 0.2 && randomNumber <= 0.3) {
+      } else if (randomNumber > 0.2 && randomNumber <= 0.3 && !isBadBoost) {
         return eggType.heal
-      } else if (randomNumber > 0.3 && randomNumber <= 0.4) {
+      } else if (randomNumber > 0.3 && randomNumber <= 0.4 && !isGoodBoost) {
         return eggType.bomb
-      } else if (randomNumber > 0.4 && randomNumber <= 0.5) {
+      } else if (randomNumber > 0.4 && randomNumber <= 0.5 && !isBadBoost) {
         return eggType.score
+      } else if (randomNumber > 0.5 && randomNumber <= 0.6 && !isGoodBoost) {
+        return eggType.bad
       }
     } else {
       return eggType.default

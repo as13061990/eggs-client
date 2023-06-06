@@ -5,16 +5,17 @@ import UI from "../scenes/UI";
 import { boosterType } from "../types/enums";
 import Egg from "./Egg";
 
-class GoodBooster extends Phaser.GameObjects.Sprite {
+class BadBooster extends Phaser.GameObjects.Sprite {
   constructor(scene: UI) {
-    super(scene, 0, 0, 'egg-good')
+    super(scene, 0, 0, 'egg-bad')
     this._scene = scene
     this._build()
   }
 
   private _scene: UI
   private _text: Phaser.GameObjects.Text
-  private _type: boosterType = boosterType.good
+  private _type: boosterType = boosterType.bad
+  private _bg: Phaser.GameObjects.TileSprite
   private _position: number = 0
 
   private _build(): void {
@@ -26,22 +27,20 @@ class GoodBooster extends Phaser.GameObjects.Sprite {
 
   protected preUpdate(time: number, delta: number): void {
     if (!this.visible && Session.getBoostTimer(this._type) > 0 && Session.getActiveBooster(this._type)) {
-      let countActive = 0
-      if (Session.getActiveBooster(boosterType.bad)) countActive++
-      if (Session.getActiveBooster(boosterType.score)) countActive++
-
+     
       this._position = Session.setPosition()
-      const { centerX } = this._scene.cameras.main;
+
+      const { centerX, width, height  } = this._scene.cameras.main;
       this.setPosition(centerX, this._scene.score.getBounds().centerY + (70 * this._position))
       this._text.setPosition(this.getBounds().right + 10, this.getBounds().top)
 
       this.setVisible(true)
       this._text.setVisible(true)
 
-      if (countActive === 0) {
-        Settings.sounds.stopMusic()
-        Settings.sounds.playMusic('egg-good')
-      }
+      Settings.sounds.stopMusic()
+      Settings.sounds.playMusic('egg-bad')
+
+      this._bg = this._scene.add.tileSprite(0, 0, width, height, 'green-pixel').setAlpha(.7).setOrigin(0, 0).setDepth(5);
     }
     if (this.visible && this._text.text !== Session.getBoostTimer(this._type).toString()) {
       this._text.setText(Session.getBoostTimer(this._type).toString())
@@ -51,25 +50,23 @@ class GoodBooster extends Phaser.GameObjects.Sprite {
 
       this.setVisible(false)
       this._text.setVisible(false)
+      this._bg.destroy()
 
       Session.clearPosition(this._position)
       this._position = 0
-
+      
       let countActive = 0
-      if (Session.getActiveBooster(boosterType.bad)) countActive++
+      if (Session.getActiveBooster(boosterType.good)) countActive++
       if (Session.getActiveBooster(boosterType.score)) countActive++
 
-      if (countActive === 0) {
-        Settings.sounds.stopMusic()
+      Settings.sounds.stopMusic()
+      if (countActive > 0) {
+        Settings.sounds.playMusic('egg-good')
+      } else {
         Settings.sounds.playMusic('bg')
       }
-
-      const game = this._scene.game.scene.getScene('Game') as Game;
-      game.eggs.getChildren().forEach((egg: Egg) => {
-        egg.resetScaleTweenTime()
-      });
     }
   }
 }
 
-export default GoodBooster
+export default BadBooster

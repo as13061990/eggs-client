@@ -16,6 +16,7 @@ import Api from "../data/Api";
 import GoodBooster from "../components/GoodBooster";
 import Score from "../components/Score";
 import ScoreBooster from "../components/ScoreBooster";
+import BadBooster from "../components/BadBooster";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
@@ -183,6 +184,7 @@ class UIActions {
   private _createBoosters(): void {
     this._scene.goodEggBoost = new GoodBooster(this._scene)
     this._scene.scoreEggBoost = new ScoreBooster(this._scene)
+    this._scene.badEggBoost = new BadBooster(this._scene)
   }
 
 

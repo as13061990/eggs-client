@@ -15,6 +15,7 @@ class ScoreBooster extends Phaser.GameObjects.Sprite {
   private _scene: UI
   private _text: Phaser.GameObjects.Text
   private _type: boosterType = boosterType.score
+  private _position: number = 0
 
   private _build(): void {
     this._scene.add.existing(this);
@@ -30,8 +31,9 @@ class ScoreBooster extends Phaser.GameObjects.Sprite {
       if (Session.getActiveBooster(boosterType.bad)) countActive++
       if (Session.getActiveBooster(boosterType.good)) countActive++
 
+      this._position = Session.setPosition()
       const { centerX } = this._scene.cameras.main;
-      this.setPosition(centerX, this._scene.score.getBounds().centerY + (70 * countActive))
+      this.setPosition(centerX, this._scene.score.getBounds().centerY + (70 * this._position))
       this._text.setPosition(this.getBounds().right + 10, this.getBounds().top)
 
       this.setVisible(true)
@@ -49,6 +51,9 @@ class ScoreBooster extends Phaser.GameObjects.Sprite {
 
       this.setVisible(false)
       this._text.setVisible(false)
+
+      Session.clearPosition(this._position)
+      this._position = 0
 
       let countActive = 0
       if (Session.getActiveBooster(boosterType.bad)) countActive++

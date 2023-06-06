@@ -15,6 +15,7 @@ class Session {
   private _isActiveGoodBooster: boolean = false
   private _isActiveBadBooster: boolean = false
   private _isActiveScoreBooster: boolean = false
+  private _positions: number[] = [0,0,0]
   private _boostTimerScore: number = 0
   private _boostTimerGood: number = 0
   private _boostTimerBad: number = 0
@@ -29,6 +30,7 @@ class Session {
     this._isActiveGoodBooster = false
     this._isActiveBadBooster = false
     this._isActiveScoreBooster = false
+    this._positions = [0,0,0]
   }
 
   public getPoints(): number {
@@ -177,6 +179,23 @@ class Session {
       case (boosterType.score):
         return this._boostTimerScore
     }
+  }
+
+  public setPosition(): number {
+    let position
+    for (let i = 0; i < this._positions.length; i++) {
+      if (this._positions[i] === 0) {
+        this._positions[i] = 1
+        position = i
+        break;
+      }
+    }
+    console.log(position)
+    return position
+  }
+
+  public clearPosition(index): void {
+    this._positions[index] = 0
   }
 
 }

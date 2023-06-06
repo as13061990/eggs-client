@@ -11,6 +11,7 @@ import eggScore from '../../assets/images/egg-score.png';
 
 import wood from '../../assets/images/wood.png';
 import blackPixel from '../../assets/images/black-pixel.png';
+import greenPixel from '../../assets/images/green-pixel.png';
 import healthFull from '../../assets/images/hearth-full.png';
 import healthEmpty from '../../assets/images/hearth-empty.png';
 import keyboardArrows from '../../assets/images/keyboard-arrows.png';
@@ -39,6 +40,7 @@ import eggSmash from '../../assets/audio/egg-smash.mp3';
 import eggHealSmashSound from '../../assets/audio/egg-heal-smash.mp3';
 import eggBombSmashSound from '../../assets/audio/egg-bomb-smash.mp3';
 import eggCatch from '../../assets/audio/egg-catch.mp3';
+import eggBadSound from '../../assets/audio/egg-bad.mp3';
 import eggGoodSound from '../../assets/audio/egg-good.mp3';
 import bgSound from '../../assets/audio/bg.mp3';
 import heal from '../../assets/audio/heal.mp3';
@@ -113,6 +115,7 @@ class Loading {
     this._scene.load.spritesheet('egg-bomb-smash', eggBombSmash, { frameWidth: 128, frameHeight: 128 });
 
     this._scene.load.image('black-pixel', blackPixel);
+    this._scene.load.image('green-pixel', greenPixel);
     this._scene.load.image('wood', wood);
     this._scene.load.image('health-full', healthFull);
     this._scene.load.image('health-empty', healthEmpty);
@@ -137,6 +140,7 @@ class Loading {
     this._scene.load.audio('egg-smash', eggSmash);
     this._scene.load.audio('egg-catch', eggCatch);
     this._scene.load.audio('egg-good', eggGoodSound)
+    this._scene.load.audio('egg-bad', eggBadSound)
     this._scene.load.audio('egg-heal-smash', eggHealSmashSound)
     this._scene.load.audio('egg-bomb-smash', eggBombSmashSound)
     
