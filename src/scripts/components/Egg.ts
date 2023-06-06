@@ -176,6 +176,20 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   public getType(): eggType {
     return this._type
   }
+
+  public explosion(): void {
+    const {x, y} = this
+    this.stopTween()
+    this.destroy()
+    const sprite = this._scene.add.sprite(x, y, 'bomb')
+    sprite.anims.play('egg-explosion', true)
+    this._tween = this._scene.tweens.add({
+      targets: sprite,
+      alpha: 0,
+      duration: 1000,
+      onComplete: () => sprite.destroy()
+    });
+  }
 }
 
 export default Egg;

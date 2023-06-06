@@ -8,6 +8,7 @@ import eggHealSmash from '../../assets/images/egg-heal-smash.png';
 import eggBomb from '../../assets/images/egg-bomb.png';
 import eggBombSmash from '../../assets/images/egg-bomb-smash.png';
 import eggScore from '../../assets/images/egg-score.png';
+import eggExplosion from '../../assets/images/egg-explosion.png';
 
 import wood from '../../assets/images/wood.png';
 import blackPixel from '../../assets/images/black-pixel.png';
@@ -113,6 +114,7 @@ class Loading {
     this._scene.load.image('egg-smash', eggSmashImg);
     this._scene.load.image('egg-heal-smash', eggHealSmash);
     this._scene.load.spritesheet('egg-bomb-smash', eggBombSmash, { frameWidth: 128, frameHeight: 128 });
+    this._scene.load.spritesheet('egg-explosion', eggExplosion, { frameWidth: 64, frameHeight: 64 });
 
     this._scene.load.image('black-pixel', blackPixel);
     this._scene.load.image('green-pixel', greenPixel);

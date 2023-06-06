@@ -66,6 +66,13 @@ class GameActions {
       frameRate: 9,
       repeat: 0,
     });
+
+    this._scene.anims.create({
+      key: 'egg-explosion',
+      frames: this._scene.anims.generateFrameNumbers('egg-explosion', { start: 0, end: 7 }),
+      frameRate: 9,
+      repeat: 0,
+    });
   }
 
   private _createPlayer(): void {
@@ -125,8 +132,8 @@ class GameActions {
       egg.stopTween()
       this._scene.tweens.add({
         targets: egg,
-        x: sceneUI.score.x,
-        y: sceneUI.score.y,
+        x: sceneUI.score.getBounds().centerX,
+        y: sceneUI.score.getBounds().centerY,
         duration: 1000,
         onComplete: this._caughtEggsByGoldenEgg.bind(this, egg)
       });
@@ -165,8 +172,7 @@ class GameActions {
     Settings.sounds.play('egg-bomb-smash')
     this._scene.physics.world.bodies.iterate((body: any): any => {
       if (body.gameObject instanceof Egg) {
-        body.gameObject.destroy()
-        body.gameObject.stopTween()
+        body.gameObject.explosion()
       }
     })
   }
