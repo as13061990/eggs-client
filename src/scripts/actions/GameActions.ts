@@ -201,7 +201,7 @@ class GameActions {
 
 
   private _generateTypeEgg(): eggType {
-    if (Phaser.Math.RND.frac() < 0.1) {
+    if (Phaser.Math.RND.frac() < 0.25) {
       const randomNumber = Phaser.Math.RND.frac()
       const isBadBoost = Session.getActiveBooster(boosterType.bad)
       const isGoodBoost = Session.getActiveBooster(boosterType.good)
