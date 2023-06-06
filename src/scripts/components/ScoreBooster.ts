@@ -22,7 +22,6 @@ class ScoreBooster extends Phaser.GameObjects.Sprite {
     this._text = this._scene.add.text(0, 0, Session.getBoostTimer(this._type).toString(), { font: '64px EpilepsySansBold', color: 'white' })
     .setDepth(4)
     this.setDepth(4)
-    this.setDisplaySize(80, 66)
     this.setVisible(false)
     this._text.setVisible(false)
   }
