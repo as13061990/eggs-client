@@ -116,7 +116,7 @@ class GameActions {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
-    Settings.sounds.play('egg-catch')
+    Settings.sounds.play('egg-booster')
     Session.setActiveBooster(true, boosterType.good)
     this._scene.eggs.getChildren().forEach((egg: Egg) => {
       egg.scaleTweenTime()
@@ -128,6 +128,7 @@ class GameActions {
     eggGold.destroy()
     eggGold.stopTween()
     Session.plusPoints(1)
+    Settings.sounds.play('egg-booster')
     this._scene.eggs.getChildren().forEach((egg: Egg) => {
       egg.stopTween()
       this._scene.tweens.add({
@@ -181,7 +182,7 @@ class GameActions {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
-    Settings.sounds.play('egg-catch')
+    Settings.sounds.play('egg-booster')
     Session.setActiveBooster(true, boosterType.score)
   }
 
@@ -189,7 +190,7 @@ class GameActions {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
-    Settings.sounds.play('egg-catch')
+    Settings.sounds.play('egg-booster')
     Session.setActiveBooster(true, boosterType.bad)
   }
 

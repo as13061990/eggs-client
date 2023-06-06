@@ -43,6 +43,7 @@ import eggBombSmashSound from '../../assets/audio/egg-bomb-smash.mp3';
 import eggCatch from '../../assets/audio/egg-catch.mp3';
 import eggBadSound from '../../assets/audio/egg-bad.mp3';
 import eggGoodSound from '../../assets/audio/egg-good.mp3';
+import eggBooster from '../../assets/audio/egg-booster.mp3';
 import bgSound from '../../assets/audio/bg.mp3';
 import heal from '../../assets/audio/heal.mp3';
 import keyboard from '../../assets/audio/keyboard.mp3';
@@ -143,6 +144,7 @@ class Loading {
     this._scene.load.audio('egg-catch', eggCatch);
     this._scene.load.audio('egg-good', eggGoodSound)
     this._scene.load.audio('egg-bad', eggBadSound)
+    this._scene.load.audio('egg-booster', eggBooster)
     this._scene.load.audio('egg-heal-smash', eggHealSmashSound)
     this._scene.load.audio('egg-bomb-smash', eggBombSmashSound)
     
