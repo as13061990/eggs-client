@@ -34,7 +34,7 @@ class ScoreBooster extends Phaser.GameObjects.Sprite {
 
       this._position = Session.setPosition()
       const { centerX } = this._scene.cameras.main;
-      this.setPosition(centerX, this._scene.score.getBounds().centerY + (70 * this._position))
+      this.setPosition(centerX, this._scene.score.getBounds().centerY + (75 * this._position))
       this._text.setPosition(this.getBounds().right + 10, this.getBounds().top)
 
       this.setVisible(true)

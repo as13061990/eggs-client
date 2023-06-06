@@ -18,21 +18,12 @@ import Score from "../components/Score";
 import ScoreBooster from "../components/ScoreBooster";
 import BadBooster from "../components/BadBooster";
 
-interface IPauseElements {
-  bg: Phaser.GameObjects.TileSprite
-  modal: Modal
-}
-
 class UIActions {
   constructor(scene: UI) {
     this._scene = scene;
   }
 
   private _scene: UI;
-  private _pauseMobileBtn: Button
-  private _pauseElements: IPauseElements = { bg: null, modal: null }
-  private _activeScreen: Rating = null
-  public health: HealthBar
 
   public build(): void {
     this._createMobilePauseButton()
@@ -44,26 +35,26 @@ class UIActions {
 
   public gamePause(): void {
     if (Session.getOver()) return;
-    if (this._activeScreen) {
-      this._activeScreen.back()
+    if (this._scene.activeScreen) {
+      this._scene.activeScreen.back()
       return
     }
     const { width, height } = this._scene.cameras.main;
 
     if (!Settings.getIsPaused()) {
       Settings.setIsPaused(true)
-      this._pauseMobileBtn.setTexture('resume')
-      this._pauseMobileBtn.disableInteractive();
-      this._pauseElements.bg = this._scene.add.tileSprite(0, 0, width, height, 'black-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5)
-      this._pauseElements.modal = new Modal(this._scene, 'button-green-def', 'button-red-def', true)
+      this._scene.pauseMobileBtn.setTexture('resume')
+      this._scene.pauseMobileBtn.disableInteractive();
+      this._scene.pauseElements.bg = this._scene.add.tileSprite(0, 0, width, height, 'black-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5)
+      this._scene.pauseElements.modal = new Modal(this._scene, 'button-green-def', 'button-red-def', true)
 
-      this._pauseElements.modal.setTextBtn('first', 'Продолжить')
-      this._pauseElements.modal.setTextBtn('second', 'Выход')
+      this._scene.pauseElements.modal.setTextBtn('first', 'Продолжить')
+      this._scene.pauseElements.modal.setTextBtn('second', 'Выход')
 
-      this._pauseElements.modal.btnFirst.callback = (): void => this.pauseClose()
-      this._pauseElements.modal.btnSecond.callback = (): void => this._exit()
-      if (this._pauseElements.modal.btnRating) {
-        this._pauseElements.modal.btnRating.callback = (): void => this._rating()
+      this._scene.pauseElements.modal.btnFirst.callback = (): void => this.pauseClose()
+      this._scene.pauseElements.modal.btnSecond.callback = (): void => this._exit()
+      if (this._scene.pauseElements.modal.btnRating) {
+        this._scene.pauseElements.modal.btnRating.callback = (): void => this._rating()
       }
 
       const sceneGame = this._scene.game.scene.getScene('Game') as Game;
@@ -76,14 +67,14 @@ class UIActions {
   public pauseClose(): void {
     Settings.setIsPaused(false)
 
-    this._pauseMobileBtn.setInteractive()
-    this._pauseMobileBtn.setTexture('pause')
+    this._scene.pauseMobileBtn.setInteractive()
+    this._scene.pauseMobileBtn.setTexture('pause')
 
     const sceneGame = this._scene.game.scene.getScene('Game') as Game;
     sceneGame.scene.resume()
 
-    this._pauseElements.modal.destroyAll()
-    this._pauseElements.bg.destroy()
+    this._scene.pauseElements.modal.destroyAll()
+    this._scene.pauseElements.bg.destroy()
   }
 
   private _exit(): void {
@@ -120,13 +111,13 @@ class UIActions {
     if (User.getScore() < Session.getPoints()) {
       User.setScore(Session.getPoints());
     }
-    this._pauseMobileBtn.disableInteractive();
-    this._pauseElements.bg = this._scene.add.tileSprite(0, 0, width, height, 'black-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5);
+    this._scene.pauseMobileBtn.disableInteractive();
+    this._scene.pauseElements.bg = this._scene.add.tileSprite(0, 0, width, height, 'black-pixel').setAlpha(.5).setOrigin(0, 0).setDepth(5);
 
-    this._pauseElements.modal = new Modal(this._scene, 'button-green-def', 'button-red-def', true)
+    this._scene.pauseElements.modal = new Modal(this._scene, 'button-green-def', 'button-red-def', true)
 
-    this._pauseElements.modal.setTextBtn('first', 'Рестарт')
-    this._pauseElements.modal.setTextBtn('second', 'Выход')
+    this._scene.pauseElements.modal.setTextBtn('first', 'Рестарт')
+    this._scene.pauseElements.modal.setTextBtn('second', 'Выход')
 
     const sceneGame = this._scene.game.scene.getScene('Game') as Game;
     sceneGame.physics.world.bodies.iterate((body: any): any => {
@@ -136,41 +127,41 @@ class UIActions {
     })
     sceneGame.scene.pause()
 
-    this._pauseElements.modal.btnFirst.callback = (): void => this._restart()
-    this._pauseElements.modal.btnSecond.callback = (): void => this._exit()
-    if (this._pauseElements.modal.btnRating) {
-      this._pauseElements.modal.btnRating.callback = (): void => this._rating()
+    this._scene.pauseElements.modal.btnFirst.callback = (): void => this._restart()
+    this._scene.pauseElements.modal.btnSecond.callback = (): void => this._exit()
+    if (this._scene.pauseElements.modal.btnRating) {
+      this._scene.pauseElements.modal.btnRating.callback = (): void => this._rating()
     }
 
     this._rewardLifeAd()
   }
 
   public activeInteractiveBtns(): void {
-    this._pauseElements?.modal?.btnFirst?.setInteractive();
-    this._pauseElements?.modal?.btnSecond?.setInteractive();
-    this._pauseElements?.modal?.btnRating?.setInteractive();
-    this._pauseElements?.modal?.btnMusic?.setInteractive();
-    this._pauseMobileBtn?.setInteractive()
+    this._scene.pauseElements?.modal?.btnFirst?.setInteractive();
+    this._scene.pauseElements?.modal?.btnSecond?.setInteractive();
+    this._scene.pauseElements?.modal?.btnRating?.setInteractive();
+    this._scene.pauseElements?.modal?.btnMusic?.setInteractive();
+    this._scene.pauseMobileBtn?.setInteractive()
   }
 
   private _rewardLifeAd(): void {
     if (Ads.getReadyAd() && Session.getWatchedAds() > 0) {
       new RewardLifeAd(this._scene, true);
-      this._pauseElements?.modal?.btnFirst?.disableInteractive();
-      this._pauseElements?.modal?.btnSecond?.disableInteractive();
-      this._pauseElements?.modal?.btnRating?.disableInteractive();
-      this._pauseElements?.modal?.btnMusic?.disableInteractive();
-      this._pauseMobileBtn?.disableInteractive()
+      this._scene.pauseElements?.modal?.btnFirst?.disableInteractive();
+      this._scene.pauseElements?.modal?.btnSecond?.disableInteractive();
+      this._scene.pauseElements?.modal?.btnRating?.disableInteractive();
+      this._scene.pauseElements?.modal?.btnMusic?.disableInteractive();
+      this._scene.pauseMobileBtn?.disableInteractive()
     }
   }
 
   private _rating(): void {
-    this._activeScreen = new Rating(this._scene, true);
-    this._pauseElements?.modal?.btnFirst?.disableInteractive();
-    this._pauseElements?.modal?.btnSecond?.disableInteractive();
-    this._pauseElements?.modal?.btnRating?.disableInteractive();
-    this._pauseElements?.modal?.btnMusic?.disableInteractive();
-    this._pauseMobileBtn?.disableInteractive()
+    this._scene.activeScreen = new Rating(this._scene, true);
+    this._scene.pauseElements?.modal?.btnFirst?.disableInteractive();
+    this._scene.pauseElements?.modal?.btnSecond?.disableInteractive();
+    this._scene.pauseElements?.modal?.btnRating?.disableInteractive();
+    this._scene.pauseElements?.modal?.btnMusic?.disableInteractive();
+    this._scene.pauseMobileBtn?.disableInteractive()
   }
 
   private _createScore(): void {
@@ -178,7 +169,7 @@ class UIActions {
   }
 
   private _createHealth(): void {
-    this.health = new HealthBar(this._scene, this._scene.scale.width - 450, 80)
+    this._scene.health = new HealthBar(this._scene, this._scene.scale.width - 450, 80)
   }
 
   private _createBoosters(): void {
@@ -189,8 +180,8 @@ class UIActions {
 
 
   private _createMobilePauseButton(): void {
-    this._pauseMobileBtn = new Button(this._scene, this._scene.scale.width - 150, 80, 'pause').setDepth(5)
-    this._pauseMobileBtn.callback = (): void => {
+    this._scene.pauseMobileBtn = new Button(this._scene, this._scene.scale.width - 150, 80, 'pause').setDepth(5)
+    this._scene.pauseMobileBtn.callback = (): void => {
       this.gamePause()
     }
   }
@@ -336,7 +327,7 @@ class UIActions {
   }
 
   public setActiveScreen(screen: Rating) {
-    this._activeScreen = screen
+    this._scene.activeScreen = screen
   }
 
 
