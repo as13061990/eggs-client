@@ -7,7 +7,7 @@ class HealthBar extends Phaser.GameObjects.Text {
   constructor(scene: UI, x: number, y: number) {
     super(scene, 0, 0, Session.getHealth().toString(), {})
     this._scene = scene
-    this._healthFirst = this._scene.add.sprite(x, y, 'health-full')
+    this._healthFirst = this._scene.add.sprite(x, y, 'health-full').setDepth(4)
     this._build()
   }
 
@@ -19,7 +19,9 @@ class HealthBar extends Phaser.GameObjects.Text {
 
   private _build(): void {
     this._healthSecond = this._scene.add.sprite(this._healthFirst.getBounds().right + MARGIN_BETWEEN, this._healthFirst.y, 'health-full')
+    .setDepth(4)
     this._healthThird = this._scene.add.sprite(this._healthSecond.getBounds().right + MARGIN_BETWEEN, this._healthFirst.y, 'health-full')
+    .setDepth(4)
     this._scene.add.existing(this);
     this.setVisible(false)
   }

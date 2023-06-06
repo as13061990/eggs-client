@@ -21,8 +21,11 @@ class BadBooster extends Phaser.GameObjects.Sprite {
   private _build(): void {
     this._scene.add.existing(this);
     this._text = this._scene.add.text(0, 0, Session.getBoostTimer(this._type).toString(), { font: '64px EpilepsySansBold', color: 'white' })
+    .setDepth(4)
+    this.setDepth(4)
     this.setVisible(false)
     this._text.setVisible(false)
+    const { centerX, width, height  } = this._scene.cameras.main;
   }
 
   protected preUpdate(time: number, delta: number): void {
@@ -40,7 +43,7 @@ class BadBooster extends Phaser.GameObjects.Sprite {
       Settings.sounds.stopMusic()
       Settings.sounds.playMusic('egg-bad')
 
-      this._bg = this._scene.add.tileSprite(0, 0, width, height, 'green-pixel').setAlpha(.7).setOrigin(0, 0).setDepth(5);
+      this._bg = this._scene.add.tileSprite(0, 0, width, height, 'green-pixel').setAlpha(.7).setOrigin(0, 0).setDepth(3);
     }
     if (this.visible && this._text.text !== Session.getBoostTimer(this._type).toString()) {
       this._text.setText(Session.getBoostTimer(this._type).toString())
@@ -54,7 +57,7 @@ class BadBooster extends Phaser.GameObjects.Sprite {
 
       Session.clearPosition(this._position)
       this._position = 0
-      
+
       let countActive = 0
       if (Session.getActiveBooster(boosterType.good)) countActive++
       if (Session.getActiveBooster(boosterType.score)) countActive++

@@ -12,6 +12,7 @@ class Score extends Phaser.GameObjects.Text {
 
   private _build(): void {
     this._scene.add.existing(this);
+    this.setDepth(4)
 
   }
 
