@@ -21,7 +21,8 @@ enum eggType {
   good = 'egg-good',
   bad = 'egg-bad',
   score = 'egg-score',
-  heal = 'egg-heal'
+  heal = 'egg-heal',
+  bomb = 'egg-bomb'
 }
 
 enum boosterType {

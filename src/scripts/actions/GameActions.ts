@@ -33,6 +33,7 @@ class GameActions {
 
     this._createWoodElements()
     this._createPlayer()
+    this._anims()
 
     this._collisions()
 
@@ -58,6 +59,15 @@ class GameActions {
     this.woodElements.rightUp = new Wood(this._scene, width - PIXEL_FROM_WOOD_EDGES, height / 4.5).setRotation(-WOOD_ROTATE)
   }
 
+  private _anims(): void {
+    this._scene.anims.create({
+      key: 'egg-bomb-smash',
+      frames: this._scene.anims.generateFrameNumbers('egg-bomb-smash', { start: 0, end: 11 }),
+      frameRate: 9,
+      repeat: 0,
+    });
+  }
+
   private _createPlayer(): void {
     this._scene.player = new Player(this._scene)
   }
@@ -79,6 +89,8 @@ class GameActions {
       this._catchGoodEgg(egg)
     } else if (egg.getType() === eggType.heal) {
       this._catchHealEgg(egg)
+    } else if (egg.getType() === eggType.bomb) {
+      this._catchBombEgg(egg)
     }
   }
 
@@ -122,6 +134,8 @@ class GameActions {
       this._catchGoodEgg(egg)
     } else if (egg.getType() === eggType.heal) {
       this._catchHealEgg(egg)
+    } else if (egg.getType() === eggType.bomb) {
+      this._catchBombEgg(egg)
     } else {
       egg.destroy()
       Session.plusPoints(1)
@@ -134,6 +148,19 @@ class GameActions {
     Session.plusPoints(1)
     Settings.sounds.play('heal')
     Session.plusHealth()
+  }
+
+  private _catchBombEgg(egg: Egg): void {
+    egg.destroy()
+    egg.stopTween()
+    Session.plusPoints(1)
+    Settings.sounds.play('egg-bomb-smash')
+    this._scene.physics.world.bodies.iterate((body: any): any => {
+      if (body.gameObject instanceof Egg) {
+        body.gameObject.destroy()
+        body.gameObject.stopTween()
+      }
+    })
   }
 
 
@@ -158,7 +185,7 @@ class GameActions {
       } else if (randomNumber > 0.2 && randomNumber <= 0.3) {
         return eggType.heal
       } else if (randomNumber > 0.3 && randomNumber <= 0.4) {
-        return eggType.heal
+        return eggType.bomb
       }
     } else {
       return eggType.default

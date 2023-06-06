@@ -5,6 +5,8 @@ import eggGood from '../../assets/images/egg-good.png';
 import eggBad from '../../assets/images/egg-bad.png';
 import eggHeal from '../../assets/images/egg-heal.png';
 import eggHealSmash from '../../assets/images/egg-heal-smash.png';
+import eggBomb from '../../assets/images/egg-bomb.png';
+import eggBombSmash from '../../assets/images/egg-bomb-smash.png';
 
 import wood from '../../assets/images/wood.png';
 import blackPixel from '../../assets/images/black-pixel.png';
@@ -34,6 +36,7 @@ import resume from '../../assets/images/buttons/resume.png'
 
 import eggSmash from '../../assets/audio/egg-smash.mp3';
 import eggHealSmashSound from '../../assets/audio/egg-heal-smash.mp3';
+import eggBombSmashSound from '../../assets/audio/egg-bomb-smash.mp3';
 import eggCatch from '../../assets/audio/egg-catch.mp3';
 import eggGoodSound from '../../assets/audio/egg-good.mp3';
 import bgSound from '../../assets/audio/bg.mp3';
@@ -97,12 +100,15 @@ class Loading {
     this._scene.load.image(`bg-${randomNumber}`, arr[randomNumber - 1]);
 
     this._scene.load.image('egg', egg);
-    this._scene.load.image('egg-smash', eggSmashImg);
     this._scene.load.image('egg-gold', eggGold);
     this._scene.load.image('egg-good', eggGood);
     this._scene.load.image('egg-bad', eggBad);
     this._scene.load.image('egg-heal', eggHeal);
+    this._scene.load.image('egg-bomb', eggBomb);
+
+    this._scene.load.image('egg-smash', eggSmashImg);
     this._scene.load.image('egg-heal-smash', eggHealSmash);
+    this._scene.load.spritesheet('egg-bomb-smash', eggBombSmash, { frameWidth: 128, frameHeight: 128 });
 
     this._scene.load.image('black-pixel', blackPixel);
     this._scene.load.image('wood', wood);
@@ -130,6 +136,7 @@ class Loading {
     this._scene.load.audio('egg-catch', eggCatch);
     this._scene.load.audio('egg-good', eggGoodSound)
     this._scene.load.audio('egg-heal-smash', eggHealSmashSound)
+    this._scene.load.audio('egg-bomb-smash', eggBombSmashSound)
     
     this._scene.load.audio('heal', heal);
     this._scene.load.audio('keyboard', keyboard);
