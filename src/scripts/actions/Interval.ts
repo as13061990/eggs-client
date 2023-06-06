@@ -1,7 +1,7 @@
 import Session from '../data/Session';
 import Boot from '../scenes/Boot';
 import Game from '../scenes/Game';
-import { eggType } from '../types/enums';
+import { boosterType } from '../types/enums';
 
 class Interval {
   constructor(scene: Boot) {
@@ -23,7 +23,7 @@ class Interval {
     if (!this._scene.scene.isActive('Game')) return
     const game = this._scene.game.scene.getScene('Game') as Game;
     Session.scaleDifficulty()
-    if (Session.getActiveBooster(eggType.good)) Session.minusBoostTimer(eggType.good) 
+    if (Session.getActiveBooster(boosterType.good)) Session.minusBoostTimer(boosterType.good) 
   }
 }
 

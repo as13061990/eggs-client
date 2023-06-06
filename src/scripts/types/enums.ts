@@ -21,11 +21,18 @@ enum eggType {
   good = 'egg-good',
   bad = 'egg-bad',
   score = 'egg-score',
-  health = 'health-full'
+  heal = 'egg-heal'
+}
+
+enum boosterType {
+  good = 'egg-good',
+  bad = 'egg-bad',
+  score = 'egg-score',
 }
 
 export {
   eggType,
+  boosterType,
   screen,
   platforms,
   eggPosition

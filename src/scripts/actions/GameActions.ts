@@ -6,7 +6,7 @@ import Session from '../data/Session';
 import Settings from '../data/Settings';
 import Game from '../scenes/Game';
 import UI from '../scenes/UI';
-import { eggType } from '../types/enums';
+import { boosterType, eggType } from '../types/enums';
 
 const PIXEL_FROM_WOOD_EDGES = 100
 const WOOD_ROTATE = 0.46
@@ -77,6 +77,8 @@ class GameActions {
       this._catchDefaultEgg(egg)
     } else if (egg.getType() === eggType.good) {
       this._catchGoodEgg(egg)
+    } else if (egg.getType() === eggType.heal) {
+      this._catchHealEgg(egg)
     }
   }
 
@@ -92,7 +94,7 @@ class GameActions {
     egg.stopTween()
     Session.plusPoints(1)
     Settings.sounds.play('egg-catch')
-    Session.setActiveBooster(true, eggType.good)
+    Session.setActiveBooster(true, boosterType.good)
     this._scene.eggs.getChildren().forEach((egg: Egg) => {
       egg.scaleTweenTime()
     });
@@ -110,16 +112,28 @@ class GameActions {
         x: sceneUI.score.x,
         y: sceneUI.score.y,
         duration: 1000,
-        onComplete: () => {
-          if (egg.getType() === eggType.good) {
-            this._catchGoodEgg(egg)
-          } else {
-            egg.destroy()
-            Session.plusPoints(1)
-          }
-        }
+        onComplete: this._caughtEggsByGoldenEgg.bind(this, egg)
       });
     })
+  }
+
+  private _caughtEggsByGoldenEgg(egg: Egg): void {
+    if (egg.getType() === eggType.good) {
+      this._catchGoodEgg(egg)
+    } else if (egg.getType() === eggType.heal) {
+      this._catchHealEgg(egg)
+    } else {
+      egg.destroy()
+      Session.plusPoints(1)
+    }
+  }
+
+  private _catchHealEgg(egg: Egg): void {
+    egg.destroy()
+    egg.stopTween()
+    Session.plusPoints(1)
+    Settings.sounds.play('heal')
+    Session.plusHealth()
   }
 
 
@@ -142,9 +156,9 @@ class GameActions {
       } else if (randomNumber > 0.1 && randomNumber <= 0.2) {
         return eggType.good
       } else if (randomNumber > 0.2 && randomNumber <= 0.3) {
-        return eggType.health
+        return eggType.heal
       } else if (randomNumber > 0.3 && randomNumber <= 0.4) {
-        return eggType.health
+        return eggType.heal
       }
     } else {
       return eggType.default

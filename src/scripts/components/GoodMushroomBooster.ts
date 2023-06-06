@@ -2,7 +2,7 @@ import Session from "../data/Session";
 import Settings from "../data/Settings";
 import Game from "../scenes/Game";
 import UI from "../scenes/UI";
-import { eggType } from "../types/enums";
+import { boosterType } from "../types/enums";
 import Egg from "./Egg";
 
 class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
@@ -14,7 +14,7 @@ class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
 
   private _scene: UI
   private _text: Phaser.GameObjects.Text
-  private _type: eggType = eggType.good
+  private _type: boosterType = boosterType.good
 
   private _build(): void {
     this._scene.add.existing(this);
@@ -27,8 +27,8 @@ class GoodMushroomBooster extends Phaser.GameObjects.Sprite {
   protected preUpdate(time: number, delta: number): void {
     if (!this.visible && Session.getBoostTimer(this._type) > 0 && Session.getActiveBooster(this._type)) {
       let countActive = 0
-      if (Session.getActiveBooster(eggType.bad)) countActive++
-      if (Session.getActiveBooster(eggType.score)) countActive++
+      if (Session.getActiveBooster(boosterType.bad)) countActive++
+      if (Session.getActiveBooster(boosterType.score)) countActive++
 
       const { centerX } = this._scene.cameras.main;
       this.setPosition(centerX, this._scene.score.getBounds().centerY + (70 * countActive))

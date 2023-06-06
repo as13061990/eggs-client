@@ -2,7 +2,7 @@ import Session from "../data/Session";
 import Settings from "../data/Settings";
 import Game from "../scenes/Game";
 import UI from "../scenes/UI";
-import { eggType, eggPosition } from "../types/enums";
+import { eggType, eggPosition, boosterType } from "../types/enums";
 
 
 const PLATFORM_MARGIN_X = 40
@@ -60,7 +60,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
         break;
     }
 
-    const boost = Session.getActiveBooster(eggType.good) ? 1.5 : 1
+    const boost = Session.getActiveBooster(boosterType.good) ? 1.5 : 1
     if (boost === 1.5) this._isScaleTweenTime = true
 
     this._tween = this._scene.tweens.add({
@@ -81,7 +81,7 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
       this._position === eggPosition.LEFT_DOWN || this._position === eggPosition.RIGHT_DOWN
         ? 1 : 2
 
-    const boost = Session.getActiveBooster(eggType.good) ? 1.5 : 1
+    const boost = Session.getActiveBooster(boosterType.good) ? 1.5 : 1
     if (boost === 1.5) this._isScaleTweenTime = true
 
     this._tween = this._scene.tweens.add({
@@ -96,7 +96,6 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
   }
 
   private _destroyUncaughtEgg(): void {
-    Settings.sounds.play('egg-smash')
     const { x, y } = this
 
     this.destroy()
@@ -105,11 +104,16 @@ class Egg extends Phaser.Physics.Arcade.Sprite {
     }
 
     let sprite
-    if (this._type === eggType.default || this._type === eggType.gold) {
-      sprite = this._scene.add.sprite(x, y, 'egg-smash')
-    } else if (this._type === eggType.good) {
+    if (this._type === eggType.good) {
       sprite = this._scene.add.sprite(x, y, 'egg-good')
       sprite.setRotation(0.40)
+      Settings.sounds.play('egg-smash')
+    } else if (this._type === eggType.heal) {
+      sprite = this._scene.add.sprite(x, y, 'egg-heal-smash')
+      Settings.sounds.play('egg-heal-smash')
+    } else {
+      Settings.sounds.play('egg-smash')
+      sprite = this._scene.add.sprite(x, y, 'egg-smash')
     }
 
     this._tween = this._scene.tweens.add({

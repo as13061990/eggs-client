@@ -3,11 +3,11 @@ import eggSmashImg from '../../assets/images/egg-smash.png';
 import eggGold from '../../assets/images/egg-gold.png';
 import eggGood from '../../assets/images/egg-good.png';
 import eggBad from '../../assets/images/egg-bad.png';
+import eggHeal from '../../assets/images/egg-heal.png';
+import eggHealSmash from '../../assets/images/egg-heal-smash.png';
 
 import wood from '../../assets/images/wood.png';
 import blackPixel from '../../assets/images/black-pixel.png';
-import playerUP from '../../assets/images/player-up.png';
-import playerDown from '../../assets/images/player-down.png';
 import healthFull from '../../assets/images/hearth-full.png';
 import healthEmpty from '../../assets/images/hearth-empty.png';
 import keyboardArrows from '../../assets/images/keyboard-arrows.png';
@@ -33,6 +33,7 @@ import pause from '../../assets/images/buttons/pause.png'
 import resume from '../../assets/images/buttons/resume.png'
 
 import eggSmash from '../../assets/audio/egg-smash.mp3';
+import eggHealSmashSound from '../../assets/audio/egg-heal-smash.mp3';
 import eggCatch from '../../assets/audio/egg-catch.mp3';
 import eggGoodSound from '../../assets/audio/egg-good.mp3';
 import bgSound from '../../assets/audio/bg.mp3';
@@ -100,9 +101,9 @@ class Loading {
     this._scene.load.image('egg-gold', eggGold);
     this._scene.load.image('egg-good', eggGood);
     this._scene.load.image('egg-bad', eggBad);
+    this._scene.load.image('egg-heal', eggHeal);
+    this._scene.load.image('egg-heal-smash', eggHealSmash);
 
-    this._scene.load.image('player-up', playerUP);
-    this._scene.load.image('player-down', playerDown);
     this._scene.load.image('black-pixel', blackPixel);
     this._scene.load.image('wood', wood);
     this._scene.load.image('health-full', healthFull);
@@ -128,6 +129,7 @@ class Loading {
     this._scene.load.audio('egg-smash', eggSmash);
     this._scene.load.audio('egg-catch', eggCatch);
     this._scene.load.audio('egg-good', eggGoodSound)
+    this._scene.load.audio('egg-heal-smash', eggHealSmashSound)
     
     this._scene.load.audio('heal', heal);
     this._scene.load.audio('keyboard', keyboard);
