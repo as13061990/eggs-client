@@ -39,7 +39,6 @@ class Rating {
     const ratings = await Api.getRatings()
     this._users = ratings.users;
     this._userScore = ratings.user;
-  
     const { centerX } = this._scene.cameras.main;
     const title = this._scene.add.text(centerX, this._modal.getBounds().top + 50, ('Рейтинг').toUpperCase(), {
       color: 'black',

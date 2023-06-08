@@ -3,11 +3,6 @@ import Settings from '../data/Settings';
 import UI from '../scenes/Menu';
 import { screen } from '../types/enums';
 
-const rightModalBoosters = [{ img: 'egg-heal', info: ' - Дает 1 дополнительную \n жизнь' }, { img: 'egg-score', info: ' - Удваивает очки' }, { img: 'egg-good', info: ' - Замедляет другие яйца' }, { img: 'egg-gold', info: ' - Собирает яйца на экране' },]
-
-const leftModalBoosters = [{ img: 'egg-bomb', info: ' - Взрывает все яйца' }, { img: 'egg-bad', info: ' - Уменьшает видимость' },]
-
-
 class Main {
   constructor(scene: UI) {
     this._scene = scene;
@@ -38,42 +33,15 @@ class Main {
     }
 
     Settings.sounds.playMusic('bg')
-
-    if (Settings.getTutorial()) {
-      this._buildRightBoosterInfo()
-      this._buildLeftBoosterInfo()
-    }
-
-  }
-
-  private _buildRightBoosterInfo(): void {
-    const { centerY } = this._scene.cameras.main;
-    const modal = this._scene.add.sprite(this._modal.getBounds().right + 300, centerY, 'modal').setOrigin(0.5, 0.5)
-    modal.setDisplaySize(modal.width * 1.8, modal.height * 1.3)
-
-    const title = this._scene.add.text(modal.getBounds().centerX, modal.getBounds().top + 30, 'Хорошие бустеры', { font: '38px EpilepsySansBold', color: 'black' }).setOrigin(0.5, 0.5)
-
-    rightModalBoosters.forEach((booster, i) => {
-      const sprite = this._scene.add.sprite(modal.getBounds().left + 30, title.getBounds().bottom + 80 + (100 * i), booster.img).setOrigin(0, 0.5)
-      this._scene.add.text(sprite.getBounds().right + 10, sprite.getBounds().centerY, booster.info, { font: '30px EpilepsySansBold', color: 'black' }).setOrigin(0, 0.5)
-    })
-  }
-
-  private _buildLeftBoosterInfo(): void {
-    const { centerY } = this._scene.cameras.main;
-    const modal = this._scene.add.sprite(this._modal.getBounds().left - 300, centerY, 'modal').setOrigin(0.5, 0.5)
-    modal.setDisplaySize(modal.width * 1.8, modal.height * 1.3)
-
-    const title = this._scene.add.text(modal.getBounds().centerX, modal.getBounds().top + 30, 'Плохие бустеры', { font: '38px EpilepsySansBold', color: 'black' }).setOrigin(0.5, 0.5)
-
-    leftModalBoosters.forEach((booster, i) => {
-      const sprite = this._scene.add.sprite(modal.getBounds().left + 30, title.getBounds().bottom + 80 + (100 * i), booster.img).setOrigin(0, 0.5)
-      this._scene.add.text(sprite.getBounds().right + 10, sprite.getBounds().centerY, booster.info, { font: '30px EpilepsySansBold', color: 'black' }).setOrigin(0, 0.5)
-    })
   }
 
   private _play(): void {
-    this._scene.scene.start('Game');
+    if (Settings.getTutorial()) {
+      Settings.setScreen(screen.BOOSTER)
+      this._scene.scene.restart() 
+    } else {
+      this._scene.scene.start('Game');
+    }
   }
 }
 

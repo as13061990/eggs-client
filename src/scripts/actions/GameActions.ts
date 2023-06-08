@@ -11,7 +11,7 @@ import { boosterType, eggType } from '../types/enums';
 const PIXEL_FROM_WOOD_EDGES = 100
 const WOOD_ROTATE = 0.46
 const DELAY_EGG_SPAWN = 800
-const DURATION_GOLDEN_EGG = 600
+const DURATION_GOLDEN_EGG = 200
 
 class GameActions {
   constructor(scene: Game) {
