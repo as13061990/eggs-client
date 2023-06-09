@@ -2,7 +2,6 @@ import Loading from '../components/Loading';
 import Settings from '../data/Settings';
 import BoosterInfo from '../screen/BoosterInfo';
 import Main from '../screen/Main';
-import Rating from '../screen/Rating';
 import { screen } from '../types/enums';
 
 class Menu extends Phaser.Scene {
@@ -22,9 +21,7 @@ class Menu extends Phaser.Scene {
   public create(): void {
     if (Settings.getScreen() === screen.MAIN) {
       new Main(this)
-    } else if (Settings.getScreen() === screen.RATING) {
-      new Rating(this)
-    }else if (Settings.getScreen() === screen.BOOSTER) {
+    } else if (Settings.getScreen() === screen.BOOSTER) {
       new BoosterInfo(this)
     }
   }

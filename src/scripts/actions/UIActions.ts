@@ -6,7 +6,6 @@ import Session from "../data/Session";
 import Settings from "../data/Settings";
 import Game from "../scenes/Game";
 import UI from "../scenes/UI";
-import Rating from "../screen/Rating";
 import RewardLifeAd from "../screen/RewardLifeAd";
 import { boosterType, screen } from "../types/enums";
 import Ads from "./Ads";
@@ -35,10 +34,7 @@ class UIActions {
 
   public gamePause(): void {
     if (Session.getOver()) return;
-    if (this._scene.activeScreen) {
-      this._scene.activeScreen.back()
-      return
-    }
+    
     const { width, height } = this._scene.cameras.main;
 
     if (!Settings.getIsPaused()) {
@@ -156,12 +152,23 @@ class UIActions {
   }
 
   private _rating(): void {
-    this._scene.activeScreen = new Rating(this._scene, true);
-    this._scene.pauseElements?.modal?.btnFirst?.disableInteractive();
-    this._scene.pauseElements?.modal?.btnSecond?.disableInteractive();
-    this._scene.pauseElements?.modal?.btnRating?.disableInteractive();
-    this._scene.pauseElements?.modal?.btnMusic?.disableInteractive();
-    this._scene.pauseMobileBtn?.disableInteractive()
+    try {
+      Settings.gp.leaderboard.open({
+       // Сортировка по полям слева направо
+       orderBy: ['score',],
+       // Сортировка DESC — сначала большие значение, ASC — сначала маленькие
+       order: 'DESC',
+       // Количество игроков в списке
+       limit: 10,
+       // Включить список полей для отображения в таблице, помимо orderBy
+       includeFields: ['score'],
+       // Вывести только нужные поля по очереди
+       displayFields: ['rank', 'score'],
+       withMe: 'last'
+     });
+   } catch (e) {
+     console.log(e)
+   }
   }
 
   private _createScore(): void {
@@ -325,12 +332,6 @@ class UIActions {
       Settings.setTutorial(false)
     }
   }
-
-  public setActiveScreen(screen: Rating) {
-    this._scene.activeScreen = screen
-  }
-
-
 
 }
 

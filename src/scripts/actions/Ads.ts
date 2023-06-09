@@ -8,7 +8,8 @@ class Ads {
   public rewardCallback: () => void = () => { }
 
   public checkReadyAd(): boolean {
-    return ! Settings.gp.ads.isAdblockEnabled &&  Settings.gp.ads.isFullscreenAvailable &&  Settings.gp.ads.isRewardedAvailable
+    console.log(Settings.gp.ads.isAdblockEnabled, 'isAdblockEnabled')
+    return !Settings.gp.ads.isAdblockEnabled &&  Settings.gp.ads.isFullscreenAvailable &&  Settings.gp.ads.isRewardedAvailable
   }
 
   public showInterstitialAd(): void {

@@ -4,7 +4,6 @@ import ScoreBooster from "../components/ScoreBooster";
 import BadBooster from "../components/BadBooster";
 import Modal from "../components/Modal";
 import HealthBar from "../components/HealthBar";
-import Rating from "../screen/Rating";
 import Button from "../components/Button";
 
 interface IPauseElements {
@@ -25,7 +24,6 @@ class UI extends Phaser.Scene {
   public score: Phaser.GameObjects.Text
   public pauseMobileBtn: Button
   public pauseElements: IPauseElements = { bg: null, modal: null }
-  public activeScreen: Rating = null
   public health: HealthBar
 
   public create(): void {

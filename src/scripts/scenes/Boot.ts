@@ -1,21 +1,8 @@
-//@ts-ignore
 import * as Webfont from 'webfontloader';
-import loading from '../../assets/images/loading.png';
 import Interval from '../actions/Interval';
 import Sounds from '../actions/Sounds';
 import Settings from '../data/Settings';
-import User from '../data/User';
-import { platforms } from '../types/enums';
-import bridge, { UserInfo } from '@vkontakte/vk-bridge';
-import Ads from '../actions/Ads';
-import Api from '../data/Api';
 import bg from '../../assets/images/bg/bg.jpg';
-
-declare global {
-  interface Window {
-    onGPInit: Function;
-  }
-}
 
 class Boot extends Phaser.Scene {
   constructor() {
@@ -24,17 +11,12 @@ class Boot extends Phaser.Scene {
 
   private _fonts: boolean = false;
   private _user: boolean | Promise<boolean> = false;
+  private _gp: boolean = false
 
   public init(): void {
-    //@ts-ignore
-    Settings.gp = gp
-    console.log(Settings.gp)
     this._setFonts()
     this._setSounds()
     this._setInteval()
-    Settings.gp.gameStart();
-    User.setScore(Settings.gp.player.score)
-    this._user = true
   }
 
   public preload(): void {
@@ -42,6 +24,15 @@ class Boot extends Phaser.Scene {
   }
 
   public update(): void {
+    if (!Settings.gp) {
+      //@ts-ignore
+      Settings.gp = gp;
+    }
+
+    if (!this._gp && Settings.gp) {
+      this._gp = true
+      this._user = true
+    }
     if (!this._fonts) return;
     if (!this._user) return;
     this._fonts = false;

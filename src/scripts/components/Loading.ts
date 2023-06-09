@@ -136,7 +136,7 @@ class Loading {
     this._scene.load.image('modal-full', modalFull);
     
     this._scene.load.image('basket', basket);
-    this._scene.load.spritesheet('wizzard', wizzard, { frameWidth: 60, frameHeight: 85 });
+    this._scene.load.spritesheet('wizzard', wizzard, { frameWidth: 231, frameHeight: 190 });
   }
 
   private _loadSounds(): void {

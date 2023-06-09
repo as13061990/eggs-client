@@ -6,9 +6,11 @@
   <title>Phaser template</title>
   <link href="./favicon.ico" rel="icon" type="image/x-icon">
   <!-- <script src="//cdn.jsdelivr.net/npm/eruda"></script><script>eruda.init();</script> -->
-  <script async
-    src="https://gamepush.com/sdk/gamepush.js?projectId=5607&publicToken=s7kniWHhboDLHvinmS86jqADLtC6WXTt&callback=onGPInit">
-    </script>
+  <script async src="https://gamepush.com/sdk/gamepush.js?projectId=5607&publicToken=s7kniWHhboDLHvinmS86jqADLtC6WXTt&callback=onGPInit"></script>
+</head>
+
+<body>
+  <div id="root"></div>
   <script>
     var gp
     window.onGPInit = async (gamepush) => {
@@ -16,10 +18,6 @@
       gp = gamepush
     };
   </script>
-</head>
-
-<body>
-  <div id="root"></div>
 </body>
 
 </html>

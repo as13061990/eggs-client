@@ -73,7 +73,7 @@ window.onload = (): void => {
       physics: {
         default: 'arcade',
         arcade: {
-          debug: process.env.DEV ? true : false
+          debug: false
         }
       },
       render: { transparent: true },

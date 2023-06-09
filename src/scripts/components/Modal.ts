@@ -1,6 +1,5 @@
 import Settings from "../data/Settings";
 import User from "../data/User";
-import Rating from "../screen/Rating";
 import { platforms, screen } from "../types/enums";
 import Button from "./Button";
 

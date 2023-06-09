@@ -51,20 +51,6 @@ class Main {
     }
 
     Settings.sounds.playMusic('bg')
-
-    console.log(// ID
-       Settings.gp.player.id,
-       Settings.gp.player.score,
-      // Имя
-       Settings.gp.player.name,
-      // Ссылка на аватар
-       Settings.gp.player.avatar,
-      // Заглушка — пустой ли игрок или данные в нём отличаются умолчательных
-       Settings.gp.player.isStub,
-      // Поля игрока
-       Settings.gp.player.fields)
-    console.log( Settings.gp.player.isLoggedIn)
-
   }
 
   private _play(): void {
