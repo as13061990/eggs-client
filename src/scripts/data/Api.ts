@@ -38,19 +38,22 @@ class Api {
   }
 
   public async postRating(): Promise<void> {
-    gp.player.add('score', Session.getPoints());
-    if (Settings.getPlatform() !== platforms.WEB) {
-      await axios.post(process.env.API + '/rating/post', {
-        platform: Settings.getPlatform(),
-        id: User.getID(),
-        score: Session.getPoints(),
-      })
-        .catch((e) => console.log(e))
-    } else {
-      if (User.getScore() < Session.getPoints()) {
-        localStorage.setItem('score', String(Session.getPoints()));
-      }
+    if (gp.player.score < Session.getPoints()) {
+      gp.player.set('score', Session.getPoints());
+      gp.player.sync();
     }
+    // if (Settings.getPlatform() !== platforms.WEB) {
+    //   await axios.post(process.env.API + '/rating/post', {
+    //     platform: Settings.getPlatform(),
+    //     id: User.getID(),
+    //     score: Session.getPoints(),
+    //   })
+    //     .catch((e) => console.log(e))
+    // } else {
+    //   if (User.getScore() < Session.getPoints()) {
+    //     localStorage.setItem('score', String(Session.getPoints()));
+    //   }
+    // }
   }
 
 }

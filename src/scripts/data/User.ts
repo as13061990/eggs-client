@@ -46,7 +46,7 @@ class User {
   }
 
   public getScore(): number {
-    return this._score;
+    return gp.player.score;
   }
 
   public setScore(score: number): void {

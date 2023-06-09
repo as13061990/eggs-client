@@ -26,6 +26,9 @@ class Boot extends Phaser.Scene {
     this._setInteval()
     this._setPlatform()
     gp.gameStart();
+    gp.player.on('ready', () => {
+      User.setScore(gp.player.score)
+    });
   }
 
   public preload(): void {

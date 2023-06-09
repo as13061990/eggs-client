@@ -106,8 +106,7 @@ class UIActions {
     }
 
     const { width, height } = this._scene.cameras.main;
-    
-    gp.player.add('score', Session.getPoints());
+
     Api.postRating()
     if (User.getScore() < Session.getPoints()) {
       User.setScore(Session.getPoints());
