@@ -29,10 +29,38 @@ class Main {
 
     this._modal.btnFirst.callback = (): void => this._play()
     if (this._modal.btnSecond) {
-      this._modal.btnSecond.callback = (): void => { Settings.setScreen(screen.RATING); this._scene.scene.restart(); }
+      this._modal.btnSecond.callback = (): void => { 
+        gp.leaderboard.open({
+          // Сортировка по полям слева направо
+          orderBy: ['score',],
+          // Сортировка DESC — сначала большие значение, ASC — сначала маленькие
+          order: 'DESC',
+          // Количество игроков в списке
+          limit: 10,
+          // Включить список полей для отображения в таблице, помимо orderBy
+          includeFields: ['score'],
+          // Вывести только нужные поля по очереди
+          displayFields: ['rank', 'score'],
+          withMe: 'last'
+      });
+      }
     }
 
     Settings.sounds.playMusic('bg')
+
+    console.log(// ID
+    gp.player.id,
+    gp.player.score,
+    // Имя
+    gp.player.name,
+    // Ссылка на аватар
+    gp.player.avatar,
+    // Заглушка — пустой ли игрок или данные в нём отличаются умолчательных
+    gp.player.isStub,
+    // Поля игрока
+    gp.player.fields)
+    console.log(gp.ads)
+    console.log(gp.ads.isAdblockEnabled,  gp.ads.isFullscreenAvailable, gp.ads.isRewardedAvailable)
   }
 
   private _play(): void {

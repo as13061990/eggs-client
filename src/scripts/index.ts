@@ -8,6 +8,7 @@ import Utils from './data/Utils';
 import Game from './scenes/Game';
 import Menu from './scenes/UI';
 import * as platform from 'platform'
+import './types/types.global'
 
 window.onload = (): void => {
   setTimeout((): void => {

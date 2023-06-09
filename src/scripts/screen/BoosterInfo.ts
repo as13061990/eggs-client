@@ -60,6 +60,7 @@ class BoosterInfo {
   }
 
   private _play(): void {
+
     this._scene.scene.start('Game');
   }
 }

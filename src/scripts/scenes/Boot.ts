@@ -19,13 +19,13 @@ class Boot extends Phaser.Scene {
   private _fonts: boolean = false;
   private _user: boolean | Promise<boolean> = false;
 
-  public init(): void {
+  public async init(): Promise<void> {
+    await gp.player.ready;
     this._setFonts()
     this._setSounds()
     this._setInteval()
-
     this._setPlatform()
-    Ads.checkReadyAd()
+    gp.gameStart();
   }
 
   public preload(): void {

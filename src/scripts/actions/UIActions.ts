@@ -106,7 +106,8 @@ class UIActions {
     }
 
     const { width, height } = this._scene.cameras.main;
-
+    
+    gp.player.add('score', Session.getPoints());
     Api.postRating()
     if (User.getScore() < Session.getPoints()) {
       User.setScore(Session.getPoints());
@@ -145,7 +146,7 @@ class UIActions {
   }
 
   private _rewardLifeAd(): void {
-    if (Ads.getReadyAd() && Session.getWatchedAds() > 0) {
+    if (Ads.checkReadyAd() && Session.getWatchedAds() > 0) {
       new RewardLifeAd(this._scene, true);
       this._scene.pauseElements?.modal?.btnFirst?.disableInteractive();
       this._scene.pauseElements?.modal?.btnSecond?.disableInteractive();
