@@ -18,6 +18,7 @@ class Settings {
   private _tutorial: boolean = true
   public sounds: Isounds;
   public interval: Interval;
+  public gp: any
   
   public setScreen(screen: screen): screen {
     this._screen = screen;

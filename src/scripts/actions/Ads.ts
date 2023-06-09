@@ -8,15 +8,15 @@ class Ads {
   public rewardCallback: () => void = () => { }
 
   public checkReadyAd(): boolean {
-    return !gp.ads.isAdblockEnabled && gp.ads.isFullscreenAvailable && gp.ads.isRewardedAvailable
+    return ! Settings.gp.ads.isAdblockEnabled &&  Settings.gp.ads.isFullscreenAvailable &&  Settings.gp.ads.isRewardedAvailable
   }
 
   public showInterstitialAd(): void {
-    gp.ads.showFullscreen();
+     Settings.gp.ads.showFullscreen();
   }
 
   public async adReward(): Promise<void>{
-    const success = await gp.ads.showRewardedVideo();
+    const success = await  Settings.gp.ads.showRewardedVideo();
     if (success) {
       this.rewardCallback()
     }

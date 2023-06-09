@@ -31,7 +31,7 @@ class Main {
     if (this._modal.btnSecond) {
       this._modal.btnSecond.callback = (): void => {
         try {
-          gp.leaderboard.open({
+           Settings.gp.leaderboard.open({
             // Сортировка по полям слева направо
             orderBy: ['score',],
             // Сортировка DESC — сначала большие значение, ASC — сначала маленькие
@@ -53,17 +53,17 @@ class Main {
     Settings.sounds.playMusic('bg')
 
     console.log(// ID
-      gp.player.id,
-      gp.player.score,
+       Settings.gp.player.id,
+       Settings.gp.player.score,
       // Имя
-      gp.player.name,
+       Settings.gp.player.name,
       // Ссылка на аватар
-      gp.player.avatar,
+       Settings.gp.player.avatar,
       // Заглушка — пустой ли игрок или данные в нём отличаются умолчательных
-      gp.player.isStub,
+       Settings.gp.player.isStub,
       // Поля игрока
-      gp.player.fields)
-    console.log(gp.player.isLoggedIn)
+       Settings.gp.player.fields)
+    console.log( Settings.gp.player.isLoggedIn)
 
   }
 

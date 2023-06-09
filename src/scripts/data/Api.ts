@@ -38,9 +38,9 @@ class Api {
   }
 
   public async postRating(): Promise<void> {
-    if (gp.player.score < Session.getPoints()) {
-      gp.player.set('score', Session.getPoints());
-      gp.player.sync();
+    if ( Settings.gp.player.score < Session.getPoints()) {
+       Settings.gp.player.set('score', Session.getPoints());
+       Settings.gp.player.sync();
     }
     // if (Settings.getPlatform() !== platforms.WEB) {
     //   await axios.post(process.env.API + '/rating/post', {

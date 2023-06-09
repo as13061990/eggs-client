@@ -11,6 +11,12 @@ import Ads from '../actions/Ads';
 import Api from '../data/Api';
 import bg from '../../assets/images/bg/bg.jpg';
 
+declare global {
+  interface Window {
+    onGPInit: Function;
+  }
+}
+
 class Boot extends Phaser.Scene {
   constructor() {
     super('Boot');
@@ -19,16 +25,16 @@ class Boot extends Phaser.Scene {
   private _fonts: boolean = false;
   private _user: boolean | Promise<boolean> = false;
 
-  public async init(): Promise<void> {
-    await gp.player.ready;
+  public init(): void {
+    //@ts-ignore
+    Settings.gp = gp
+    console.log(Settings.gp)
     this._setFonts()
     this._setSounds()
     this._setInteval()
-    this._setPlatform()
-    gp.gameStart();
-    gp.player.on('ready', () => {
-      User.setScore(gp.player.score)
-    });
+    Settings.gp.gameStart();
+    User.setScore(Settings.gp.player.score)
+    this._user = true
   }
 
   public preload(): void {
@@ -62,47 +68,6 @@ class Boot extends Phaser.Scene {
     Settings.interval = new Interval(this);
   }
 
-  private _setPlatform(): void {
-    const search: string = window.location.search;
-    const params = new URLSearchParams(search);
-    const vk: string = params.get('api_url');
-    if (vk === 'https://api.vk.com/api.php') Settings.setPlatform(platforms.VK)
-    this._initUser()
-  }
-
-  private _initUser(): void {
-    const platform = Settings.getPlatform()
-    if (platform === platforms.VK) {
-      this._initUserVK();
-    } else {
-      this._initUserWeb();
-    }
-  }
-
-  private async _initUserVK(): Promise<void> {
-    bridge.send('VKWebAppInit', {});
-    let bridgeData: UserInfo = await bridge.send('VKWebAppGetUserInfo', {});
-    // this.postCheckUser(bridgeData.id);
-    // this.state.vkId = bridgeData.id;
-    if (bridgeData?.id) {
-      User.setVKID(bridgeData.id)
-      User.setFirstName(bridgeData.first_name)
-      User.setLastName(bridgeData.last_name)
-      User.setUsername(bridgeData.first_name + ' ' + bridgeData.last_name)
-      this._user = Api.postCheckUser()
-    }
-  }
-
-  private _initUserWeb(): void {
-    const score = Number(localStorage.getItem('score'));
-    if (!isNaN(score)) {
-      User.setScore(score);
-    } else {
-      localStorage.setItem('score', String(0));
-      User.setScore(0);
-    }
-    this._user = true;
-  }
 }
 
 export default Boot;
