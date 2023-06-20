@@ -3,6 +3,7 @@ import Interval from '../actions/Interval';
 import Sounds from '../actions/Sounds';
 import Settings from '../data/Settings';
 import bg from '../../assets/images/bg/bg.jpg';
+import Analytics from '../data/Analytics';
 
 class Boot extends Phaser.Scene {
   constructor() {
@@ -17,6 +18,10 @@ class Boot extends Phaser.Scene {
     this._setFonts()
     this._setSounds()
     this._setInteval()
+    Analytics.init({
+      server: 'https://analytics.skorit.ru',
+      token: 'f41e36a7c48d3c23d939e7e0b770f9b6'
+    });
   }
 
   public preload(): void {
