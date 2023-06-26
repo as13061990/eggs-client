@@ -117,6 +117,7 @@ class GameActions {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
+    Session.setTakenBooster(eggType.good)
     Settings.sounds.play('egg-booster')
     Session.setActiveBooster(true, boosterType.good)
     this._scene.eggs.getChildren().forEach((egg: Egg) => {
@@ -129,6 +130,7 @@ class GameActions {
     eggGold.destroy()
     eggGold.stopTween()
     Session.plusPoints(1)
+    Session.setTakenBooster(eggType.gold)
     Settings.sounds.play('egg-booster')
     this._scene.eggs.getChildren().forEach((egg: Egg) => {
       egg.stopTween()
@@ -163,6 +165,7 @@ class GameActions {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
+    Session.setTakenBooster(eggType.heal)
     Settings.sounds.play('heal')
     Session.plusHealth()
   }
@@ -170,6 +173,8 @@ class GameActions {
   private _catchBombEgg(egg: Egg): void {
     egg.destroy()
     egg.stopTween()
+    this._scene.cameras.main.shake(400)
+    Session.setTakenBooster(eggType.bomb)
     Session.plusPoints(1)
     Settings.sounds.play('egg-bomb-smash')
     this._scene.physics.world.bodies.iterate((body: any): any => {
@@ -183,6 +188,7 @@ class GameActions {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
+    Session.setTakenBooster(eggType.score)
     Settings.sounds.play('egg-booster')
     Session.setActiveBooster(true, boosterType.score)
   }
@@ -191,6 +197,7 @@ class GameActions {
     egg.destroy()
     egg.stopTween()
     Session.plusPoints(1)
+    Session.setTakenBooster(eggType.bad)
     Settings.sounds.play('egg-booster')
     Session.setActiveBooster(true, boosterType.bad)
   }

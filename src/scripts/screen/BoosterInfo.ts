@@ -4,7 +4,7 @@ import Settings from '../data/Settings';
 import UI from '../scenes/Menu';
 import { screen } from '../types/enums';
 
-const rightModalBoosters = [{ img: 'egg-heal', info: ' - Дает 1 дополнительную \n жизнь' }, { img: 'egg-score', info: ' - Удваивает очки' }, { img: 'egg-good', info: ' - Замедляет другие яйца' }, { img: 'egg-gold', info: ' - Собирает яйца на экране' },]
+const rightModalBoosters = [{ img: 'egg-heal', info: ' - Дает дополнительную \n жизнь' }, { img: 'egg-score', info: ' - Удваивает очки' }, { img: 'egg-good', info: ' - Замедляет другие яйца' }, { img: 'egg-gold', info: ' - Собирает яйца на экране' },]
 
 const leftModalBoosters = [{ img: 'egg-bomb', info: ' - Взрывает все яйца' }, { img: 'egg-bad', info: ' - Уменьшает видимость' },]
 

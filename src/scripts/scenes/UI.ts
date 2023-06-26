@@ -24,6 +24,7 @@ class UI extends Phaser.Scene {
   public score: Phaser.GameObjects.Text
   public pauseMobileBtn: Button
   public pauseElements: IPauseElements = { bg: null, modal: null }
+  public boosterInfo: Phaser.GameObjects.Text
   public health: HealthBar
 
   public create(): void {

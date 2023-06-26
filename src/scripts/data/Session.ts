@@ -1,4 +1,4 @@
-import { boosterType } from "../types/enums";
+import { boosterType, eggType } from "../types/enums";
 
 const DIFFICULTY_SCALE = 0.01
 const DIFFICULTY_SCALE_MEDIUM = 0.005
@@ -19,6 +19,7 @@ class Session {
   private _boostTimerScore: number = 0
   private _boostTimerGood: number = 0
   private _boostTimerBad: number = 0
+  private _takenBooster: eggType = null
 
   public clear(): void {
     this._difficulty = 2
@@ -190,12 +191,23 @@ class Session {
         break;
       }
     }
-    console.log(position)
     return position
   }
 
   public clearPosition(index): void {
     this._positions[index] = 0
+  }
+
+  public getPosition(): number {
+    return this._positions.findIndex(el=>el === 0)
+  }
+
+  public setTakenBooster(booster: eggType): void {
+    this._takenBooster = booster
+  }
+
+  public getTakenBooster(): eggType {
+    return this._takenBooster
   }
 
 }

@@ -16,6 +16,7 @@ import GoodBooster from "../components/GoodBooster";
 import Score from "../components/Score";
 import ScoreBooster from "../components/ScoreBooster";
 import BadBooster from "../components/BadBooster";
+import BoosterInfo from "../components/BoosterInfo";
 
 class UIActions {
   constructor(scene: UI) {
@@ -183,6 +184,7 @@ class UIActions {
     this._scene.goodEggBoost = new GoodBooster(this._scene)
     this._scene.scoreEggBoost = new ScoreBooster(this._scene)
     this._scene.badEggBoost = new BadBooster(this._scene)
+    this._scene.boosterInfo = new BoosterInfo(this._scene)
   }
 
 
