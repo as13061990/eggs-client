@@ -48,9 +48,9 @@ class BoosterInfo extends Phaser.GameObjects.Text {
       this.setPosition(centerX, this._scene.score.getBounds().centerY + (75 * position))
 
       if (this._type === eggType.gold) {
-        this.setText('Золотое яйцо собрало все яйца!')
+        this.setText('Золотое яйцо собрало все предметы!')
       } else if (this._type === eggType.good) {
-        this.setText('Этот гриб все замедлил!')
+        this.setText('Этот гриб сделал меня ловким!')
       } else if (this._type === eggType.heal) {
         this.setText('Дополнительная жизнь! Супер!')
       } else if (this._type === eggType.bomb) {
