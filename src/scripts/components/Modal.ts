@@ -1,6 +1,5 @@
 import Settings from "../data/Settings";
 import User from "../data/User";
-import Rating from "../screen/Rating";
 import { platforms, screen } from "../types/enums";
 import Button from "./Button";
 
@@ -20,7 +19,7 @@ class Modal extends Phaser.GameObjects.Sprite {
   private _btnSecondTexture: string
   private _btnRating: boolean = false
   private _modalScore: Phaser.GameObjects.Sprite
-  private _web: boolean = Settings.getPlatform() === platforms.WEB
+  private _web: boolean = false
 
   public btnFirst: Button = null
   public btnRating: Button = null

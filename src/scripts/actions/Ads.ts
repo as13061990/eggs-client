@@ -5,61 +5,24 @@ import HealthBar from "../components/HealthBar";
 
 class Ads {
 
-  private _readyAd: boolean = false
   public rewardCallback: () => void = () => { }
 
-  public checkReadyAd(): void {
-    switch (Settings.getPlatform()) {
-      case platforms.VK:
-        bridge.send('VKWebAppCheckNativeAds', { ad_format: EAdsFormats.INTERSTITIAL })
-          .then((data) => {
-            if (data.result) {
-              this._readyAd = true
-              console.log(this._readyAd, '1')
-            }
-          })
-        break;
-    }
+  public checkReadyAd(): boolean {
+    console.log(Settings.gp.ads.isAdblockEnabled, 'isAdblockEnabled')
+    return !Settings.gp.ads.isAdblockEnabled &&  Settings.gp.ads.isFullscreenAvailable &&  Settings.gp.ads.isRewardedAvailable
   }
 
   public showInterstitialAd(): void {
-    this.checkReadyAd()
-    const musicUnMute = Settings.sounds.getVolume() === 1
-    Settings.sounds.mute()
-    if (this._readyAd) {
-      switch (Settings.getPlatform()) {
-        case platforms.VK:
-          bridge.send("VKWebAppShowNativeAds", { ad_format: EAdsFormats.INTERSTITIAL })
-            .then((data) => musicUnMute ? Settings.sounds.unmute() : Settings.sounds.mute())
-            .catch(e => musicUnMute ? Settings.sounds.unmute() : Settings.sounds.mute())
-          break;
-      }
+     Settings.gp.ads.showFullscreen();
+  }
+
+  public async adReward(): Promise<void>{
+    const success = await  Settings.gp.ads.showRewardedVideo();
+    if (success) {
+      this.rewardCallback()
     }
   }
 
-  public adReward(): void {
-    this.checkReadyAd()
-    const musicUnMute = Settings.sounds.getVolume() === 1
-    Settings.sounds.mute()
-    if (this._readyAd) {
-      switch (Settings.getPlatform()) {
-        case platforms.VK:
-          bridge.send("VKWebAppShowNativeAds", { ad_format: EAdsFormats.REWARD })
-            .then((data) => {
-              if (data.result) {
-                musicUnMute ? Settings.sounds.unmute() : Settings.sounds.mute()
-                this.rewardCallback()
-              }
-            })
-            .catch(e => musicUnMute ? Settings.sounds.unmute() : Settings.sounds.mute())
-          break;
-      }
-    }
-  }
-
-  public getReadyAd(): boolean {
-    return this._readyAd
-  }
 }
 
 export default new Ads()

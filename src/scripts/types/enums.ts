@@ -1,6 +1,5 @@
 enum screen {
   MAIN,
-  RATING,
   BOOSTER
 }
 

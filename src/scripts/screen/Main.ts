@@ -29,7 +29,25 @@ class Main {
 
     this._modal.btnFirst.callback = (): void => this._play()
     if (this._modal.btnSecond) {
-      this._modal.btnSecond.callback = (): void => { Settings.setScreen(screen.RATING); this._scene.scene.restart(); }
+      this._modal.btnSecond.callback = (): void => {
+        try {
+           Settings.gp.leaderboard.open({
+            // Сортировка по полям слева направо
+            orderBy: ['score',],
+            // Сортировка DESC — сначала большие значение, ASC — сначала маленькие
+            order: 'DESC',
+            // Количество игроков в списке
+            limit: 10,
+            // Включить список полей для отображения в таблице, помимо orderBy
+            includeFields: ['score'],
+            // Вывести только нужные поля по очереди
+            displayFields: ['rank', 'score'],
+            withMe: 'last'
+          });
+        } catch (e) {
+          console.log(e)
+        }
+      }
     }
 
     Settings.sounds.playMusic('bg')
@@ -38,7 +56,7 @@ class Main {
   private _play(): void {
     if (Settings.getTutorial()) {
       Settings.setScreen(screen.BOOSTER)
-      this._scene.scene.restart() 
+      this._scene.scene.restart()
     } else {
       this._scene.scene.start('Game');
     }
