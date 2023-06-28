@@ -113,7 +113,7 @@ class UIActions {
 
     this._scene.pauseElements.modal = new Modal(this._scene, 'button-green-def', 'button-red-def', true)
 
-    this._scene.pauseElements.modal.setTextBtn('first', 'Рестарт')
+    this._scene.pauseElements.modal.setTextBtn('first', 'Заново')
     this._scene.pauseElements.modal.setTextBtn('second', 'Выход')
 
     const sceneGame = this._scene.game.scene.getScene('Game') as Game;
