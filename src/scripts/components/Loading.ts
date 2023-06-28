@@ -100,8 +100,7 @@ class Loading {
   private _loadImages(): void {
 
     const arr = [bg1, bg2, bg3, bg4, bg5]
-    // const randomNumber = Phaser.Math.Between(1, 5)
-    const randomNumber = 5
+    const randomNumber = Phaser.Math.Between(1, 5)
     Session.setBg(randomNumber)
     this._scene.load.image(`bg-${randomNumber}`, arr[randomNumber - 1]);
 
