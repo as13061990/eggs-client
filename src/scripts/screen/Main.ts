@@ -1,3 +1,4 @@
+import Ads from '../actions/Ads';
 import Modal from '../components/Modal';
 import Settings from '../data/Settings';
 import UI from '../scenes/Menu';
@@ -13,6 +14,9 @@ class Main {
   private _modal: Modal
 
   private _build(): void {
+    if (Settings.getPlatform() === platforms.YANDEX) {
+      Ads.showInterstitialAd()
+    }
     const { width, height } = this._scene.cameras.main;
     const background = this._scene.add.sprite(width / 2, height, 'bg');
     background.setOrigin(0.5, 1);

@@ -21,16 +21,20 @@ class Rating {
 
   private _build(): void {
     const { width, height, centerX, centerY } = this._scene.cameras.main;
-    const background = this._scene.add.sprite(width / 2, height, 'bg');
-    background.setOrigin(0.5, 1).setDepth(21);
-
-    const scaleX = width / background.width;
-    const scaleY = height / background.height;
-    const scale = Math.max(scaleX, scaleY);
-    background.setScale(scale).setScrollFactor(0);
+    if (!this._isUIScene) {
+      const background = this._scene.add.sprite(width / 2, height, 'bg');
+      background.setOrigin(0.5, 1).setDepth(21);
+  
+      const scaleX = width / background.width;
+      const scaleY = height / background.height;
+      const scale = Math.max(scaleX, scaleY);
+      background.setScale(scale).setScrollFactor(0);
+      this._elements.push(background)
+    } 
+   
     this._modal = this._scene.add.sprite(centerX, centerY, 'modal')
     this._modal.setDisplaySize(this._modal.width * 3, this._modal.height * 2.5).setDepth(21)
-    this._elements.push(background, this._modal)
+    this._elements.push(this._modal)
     this._buildModalRating()
   }
 

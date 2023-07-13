@@ -74,6 +74,7 @@ class RewardLifeAd {
 
   private async _showReward(): Promise<void> {
     Session.setWatchedRewardAd(true)
+    this.destroy()
     Ads.rewardCallback = () => {
       Session.setOver(false)
       Session.minusWatchedAds()
