@@ -1,6 +1,7 @@
 enum screen {
   MAIN,
-  BOOSTER
+  BOOSTER,
+  RATING
 }
 
 enum eggPosition {
@@ -12,7 +13,8 @@ enum eggPosition {
 
 enum platforms {
   WEB = 0,
-  VK = 1
+  VK = 1,
+  YANDEX = 2,
 }
 
 enum eggType {

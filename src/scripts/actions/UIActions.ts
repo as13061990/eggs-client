@@ -7,7 +7,7 @@ import Settings from "../data/Settings";
 import Game from "../scenes/Game";
 import UI from "../scenes/UI";
 import RewardLifeAd from "../screen/RewardLifeAd";
-import { boosterType, screen } from "../types/enums";
+import { boosterType, platforms, screen } from "../types/enums";
 import Ads from "./Ads";
 import User from "../data/User";
 import Zone from "../components/Zone";
@@ -17,6 +17,7 @@ import Score from "../components/Score";
 import ScoreBooster from "../components/ScoreBooster";
 import BadBooster from "../components/BadBooster";
 import BoosterInfo from "../components/BoosterInfo";
+import Rating from "../screen/Rating";
 
 class UIActions {
   constructor(scene: UI) {
@@ -35,7 +36,10 @@ class UIActions {
 
   public gamePause(): void {
     if (Session.getOver()) return;
-    
+    if (this._scene.activeScreen) {
+      this._scene.activeScreen.back()
+      return
+    }
     const { width, height } = this._scene.cameras.main;
 
     if (!Settings.getIsPaused()) {
@@ -142,34 +146,55 @@ class UIActions {
   }
 
   private _rewardLifeAd(): void {
-    if (Ads.checkReadyAd() && Session.getWatchedAds() > 0) {
-      new RewardLifeAd(this._scene, true);
-      this._scene.pauseElements?.modal?.btnFirst?.disableInteractive();
-      this._scene.pauseElements?.modal?.btnSecond?.disableInteractive();
-      this._scene.pauseElements?.modal?.btnRating?.disableInteractive();
-      this._scene.pauseElements?.modal?.btnMusic?.disableInteractive();
-      this._scene.pauseMobileBtn?.disableInteractive()
+    if (Settings.getPlatform() === platforms.YANDEX) {
+      if (Session.getWatchedAds() > 0) {
+        new RewardLifeAd(this._scene, true);
+        this._scene.pauseElements?.modal?.btnFirst?.disableInteractive();
+        this._scene.pauseElements?.modal?.btnSecond?.disableInteractive();
+        this._scene.pauseElements?.modal?.btnRating?.disableInteractive();
+        this._scene.pauseElements?.modal?.btnMusic?.disableInteractive();
+        this._scene.pauseMobileBtn?.disableInteractive()
+      }
+    } else {
+      if (Ads.checkReadyAd() && Session.getWatchedAds() > 0) {
+        new RewardLifeAd(this._scene, true);
+        this._scene.pauseElements?.modal?.btnFirst?.disableInteractive();
+        this._scene.pauseElements?.modal?.btnSecond?.disableInteractive();
+        this._scene.pauseElements?.modal?.btnRating?.disableInteractive();
+        this._scene.pauseElements?.modal?.btnMusic?.disableInteractive();
+        this._scene.pauseMobileBtn?.disableInteractive()
+      }
     }
+
   }
 
   private _rating(): void {
     try {
-      Settings.gp.leaderboard.open({
-       // Сортировка по полям слева направо
-       orderBy: ['score',],
-       // Сортировка DESC — сначала большие значение, ASC — сначала маленькие
-       order: 'DESC',
-       // Количество игроков в списке
-       limit: 10,
-       // Включить список полей для отображения в таблице, помимо orderBy
-       includeFields: ['score'],
-       // Вывести только нужные поля по очереди
-       displayFields: ['rank', 'score'],
-       withMe: 'last'
-     });
-   } catch (e) {
-     console.log(e)
-   }
+      if (Settings.getPlatform() === platforms.YANDEX) {
+        this._scene.pauseElements?.modal?.btnFirst?.disableInteractive();
+        this._scene.pauseElements?.modal?.btnSecond?.disableInteractive();
+        this._scene.pauseElements?.modal?.btnRating?.disableInteractive();
+        this._scene.pauseElements?.modal?.btnMusic?.disableInteractive();
+        this._scene.pauseMobileBtn?.disableInteractive()
+        this._scene.activeScreen = new Rating(this._scene, true);
+      } else {
+        Settings.gp.leaderboard.open({
+          // Сортировка по полям слева направо
+          orderBy: ['score',],
+          // Сортировка DESC — сначала большие значение, ASC — сначала маленькие
+          order: 'DESC',
+          // Количество игроков в списке
+          limit: 10,
+          // Включить список полей для отображения в таблице, помимо orderBy
+          includeFields: ['score'],
+          // Вывести только нужные поля по очереди
+          displayFields: ['rank', 'score'],
+          withMe: 'last'
+        });
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   private _createScore(): void {
@@ -193,6 +218,10 @@ class UIActions {
     this._scene.pauseMobileBtn.callback = (): void => {
       this.gamePause()
     }
+  }
+
+  public setActiveScreen(screen: Rating) {
+    this._scene.activeScreen = screen
   }
 
   private _createTutorial(): void {

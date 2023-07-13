@@ -5,6 +5,7 @@ import BadBooster from "../components/BadBooster";
 import Modal from "../components/Modal";
 import HealthBar from "../components/HealthBar";
 import Button from "../components/Button";
+import Rating from "../screen/Rating";
 
 interface IPauseElements {
   bg: Phaser.GameObjects.TileSprite
@@ -26,6 +27,7 @@ class UI extends Phaser.Scene {
   public pauseElements: IPauseElements = { bg: null, modal: null }
   public boosterInfo: Phaser.GameObjects.Text
   public health: HealthBar
+  public activeScreen: Rating = null
 
   public create(): void {
     this.actions.build();
