@@ -11,7 +11,7 @@ module.exports = {
   },
   entry: './src/scripts/index.ts',
   output: {
-    path: path.resolve(__dirname, '../build'),
+    path: path.resolve(__dirname, '../../build'),
   },
   mode: "development",
   devtool: "eval-source-map",
@@ -49,7 +49,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({
-      root: path.resolve(__dirname, "../")
+      root: path.resolve(__dirname, "../../")
     }),
     new webpack.DefinePlugin({
       CANVAS_RENDERER: JSON.stringify(true),

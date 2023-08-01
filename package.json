@@ -5,8 +5,9 @@
   "main": "index.js",
   "homepage": "https://as13061990.github.io/eggs-client/",
   "scripts": {
-    "build": "webpack --config webpack/build.js",
-    "start": "webpack-dev-server --config webpack/config.js --open",
+    "build:web": "webpack --config webpack/web/build.js",
+    "build:yandex": "webpack --config webpack/yandex/build.js",
+    "start": "webpack-dev-server --config webpack/web/config.js --open",
     "deploy": "gh-pages -d build"
   },
   "author": "Aleksandr Skorobogatyi",
