@@ -14,48 +14,22 @@ window.onload = (): void => {
     const root: HTMLElement = document.querySelector('#root');
     const clientHeight = Math.round(document.body.clientHeight);
     const clientWidth = Math.round(document.body.clientWidth);
-    let width = 0;
-    let height = 0;
-    let canvasWidth = 0
-    let canvasHeight = 0
+    const canvasHeight = Settings.sizes.height;
+    let canvasWidth = Math.round((Settings.sizes.height * clientWidth) / clientHeight);
+    let width = 0, height = 0;
+    
+    if (canvasWidth > Settings.sizes.maxWidth) canvasWidth = Settings.sizes.maxWidth;
+    else if (canvasWidth < Settings.sizes.minWidth) canvasWidth = Settings.sizes.minWidth;
+ 
+    const x = canvasWidth / Utils.gcd(canvasHeight, canvasWidth);
+    const y = canvasHeight / Utils.gcd(canvasHeight, canvasWidth);
 
-    if (clientHeight > clientWidth) {
-      canvasHeight = Math.round((Settings.sizes.minWidth * clientHeight) / clientWidth);
-      canvasWidth = Math.round((Settings.sizes.minHeight * clientWidth) / clientHeight);
-
-      if (canvasHeight > Settings.sizes.maxHeight) canvasHeight = Settings.sizes.maxHeight;
-      else if (canvasHeight < Settings.sizes.minHeight) canvasHeight = Settings.sizes.minHeight;
-
-      if (canvasWidth > Settings.sizes.maxWidth) canvasWidth = Settings.sizes.maxWidth;
-      else if (canvasWidth < Settings.sizes.minWidth) canvasWidth = Settings.sizes.minWidth;
-
-      const x = canvasWidth / Utils.gcd(canvasHeight, canvasWidth);
-      const y = canvasHeight / Utils.gcd(canvasHeight, canvasWidth);
-
-      if (clientHeight / y > clientWidth / x) {
-        width = clientWidth;
-        height = clientWidth / x * y;
-      } else {
-        width = clientHeight / y * x;
-        height = clientHeight;
-      }
+    if (clientHeight / y > clientWidth / x) {
+      width = clientWidth;
+      height = clientWidth / x * y;
     } else {
-      canvasHeight = Math.round((Settings.sizes.maxWidth * clientHeight) / clientWidth);
-      canvasWidth = Settings.sizes.maxWidth;
-
-      if (canvasHeight > Settings.sizes.maxHeight) canvasHeight = Settings.sizes.maxHeight;
-      else if (canvasHeight < Settings.sizes.minHeight) canvasHeight = Settings.sizes.minHeight;
-
-      const x = canvasWidth / Utils.gcd(canvasHeight, canvasWidth);
-      const y = canvasHeight / Utils.gcd(canvasHeight, canvasWidth);
-
-      if (clientHeight / y > clientWidth / x) {
-        width = clientWidth;
-        height = clientWidth / x * y;
-      } else {
-        width = clientHeight / y * x;
-        height = clientHeight;
-      }
+      width = clientHeight / y * x;
+      height = clientHeight;
     }
 
     if (platform.os.family === 'iOS' || platform.os.family === 'Android') {

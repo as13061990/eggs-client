@@ -5,10 +5,9 @@ import { eggType, platforms, screen } from '../types/enums';
 class Settings {
 
   public readonly sizes = {
-    minWidth: 1920,
-    maxWidth: 2560,
-    minHeight: 1080,
-    maxHeight: 1440
+    height: 1080,
+    minWidth: 1367,
+    maxWidth: 2500
   }
   private _screen: screen = screen.MAIN;
   private _mobile: boolean = false;
